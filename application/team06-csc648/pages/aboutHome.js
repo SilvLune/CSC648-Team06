@@ -1,18 +1,25 @@
 import Link from 'next/link';
 import Justin from './about/justin'
+import Styles from '../styles/Home.module.css'
 
 export default function About(){
     return (
-        <>
-            <h2>
-                <Link href='/'>Back to home</Link>
-            </h2>
-            <h1>Software Engineering class SFSU</h1>
-            <h2>Spring, 2023</h2>
-            <h2>Section 03</h2>
-            <h2>Team 06</h2>
+        <div className={Styles.main}>
+            <Link className={Styles.title} href='/'>Home</Link>
+            <p classname={Styles.description}>Software Engineering class SFSU</p>
+            <p classname={Styles.description}>Spring, 2023</p>
+            <p classname={Styles.description}>Section 03</p>
+            <p classname={Styles.description}>Team 06</p>
             
-            <Justin></Justin>
-        </>
+            <div className={Styles.grid}>
+                <Justin></Justin>
+                <Justin></Justin>
+                <Justin></Justin>
+                <Justin></Justin>
+                <Justin></Justin>
+                <Justin></Justin>
+            </div>
+
+        </div>
     )
 }
