@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Justin from './about/justin'
+import Konnor from './about/konnor'
 import Styles from '../styles/Home.module.css'
 
 export default function About(){
@@ -14,7 +15,7 @@ export default function About(){
             <div className={Styles.grid}>
                 <Justin></Justin>
                 <Justin></Justin>
-                <Justin></Justin>
+                <Konnor></Konnor>
                 <Justin></Justin>
                 <Justin></Justin>
                 <Justin></Justin>
