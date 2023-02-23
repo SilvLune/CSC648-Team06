@@ -15,7 +15,7 @@
 
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
-| member1      |               |                 |
+| Konnor Nishimura      |      knishimura@mail.sfsu.edu         |        KonnorNishimuraSFSU         |
 | member2      |               |                 |
 | member3      |               |                 |
 | member4      |               |                 |
