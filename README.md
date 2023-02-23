@@ -16,7 +16,7 @@
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
 | Konnor Nishimura      |      knishimura@mail.sfsu.edu         |        KonnorNishimuraSFSU         |
-| member2      |               |                 |
+| Xiao Deng    | xdeng6@mail.sfsu.edu | xdeng0   |
 | member3      |               |                 |
 | member4      |               |                 |
 | member5      |               |                 |
