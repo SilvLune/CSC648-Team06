@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Justin from './about/justin'
 import Konnor from './about/konnor'
+import Xiao from './about/xiao'
 import Styles from '../styles/Home.module.css'
 
 export default function About(){
@@ -16,7 +17,7 @@ export default function About(){
                 <Justin></Justin>
                 <Justin></Justin>
                 <Konnor></Konnor>
-                <Justin></Justin>
+                <Xiao></Xiao>
                 <Justin></Justin>
                 <Justin></Justin>
             </div>
