@@ -4,6 +4,7 @@ import Konnor from './about/konnor'
 import Xiao from './about/xiao'
 import Styles from '../styles/Home.module.css'
 import Alexander from "@/pages/about/alexander";
+import Jack from './about/jack';
 
 export default function About(){
     return (
@@ -16,7 +17,7 @@ export default function About(){
             
             <div className={Styles.grid}>
                 <Justin></Justin>
-                <Justin></Justin>
+                <Jack></Jack>
                 <Konnor></Konnor>
                 <Xiao></Xiao>
                 <Justin></Justin>
