@@ -3,6 +3,7 @@ import Justin from './about/justin'
 import Konnor from './about/konnor'
 import Xiao from './about/xiao'
 import Styles from '../styles/Home.module.css'
+import Alexander from "@/pages/about/alexander";
 
 export default function About(){
     return (
@@ -19,7 +20,7 @@ export default function About(){
                 <Konnor></Konnor>
                 <Xiao></Xiao>
                 <Justin></Justin>
-                <Justin></Justin>
+                <Alexander></Alexander>
             </div>
 
         </div>
