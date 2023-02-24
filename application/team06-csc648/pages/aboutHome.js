@@ -5,6 +5,7 @@ import Xiao from './about/xiao'
 import Styles from '../styles/Home.module.css'
 import Alexander from "@/pages/about/alexander";
 import Jack from './about/jack';
+import Ryan from './about/ryan';
 
 export default function About(){
     return (
@@ -20,7 +21,7 @@ export default function About(){
                 <Jack></Jack>
                 <Konnor></Konnor>
                 <Xiao></Xiao>
-                <Justin></Justin>
+                <Ryan></Ryan>
                 <Alexander></Alexander>
             </div>
 
