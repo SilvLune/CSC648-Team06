@@ -8,15 +8,19 @@
 # Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
 
 1. Server URL or IP
-2. SSH username
-3. SSH password or key.
-    <br> If a ssh key is used please upload the key to the credentials folder.
+https://master.d26vp93jz5ed9.amplifyapp.com/
+
+Github: https://github.com/CSC-648-SFSU/csc648-03-sp23-team06
 4. Database URL or IP and port used.
-    <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
+gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com
 5. Database username
+gateway-db
 6. Database password
+Keymaster06!
 7. Database name (basically the name that contains all your tables)
+gateway
 8. Instructions on how to use the above information.
+The url will take you to a static hosting of our website.  To access the database, use the url, the username and password in an SQL terminal.  
 
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>
