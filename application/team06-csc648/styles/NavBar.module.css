@@ -14,16 +14,30 @@
     margin-bottom: auto;
 }
 
+.center{
+    grid-row: auto auto
+}
+
+.title{
+    text-align: center;
+}
+
 .search{
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 80% 20%;
+    grid-template-columns: 20% 60% 20%;
 }
 
 .searchBar{
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.categories{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
 }
 
 .searchButton{

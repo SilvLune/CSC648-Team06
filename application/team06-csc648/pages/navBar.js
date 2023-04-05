@@ -6,7 +6,10 @@ const NavBar = () => {
     return(
         <div className={styles.navBar}>
           <Link className={styles.logo} href='/'><h1>Gateway</h1></Link>
-          <SearchBar/>
+          <div className={styles.center}>
+            <p className={styles.title}>CSC648/848 Spring 2023 Team06</p>
+            <SearchBar/>
+          </div>
           <div className={styles.buttons}>
             <button>Login</button>
             <button>Shopping cart</button>

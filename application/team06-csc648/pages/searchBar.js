@@ -5,6 +5,7 @@ const SearchBar = () => {
     const [search, setSearch] = React.useState('');
     return(
         <div className={styles.search}>
+            <button className={styles.categories}>Categories</button>
             <input value={search} className={styles.searchBar} onChange={e => setSearch(e.target.value)}/>
             <button className={styles.searchButton}>Search</button>
         </div>
