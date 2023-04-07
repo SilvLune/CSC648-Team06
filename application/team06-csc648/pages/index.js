@@ -7,6 +7,7 @@ import Link from 'next/link';
 import NavBar from './navBar';
 import React from 'react'
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import RestaurantList from '../pages/components/RestaurantList'
 
 const api_key = 'AIzaSyCpUlDRUOo40careJjFVbu-wN05qq2NRjo';
 const center = {lat:37.724286006635296,lng:-122.48000341090525};
@@ -39,11 +40,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
         <NavBar/>
-        <h1>
-          Welcome to <Link href='/aboutHome'>Team 06!</Link>
-        </h1>
         <div className={searchStyles.searchResult}>
           <h2 className={searchStyles.logo}>Logo</h2>
           <h1 className={searchStyles.name}>Restaraunt name</h1>
