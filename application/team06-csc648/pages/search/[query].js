@@ -13,7 +13,12 @@ export default function RestaurantSearchList(){
         }
         fetchRestaurants()
     }, [])
-    const restaurants = rest.filter((restaurant) => jaroWinklerDistance(restaurant.name, query) > 0.5)
+    const restaurants = undefined
+    if(query.length != 0){
+        restaurants = rest.filter((restaurant) => jaroWinklerDistance(restaurant.name, query) > 0.5)
+    }else{
+        restaurants = rest
+    }
     return (
         <div>
           {restaurants.map((restaurant) => (
