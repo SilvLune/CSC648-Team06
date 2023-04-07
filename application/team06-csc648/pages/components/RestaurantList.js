@@ -15,6 +15,7 @@ export default function RestaurantList(){
           {restaurants.map((restaurant) => (
             <div key={restaurant.restaurant_id}>
               <h1>{restaurant.name}</h1>
+              <p>Restaurant id: {restaurant.restaurant_id}</p>
               <p>Average Delivery Time: {restaurant.avg_delivery_time} minutes</p>
               <p>Category: {restaurant.category_id}</p>
               <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} alt={`${restaurant.name} logo`} />

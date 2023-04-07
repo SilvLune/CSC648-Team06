@@ -1,8 +1,10 @@
 import React,{useState, useEffect} from 'react';
 import styles from '@/styles/NavBar.module.css';
 import axios from 'axios'
+import {useRouter} from 'next/router'
 
 const SearchBar = () => {
+    const router = useRouter();
     const [search, setSearch] = useState('')
     let [restaurants, setRestaurants] = useState([])
     const [filteredRestaurants, setFilteredRestaraunts] = useState([])
@@ -32,6 +34,11 @@ const SearchBar = () => {
         console.log(categoryValue)
         categoryPicked = categoryValue
         setShowCategories(false)
+    }
+    const handleSearchClick = (event) => {
+        const val = event.target.value
+        
+        router.push(`/restaurant/${val}`)
     }
     useEffect(()=>{
         async function fetchRestaurants(){
@@ -72,7 +79,8 @@ const SearchBar = () => {
                 <div className={styles.dropdown}>
                     <ul>
                         {filteredRestaurants.map((restaurant) => (
-                            <li key = {restaurant.id}>{restaurant.name}</li>
+                            <li value={restaurant.restaurant_id} onClick={handleSearchClick}>{restaurant.name}</li>
+                            // <Link href={`/components/${restaurant.id}`}>{restaurant.name}</Link>
                         ))}
                     </ul>
                 </div>
