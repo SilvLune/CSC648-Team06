@@ -20,7 +20,7 @@ const SearchBar = () => {
         }
         const sim = similarities(search, restaurants.map((restaurant) => restaurant.name)).slice(0,3)
         setFilteredRestaraunts(restaurants.filter((restaurant) => sim.includes(restaurant.name)))
-    }
+    }  
     const handleInputClick = () => {
         setShowCategories(false)
         setShowDropdown(true)
@@ -40,6 +40,10 @@ const SearchBar = () => {
         
         router.push(`/restaurant/${val}`)
     }
+    const handleFormSubmit = (event) => {
+        event.preventDefault()
+        router.push(`/search/${search}`)
+    }   
     useEffect(()=>{
         async function fetchRestaurants(){
             const response = await axios.get('/api/restaurants')
@@ -73,8 +77,10 @@ const SearchBar = () => {
                     </ul>
                 </div>
             )}
-            <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
-            <button className={styles.searchButton}>Search</button>
+            <form onSubmit={handleFormSubmit}>
+                <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
+                <button className={styles.searchButton}>Search</button>
+            </form>
             {showDropdown && (
                 <div className={styles.dropdown}>
                     <ul>
