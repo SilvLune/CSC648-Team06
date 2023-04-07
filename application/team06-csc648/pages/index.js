@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link';
+import RestaurantList from '../pages/components/RestaurantList'
 
 
 export default function Home() {
@@ -14,10 +15,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <h1>
-          Welcome to <Link href='/aboutHome'>Team 06!</Link>
-        </h1>
+
+      <header>
+        <nav>
+          <ul>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/aboutHome">About</Link></li>
+            <li><Link href="/login">Login</Link></li>
+            <li><Link href="/cart">Cart</Link></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <h1>Restaurants</h1>
+        <RestaurantList></RestaurantList>
       </main>
     </>
   )
