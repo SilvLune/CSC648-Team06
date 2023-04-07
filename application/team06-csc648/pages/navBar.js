@@ -2,7 +2,9 @@ import SearchBar from './searchBar.js';
 import Link from 'next/link';
 import styles from '@/styles/NavBar.module.css';
 
+
 const NavBar = () => {
+  
     return(
         <div className={styles.navBar}>
           <Link className={styles.logo} href='/'><h1>Gateway</h1></Link>
