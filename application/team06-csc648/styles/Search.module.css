@@ -1,0 +1,36 @@
+.searchResult{
+    width: 80%;
+    height: 15rem;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-template-areas:
+        'logo name map'
+        'logo rating map'
+        'logo address map';
+    padding: 1rem;
+    border: solid black 3px;
+}
+
+.logo{
+    grid-area: logo;
+    border: solid black 3px;
+}
+
+.name{
+    grid-area: name;
+    border: solid black 3px;
+}
+
+.rating{
+    grid-area: rating;
+    border: solid black 3px;
+}
+
+.address{
+    grid-area: address;
+    border: solid black 3px;
+}
+
+.map{
+    grid-area: map;
+}
