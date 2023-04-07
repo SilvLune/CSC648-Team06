@@ -4,15 +4,34 @@ import axios from 'axios'
 
 const SearchBar = () => {
     const [search, setSearch] = useState('')
-    const[restaurants, setRestaurants] = useState([])
+    let [restaurants, setRestaurants] = useState([])
+    const [filteredRestaurants, setFilteredRestaraunts] = useState([])
     const [showDropdown, setShowDropdown] = useState(false)
+    const [showCategories, setShowCategories] = useState(false)
+    let categoryPicked = 0
     const handleSearchInputChange = (event) =>{
         const inputValue = event.target.value
         console.log(inputValue)
         setSearch(inputValue)
+        if(categoryPicked > 0){
+            restaurants = restaurants.filter((restaurant) => restaurant.categories === selectedCategory)
+        }
+        const sim = similarities(search, restaurants.map((restaurant) => restaurant.name)).slice(0,3)
+        setFilteredRestaraunts(restaurants.filter((restaurant) => sim.includes(restaurant.name)))
     }
     const handleInputClick = () => {
+        setShowCategories(false)
         setShowDropdown(true)
+    }
+    const handleCategoryButtonClick = () =>{
+        setShowDropdown(false)
+        setShowCategories(true)
+    }
+    const handleCategoryClick = (event) =>{
+        const categoryValue = event.target.value
+        console.log(categoryValue)
+        categoryPicked = categoryValue
+        setShowCategories(false)
     }
     useEffect(()=>{
         async function fetchRestaurants(){
@@ -21,16 +40,39 @@ const SearchBar = () => {
         }
         fetchRestaurants()
     }, [])
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         if(showDropdown){
+    //             setShowDropdown(false)
+    //         }
+    //     }
+    //     document.addEventListener("click", handleClickOutside)
+    //     return () =>{
+    //         document.removeEventListener("click", handleClickOutside)
+    //     }
+    // },[showDropdown])
     return(
         <div className={styles.search}>
-            <button className={styles.categories}>Categories</button>
+            <button className={styles.categories} onClick = {handleCategoryButtonClick}>Categories</button>
+            {showCategories && (
+                <div className={styles.dropdown}>
+                    <ul>
+                        <li value = "0" onClick={handleCategoryClick}>All</li>
+                        <li value = "1" onClick={handleCategoryClick}>Fast Food</li>
+                        <li value = "2" onClick={handleCategoryClick}>Chinese</li>
+                        <li value = "3" onClick={handleCategoryClick}>Mexican</li>
+                        <li value = "4" onClick={handleCategoryClick}>Korean</li>
+                        <li value = "5" onClick={handleCategoryClick}>Thai</li>
+                    </ul>
+                </div>
+            )}
             <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
             <button className={styles.searchButton}>Search</button>
             {showDropdown && (
-                <div className="dropdown">
+                <div className={styles.dropdown}>
                     <ul>
-                        {restaurants.map((restaurant) =>(
-                            <li>{restaurant.name}</li>
+                        {filteredRestaurants.map((restaurant) => (
+                            <li key = {restaurant.id}>{restaurant.name}</li>
                         ))}
                     </ul>
                 </div>
