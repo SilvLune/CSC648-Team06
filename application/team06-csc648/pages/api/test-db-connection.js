@@ -23,9 +23,23 @@ connection.connect((error) => {
   }
 });
 
-function search(req, res, next){
+function search(req){
   // user's search term
   var searchTerm = req.query.search;
-  // user's 
-  var category = req.query.category;
+  // user's category
+  //var category = req.query.category;
+
+  let query = "SELECT * FROM Restaurant";
+  if (searchTerm !=''){
+    query = `SELECT * FROM Restaurant WHERE name LIKE '%` + searchTerm + `%'`;
+  }
+
+  database.query(query, (error,result) =>{
+    if(error){
+      console.error('Error querying database:', error);
+    }else{
+      console.log('Query results:', result);
+    }
+    connection.end();
+  });
 }
