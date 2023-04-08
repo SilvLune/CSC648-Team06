@@ -15,14 +15,20 @@ export default function RestaurantDetails() {
       fetchRestaurants()
     }, [])
     const restaurant = restaurants.find((restaurant) => restaurant.restaurant_id == id)
-    return (
-      <div key="key1">
-        <Link href='/'>home</Link>
-        <h1>{restaurant.name}</h1>
-        <p>Restaurant id: {restaurant.restaurant_id}</p>
-        <p>Average Delivery Time: {restaurant.avg_delivery_time} minutes</p>
-        <p>Category: {restaurant.category_id}</p>
-        <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} alt={`${restaurant.name} logo`} />
-      </div>
-    )
+    if(restaurant === undefined){
+      return(
+        <div>This is broken</div>
+      )
+    }else{
+      return (
+        <div key="key1">
+          <Link href='/'>home</Link>
+          <h1>{restaurant.name}</h1>
+          <p>Restaurant id: {restaurant.restaurant_id}</p>
+          <p>Average Delivery Time: {restaurant.avg_delivery_time} minutes</p>
+          <p>Category: {restaurant.category_id}</p>
+          <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} alt={`${restaurant.name} logo`} />
+        </div>
+      )
+    }
   }

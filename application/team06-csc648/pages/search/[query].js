@@ -8,8 +8,6 @@ export default function RestaurantSearchList(){
     const[rest, setRestaurants] = useState([])
     const router = useRouter()
     const{query} = router.query
-    console.log(query)
-    console.log(query.length)
     useEffect(()=>{
         async function fetchRestaurants(){
             const response = await axios.get('/api/restaurants')
@@ -20,10 +18,8 @@ export default function RestaurantSearchList(){
     let restaurants = undefined
     if(query !== "none"){
         restaurants = rest.filter((restaurant) => jaroWinklerDistance(restaurant.name, query) > 0.5)
-
     }else{
         restaurants = rest
-
     }
     return (
         <div>
