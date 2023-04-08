@@ -29,6 +29,7 @@ export default function RestaurantSearchList(){
         <div>
             <NavBar/>
             <p>Input is {router.query.input}</p>
+            <p>{restaurants.length} results</p>
 
             {restaurants.map((restaurant) => (
                 <div className={searchStyles.searchResult}>
