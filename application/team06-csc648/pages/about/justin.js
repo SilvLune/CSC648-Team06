@@ -1,4 +1,4 @@
-import Link from 'next/link';
+ import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
 
 export default function Justin(){
