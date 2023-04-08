@@ -42,7 +42,10 @@ const SearchBar = () => {
     }
     const handleFormSubmit = (event) => {
         event.preventDefault()
-        router.push(`/search/${search}`)
+        router.push({
+            pathname: '/search',
+            query: { input: search },
+        })
     }   
     useEffect(()=>{
         async function fetchRestaurants(){
@@ -79,7 +82,7 @@ const SearchBar = () => {
             )}
             <form onSubmit={handleFormSubmit}>
                 <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
-                <button className={styles.searchButton}>Search</button>
+                <button className={styles.searchButton} type='submit'>Search</button>
             </form>
             {showDropdown && (
                 <div className={styles.dropdown}>

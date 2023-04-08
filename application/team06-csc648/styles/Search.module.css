@@ -1,4 +1,5 @@
 .searchResult{
+    margin: 1rem;
     width: 80%;
     height: 15rem;
     display: grid;
@@ -14,6 +15,7 @@
 .logo{
     grid-area: logo;
     border: solid black 3px;
+    width: 100%;
 }
 
 .name{
@@ -21,7 +23,7 @@
     border: solid black 3px;
 }
 
-.rating{
+.time{
     grid-area: rating;
     border: solid black 3px;
 }
