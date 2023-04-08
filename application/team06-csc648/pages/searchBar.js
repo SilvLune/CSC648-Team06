@@ -5,7 +5,7 @@ import {useRouter} from 'next/router'
 
 const SearchBar = () => {
     const router = useRouter();
-    const [search, setSearch] = useState('')
+    let [search, setSearch] = useState('')
     let [restaurants, setRestaurants] = useState([])
     const [filteredRestaurants, setFilteredRestaraunts] = useState([])
     const [showDropdown, setShowDropdown] = useState(false)
@@ -42,10 +42,10 @@ const SearchBar = () => {
     }
     const handleFormSubmit = (event) => {
         event.preventDefault()
-        router.push({
-            pathname: '/search',
-            query: { input: search },
-        })
+        if(search.length == 0){
+            search = "none"
+        }
+        router.replace(`search/${search}`)
     }   
     useEffect(()=>{
         async function fetchRestaurants(){
@@ -112,7 +112,7 @@ function jaroWinklerDistance(str1, str2) {
     const prefixLength = commonPrefixLength(str1, str2);
     const scalingFactor = 0.1;
     const jaroWinklerDistance = jaroSimilarity + prefixLength * scalingFactor * (1 - jaroSimilarity);
-    console.log(str1 + " and " + str2 + " distance: " + jaroWinklerDistance)
+    // console.log(str1 + " and " + str2 + " distance: " + jaroWinklerDistance)
     return jaroWinklerDistance;
 }
   

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {useState, useEffect} from 'react'
+import searchStyles from '@/styles/Search.module.css'
 
 export default function RestaurantList(){
     const[restaurants, setRestaurants] = useState([])
@@ -11,16 +12,14 @@ export default function RestaurantList(){
         fetchRestaurants()
     }, [])
     return (
-        <div>
-          {restaurants.map((restaurant) => (
-            <div key={restaurant.restaurant_id}>
-              <h1>{restaurant.name}</h1>
-              <p>Restaurant id: {restaurant.restaurant_id}</p>
-              <p>Average Delivery Time: {restaurant.avg_delivery_time} minutes</p>
-              <p>Category: {restaurant.category_id}</p>
-              <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} alt={`${restaurant.name} logo`} />
-            </div>
-          ))}
-        </div>
+      <div>
+        {restaurants.map((restaurant) => (
+          <div className={searchStyles.searchResult}>
+              <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} className={searchStyles.logo} alt={`${restaurant.name} logo`} />
+              <h1 className={searchStyles.name}>{restaurant.name}</h1>
+              <h2 className={searchStyles.time}>Expected delivery time: {restaurant.avg_delivery_time} minutes</h2>
+              <h2 className={searchStyles.address}>{restaurant.address}</h2>
+          </div>))}
+      </div>
       )
 }
