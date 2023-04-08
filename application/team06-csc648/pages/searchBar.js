@@ -88,7 +88,7 @@ const SearchBar = () => {
                 <div className={styles.dropdown}key="key3">
                     <ul>
                         {filteredRestaurants.map((restaurant) => (
-                            <li value={restaurant.restaurant_id} onClick={handleSearchClick}>{restaurant.name}</li>
+                            <li value={restaurant.restaurant_id} onClick={handleSearchClick} key={restaurant.restaurant_id}>{restaurant.name}</li>
                             // <Link href={`/components/${restaurant.id}`}>{restaurant.name}</Link>
                         ))}
                     </ul>

@@ -8,7 +8,7 @@ export default function XiaoDetails(){
         <div className={styles.main}>
             <Link className={styles.description} href='/aboutHome'>Back</Link>
             <h1 className={styles.title}>Xiao Deng</h1>
-            <img src='/portrates/xiao.PNG' alt="Xiao Deng" width="250" height="300"></img>
+            <Image src='/portrates/xiao.PNG' alt="Xiao Deng" width="250" height="300"></Image>
             <p classname={styles.description}>Email: xdeng6@mail.sfsu.edu</p>
             <p classname={styles.description}>{paragraph}</p>
         </div>
