@@ -69,7 +69,7 @@ const SearchBar = () => {
         <div className={styles.search}>
             <button className={styles.categories} onClick = {handleCategoryButtonClick}>Categories</button>
             {showCategories && (
-                <div className={styles.dropdown}>
+                <div className={styles.dropdown} key="key1">
                     <ul>
                         <li value = "0" onClick={handleCategoryClick}>All</li>
                         <li value = "1" onClick={handleCategoryClick}>Fast Food</li>
@@ -80,12 +80,12 @@ const SearchBar = () => {
                     </ul>
                 </div>
             )}
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit} key="key2">
                 <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
                 <button className={styles.searchButton} type='submit'>Search</button>
             </form>
             {showDropdown && (
-                <div className={styles.dropdown}>
+                <div className={styles.dropdown}key="key3">
                     <ul>
                         {filteredRestaurants.map((restaurant) => (
                             <li value={restaurant.restaurant_id} onClick={handleSearchClick}>{restaurant.name}</li>

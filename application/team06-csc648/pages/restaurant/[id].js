@@ -16,7 +16,7 @@ export default function RestaurantDetails() {
     }, [])
     const restaurant = restaurants.find((restaurant) => restaurant.restaurant_id == id)
     return (
-      <div>
+      <div key="key1">
         <Link href='/'>home</Link>
         <h1>{restaurant.name}</h1>
         <p>Restaurant id: {restaurant.restaurant_id}</p>
