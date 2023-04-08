@@ -8,7 +8,7 @@ export default function JackDetails(){
         <div className={styles.main}>
             <Link className={styles.description} href='/aboutHome'>Back</Link>
             <h1 className={styles.title}>Jack Lee</h1>
-            <Image src='/portrates/Jack.jpg' alt="Jack Lee" width="250" height="300"></Image>
+            <img src='/portrates/Jack.jpg' alt="Jack Lee" width="250" height="300"></img>
             <p classname={styles.description}>Email: klee52@mail.sfsu.edu</p>
             <p classname={styles.description}>{paragraph}</p>
         </div>

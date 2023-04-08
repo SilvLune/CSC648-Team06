@@ -8,7 +8,7 @@ export default function AlexanderDetails(){
         <div className={styles.main}>
             <Link className={styles.description} href='/aboutHome'>Back</Link>
             <h1 className={styles.title}>Alexander Griffin</h1>
-            <Image src='/portrates/Alexander.png' alt="Alexander Griffin" width="250" height="300"></Image>
+            <img src='/portrates/Alexander.png' alt="Alexander Griffin" width="250" height="300"></img>
             <p classname={styles.description}>Email: agriffi1@mail.sfsu.edu</p>
             <p classname={styles.description}>{paragraph}</p>
         </div>
