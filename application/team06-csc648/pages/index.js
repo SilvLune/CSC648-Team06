@@ -2,10 +2,36 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import searchStyles from '@/styles/Search.module.css'
 import Link from 'next/link';
+import NavBar from './navBar';
+import React from 'react'
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import RestaurantList from '../pages/components/RestaurantList'
 
+const api_key = 'AIzaSyCpUlDRUOo40careJjFVbu-wN05qq2NRjo';
+const center = {lat:37.724286006635296,lng:-122.48000341090525};
+const containerStyle = {width:'100%', height:'100%'};
+
+function MyMap() {
+  const {isLoaded} = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: api_key
+  })
+
+  return isLoaded ? (
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={15}
+      >
+      <MarkerF position={center}></MarkerF>
+      </GoogleMap>
+  ) : <></>
+}
 
 export default function Home() {
+  
   return (
     <>
       <Head>
@@ -14,11 +40,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
-        <h1>
-          Welcome to <Link href='/aboutHome'>Team 06!</Link>
-        </h1>
+        <NavBar/>
+        <div className={searchStyles.searchResult}>
+          <h2 className={searchStyles.logo}>Logo</h2>
+          <h1 className={searchStyles.name}>Restaraunt name</h1>
+          <h2 className={searchStyles.rating}>Rating</h2>
+          <h2 className={searchStyles.address}>Address</h2>
+          <div className={searchStyles.map}>
+            {MyMap()}
+          </div>
+        </div>
       </main>
+      <RestaurantList/>
     </>
   )
 }
