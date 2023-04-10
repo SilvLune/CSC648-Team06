@@ -8,7 +8,7 @@
 # Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
 
 1. Server URL or IP
-https://main.d2sw6g5quyiw09.amplifyapp.com/
+http://ec2-35-164-61-115.us-west-2.compute.amazonaws.com:3000/
 
 Github: https://github.com/CSC-648-SFSU/csc648-03-sp23-team06
 4. Database URL or IP and port used.
