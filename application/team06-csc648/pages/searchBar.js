@@ -45,7 +45,11 @@ const SearchBar = () => {
         if(search.length == 0){
             search = "none"
         }
-        router.replace(`search/${search}`)
+        let newUrl = `/search/${search}`
+        if(window.location.pathname.includes("search")){
+            newUrl = `/search/${search}`
+        }
+        router.push(newUrl)
     }   
     useEffect(()=>{
         async function fetchRestaurants(){
