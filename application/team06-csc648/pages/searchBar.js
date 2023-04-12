@@ -8,15 +8,12 @@ const SearchBar = () => {
     const [search, setSearch] = useState('')
     const [restaurants, setRestaurants] = useState([])
     const [showDropdown, setShowDropdown] = useState(false)
-    const [showCategories, setShowCategories] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState('Category')
     const [selectedCategoryNumber, setSelectedCategoryNumber] = useState(0)
     const dropdownRef = useRef(null)
 
     useEffect(() => {
         const handleOutsideClick = (event) =>{
             if(dropdownRef.current && !dropdownRef.current.contains(event.target)){
-                setShowCategories(false)
                 setShowDropdown(false)
             }
         }
@@ -30,19 +27,7 @@ const SearchBar = () => {
         setSearch(inputValue)
     }  
     const handleInputClick = () => {
-        setShowCategories(false)
         setShowDropdown(true)
-    }
-    const handleCategoryButtonClick = () =>{
-        setShowDropdown(false)
-        setShowCategories(true)
-    }
-    const handleCategoryClick = (event) =>{
-        const categoryValue = event.target.value
-        const categoryText = event.target.textContent
-        setSelectedCategoryNumber(categoryValue)
-        setSelectedCategory(categoryText)
-        setShowCategories(false)
     }
     const handleSearchClick = (event) => {
         const val = event.target.value
@@ -58,6 +43,10 @@ const SearchBar = () => {
         }
         router.push(newUrl)
       }
+      const handleCategoryChange = (event) =>{
+        console.log(event.target.value)
+        setSelectedCategoryNumber(event.target.value)
+      }
       
       useEffect(()=>{
         async function fetchRestaurants(){
@@ -69,19 +58,18 @@ const SearchBar = () => {
 
     return(
         <div className={styles.search}>
-            <button className={styles.categories} onClick = {handleCategoryButtonClick}>{selectedCategory}</button>
+            <select className={styles.dropdown} key="key1" value={selectedCategoryNumber} onChange={handleCategoryChange} ref={dropdownRef}>
+                    <option value="0">All</option>
+                    <option value="1">Fast Food</option>
+                    <option value="2">Chinese</option>
+                    <option value="3">Mexican</option>
+                    <option value="4">Korean</option>
+                    <option value="5">Thai</option>
+            </select>
+            {/* <button className={styles.categories} onClick = {handleCategoryButtonClick}>{selectedCategory}</button>
             {showCategories && (
-                <div className={styles.dropdown} key="key1" ref={dropdownRef}>
-                    <ul>
-                        <li value = "0" onClick={handleCategoryClick}>All</li>
-                        <li value = "1" onClick={handleCategoryClick}>Fast Food</li>
-                        <li value = "2" onClick={handleCategoryClick}>Chinese</li>
-                        <li value = "3" onClick={handleCategoryClick}>Mexican</li>
-                        <li value = "4" onClick={handleCategoryClick}>Korean</li>
-                        <li value = "5" onClick={handleCategoryClick}>Thai</li>
-                    </ul>
-                </div>
-            )}
+                
+            )} */}
             <form onSubmit={handleFormSubmit} key="key2">
                 <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
                 <button className={styles.searchButton} type='submit'>Search</button>
