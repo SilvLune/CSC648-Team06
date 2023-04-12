@@ -10,7 +10,22 @@ const connection = createConnection({
 
 export default function handler(req, res){
     if(req.method === 'GET'){
-        connection.query('SELECT * FROM Restaurant', (error, results) =>{
+        const {search, category} = req.query
+        let sql = 'SELECT * FROM Restaurant'
+        let values = []
+        if(search !== 'none'){
+            sql += ' WHERE name Like ?'
+            values.push(`%${search}%`)
+        }
+        if(category && category != 0){
+            if(values.length > 0){
+                sql += ' AND category_id = ?'
+            }else{
+                sql += ' WHERE category_id = ?'
+            }
+            values.push(category)
+        }
+        connection.query(sql, values, (error, results) =>{
             if(error){
                 console.log(error)
                 res.status(500).json({message: 'Internal Server Error T^T'})
