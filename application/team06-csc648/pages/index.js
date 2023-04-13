@@ -9,7 +9,7 @@ import React from 'react'
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import RestaurantList from '../pages/components/RestaurantList'
 
-const api_key = 'AIzaSyCpUlDRUOo40careJjFVbu-wN05qq2NRjo';
+const api_key = 'AIzaSyDXZy1wPNmoinJbzlCWnOBLqehpwXXGkPw';
 const center = {lat:37.724286006635296,lng:-122.48000341090525};
 const containerStyle = {width:'100%', height:'100%'};
 
