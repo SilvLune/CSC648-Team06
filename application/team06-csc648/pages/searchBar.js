@@ -58,7 +58,7 @@ const SearchBar = () => {
 
     return(
         <div className={styles.search}>
-            <select className={styles.dropdown} key="key1" value={selectedCategoryNumber} onChange={handleCategoryChange} ref={dropdownRef}>
+            <select className={styles.dropdown_category} key="key1" value={selectedCategoryNumber} onChange={handleCategoryChange} ref={dropdownRef}>
                     <option value="0">All</option>
                     <option value="1">Fast Food</option>
                     <option value="2">Chinese</option>

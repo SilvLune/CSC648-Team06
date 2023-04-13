@@ -14,7 +14,7 @@ export default function RestaurantSearchList(){
             setRestaurants(response.data)
         }
         fetchRestaurants()
-    }, [router.query.search, router.query.category])
+    }, [query, category])
 
     if(rest === undefined){
         return(
