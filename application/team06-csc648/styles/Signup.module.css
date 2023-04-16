@@ -1,0 +1,63 @@
+#email{
+    border: black 1px solid;
+}
+
+#password{
+    border: black 1px solid;
+}
+
+#emailMessage{
+    display: none;
+}
+
+#passwordMessage{
+    display: none;
+}
+
+#name{
+    border: black 1px solid;
+}
+
+#nameMessage{
+    display: none;
+}
+
+#phone{
+    border: black 1px solid;
+}
+
+#phoneMessage{
+    display: none;
+}
+
+#password2{
+    border: black 1px solid;
+}
+
+#password2Message{
+    display: none;
+}
+
+#address{
+    border: black 1px solid;
+}
+
+#logoMessage{
+    display: none;
+}
+
+#addressMessage{
+    display: none;
+}
+
+#agreementMessage{
+    display: none;
+}
+
+#licenseMessage{
+    display: none;
+}
+
+#insuranceMessage{
+    display: none;
+}
