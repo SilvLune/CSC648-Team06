@@ -81,7 +81,7 @@ export default function RestaurantLogin() {
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
                     <button onClick={login}>Login</button>
-                    <Link href='../../signup/restaraunt'><button>Sign up</button></Link>
+                    <Link href='../../signup/restaurant'><button>Sign up</button></Link>
                 </div>
             </div>
         </div>
