@@ -3,7 +3,7 @@ import Link from 'next/link';
 import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
 
-export default function Home() {
+export default function RestaurantLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validEmail, setValidEmail] = useState(false);
@@ -18,7 +18,7 @@ export default function Home() {
         emailInput.current.style.border ='black 1px solid';
         setValidEmail(false);
 
-        let emailPattern = /^([^\s])+@([^\s]+\.)?([^\s]+)\.([a-zA-Z]+)$/;
+        let emailPattern = /^([^\s])+@([^\s]+\.)*([^\s]+)\.([a-zA-Z]+)$/;
 
         if (email.match(emailPattern) == null){
             emailMessage.current.style.display = 'block';
@@ -76,7 +76,7 @@ export default function Home() {
                         onBlur={validatePassword}
                         ref={passwordInput}
                         required/>
-                    <div id={styles.passwordMessage} ref={passwordMessage}>Password must be between 4-20 characters</div>
+                    <div id={styles.passwordMessage} ref={passwordMessage}>Password must be 4-20 characters</div>
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
