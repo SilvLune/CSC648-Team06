@@ -1,7 +1,7 @@
 # csc648 Repository
 
 
-URL: https://master.d26vp93jz5ed9.amplifyapp.com/
+URL: http://ec2-35-164-61-115.us-west-2.compute.amazonaws.com:3000/
 Github URL: https://github.com/CSC-648-SFSU/csc648-03-sp23-team06
 
 

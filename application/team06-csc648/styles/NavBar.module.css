@@ -34,6 +34,7 @@
 
 .searchBar{
     margin-top: auto;
+    margin-left: 0;
     margin-bottom: auto;
 }
 
@@ -69,12 +70,22 @@
     position: relative;
 }
 
+.dropdown_category{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 42%;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
 .dropdown {
     position: absolute;
-    top: 100%;
-    left: 25%;
+    top: 80px;
     width: 50%;
-    max-height: 300px;
+    height: auto;
     overflow-y: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
