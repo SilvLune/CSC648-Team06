@@ -2,7 +2,7 @@ import axios from 'axios';
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import searchStyles from '@/styles/Search.module.css'
-import NavBar from '../navBar'
+import NavBar from '../components/navBar'
 
 export default function RestaurantSearchList(){
     const[rest, setRestaurants] = useState([])

@@ -4,7 +4,7 @@ import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import searchStyles from '@/styles/Search.module.css'
 import Link from 'next/link';
-import NavBar from './navBar';
+import NavBar from './components/navBar';
 import React from 'react'
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import RestaurantList from '../pages/components/RestaurantList'
