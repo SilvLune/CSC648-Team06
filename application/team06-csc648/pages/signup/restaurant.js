@@ -11,7 +11,13 @@ export default function Home() {
     const [address, setAddress] = useState('');
     const [agreement, setAgreement] = useState(false);
     const [logo, setLogo] = useState('');
-    let dishes = [];
+
+    const [dishInputs, setDishInputs] = useState([])
+    const [dishInputCount, setDishInputCount] = useState(-1)
+    const [dishNames, setDishNames] = useState([])
+    const [dishPrices, setDishPrices] = useState([])
+    const [dishPictures, setDishPictures] = useState([])
+    const [dishDescriptions, setDishDescriptions] = useState([])
 
     const [validName, setValidName] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
@@ -136,6 +142,25 @@ export default function Home() {
         }
     }
 
+    const addDishInput = () => {
+        let dishId = dishInputCount + 1;
+        setDishInputCount(dishId)
+        let inputs = dishInputs;
+
+        let dishNameInput = (<input value={dishNames[dishId]} placeholder='Name of dish'
+            onChange={e => setDishNames((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
+        let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrices[dishId]} placeholder='Price of dish' 
+            onChange={e => setDishPrices((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
+        let dishPictureInput = (<div><label for="dishPic">Upload a picture of the dish</label> <input type="file" accept="image/*"
+            value={dishPictures[dishId]} name="dishPic" onChange={e => setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/></div>);
+        let dishDescriptionInput = (<input value={dishDescriptions[dishId]} placeholder='Description of dish' 
+        onChange={e => setDishDescriptions((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
+
+        inputs.push((<div>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
+        
+        setDishInputs(inputs);
+    }
+
     const agree = () => {
         if(agreement == false){
             agreementMessage.current.style.display = 'none';
@@ -168,7 +193,7 @@ export default function Home() {
         <div>
             <NavBar/>
             <div>
-                <h1>Gateway</h1>
+                <h1>Gateway Restaurant Signup</h1>
                 <div>
                     <input 
                         id={styles.name}
@@ -242,9 +267,9 @@ export default function Home() {
                     <div id={styles.logoMessage} ref={logoMessage}>Please add a logo for your restaraunt</div>
                 </div>
                 <div>
-                    <button>Add a dish to your menu</button>
+                    <button onClick={addDishInput}>Add a dish to your menu</button>
                     <div>
-                        
+                        {dishInputs}
                     </div>
                 </div>
                 <div>
