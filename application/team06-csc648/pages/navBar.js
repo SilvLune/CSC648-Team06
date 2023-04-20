@@ -13,7 +13,7 @@ const NavBar = () => {
             <SearchBar/>
           </div>
           <div className={styles.buttons}>
-            <button>Login</button>
+            <Link href='/entrance/login'>Login</Link>
             <button>Shopping cart</button>
           </div>
           <div className={styles.links}>
