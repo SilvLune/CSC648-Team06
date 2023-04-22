@@ -55,9 +55,9 @@ export default function CustomerLogin() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <form className="form-signin">
                 <h1>Gateway Login</h1>
-                <div>
+                <div class="form-floating">
                     <input 
                         id={styles.email}
                         value={email} placeholder='Email'
@@ -67,7 +67,7 @@ export default function CustomerLogin() {
                         required/>
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid SFSU email</div>
                 </div>
-                <div>
+                <div class="form-floating">
                     <input 
                         id={styles.password}
                         type="password" placeholder='Password'
@@ -83,7 +83,7 @@ export default function CustomerLogin() {
                     <button onClick={login}>Login</button>
                     <Link href='../../signup/customer'><button>Sign up</button></Link>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

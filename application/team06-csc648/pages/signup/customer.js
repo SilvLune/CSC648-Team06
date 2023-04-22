@@ -131,7 +131,7 @@ export default function Home() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <div className={styles.LogupForm} >
                 <h1>Gateway Signup</h1>
                 <div>
                     <input 
