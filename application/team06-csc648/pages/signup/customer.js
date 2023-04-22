@@ -1,6 +1,7 @@
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import axios from 'axios';
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -9,6 +10,7 @@ export default function Home() {
     const [password2, setPassword2] = useState('');
     const [phone, setPhone] = useState('');
     const [agreement, setAgreement] = useState(false);
+    const [signupMessage, setSignupMessage] = useState('');
 
     const [validName, setValidName] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
@@ -111,10 +113,24 @@ export default function Home() {
         }
     }
 
-    const signup = () => {
+    const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
             // Handle sign up
+          e.preventDefault();
+          try {
+            const res = await axios.post('/api/customers', {
+              name: name,
+              email: email,
+              password: password,
+              phone: phone
+            });
+            setSignupMessage("Your account has been successfully created");
+          } catch (error) {
+            console.log(error.response.data);
+            setSignupMessage("An error occurred while creating your account");
+          }
+            
         } else{
             validateEmail();
             validatePassword();
@@ -195,6 +211,9 @@ export default function Home() {
                 </div>
                 <div>
                     <button onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
             </div>
         </div>
