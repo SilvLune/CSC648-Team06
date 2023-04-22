@@ -14,26 +14,23 @@
     display: none;
 }
 
-form{
-    display: block;
-}
-.form-signin {
+.form{
     max-width: 330px;
-    padding: 15px;
-  }
-  
-  .form-signin .form-floating:focus-within {
-    z-index: 2;
-  }
-  
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
+    display: block;
+    margin-top: 10%;
+    margin-left: 45%;
+
+    box-sizing: border-box;
+}
+
+.floating{
+    margin-top: .5rem;
+    padding: .7rem;
+}
+
+.button{
+    margin-top: .5rem;
+    gap: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}

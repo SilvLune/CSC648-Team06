@@ -61,3 +61,24 @@
 #insuranceMessage{
     display: none;
 }
+
+.form{
+    max-width: 330px;
+    display: block;
+    margin-top: 10%;
+    margin-left: 45%;
+
+    box-sizing: border-box;
+}
+
+.floating{
+    margin-top: .5rem;
+    padding: .7rem;
+}
+
+.button{
+    margin-top: .5rem;
+    gap: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
