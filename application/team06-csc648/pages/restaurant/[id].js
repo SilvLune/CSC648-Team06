@@ -48,7 +48,10 @@ export default function RestaurantDetails() {
 
   if(restaurant.length == 0){
     return(
-      <div></div>
+      <div>
+        <NavBar/>
+        <p>Restaurant does not exist</p>
+      </div>
     )
   }else{
     return (
