@@ -67,7 +67,7 @@ export default function RestaurantDetails() {
             {menu.map((dish) => (
                         <div key={"restaraunt"+restaurant.restaurant_id}>
                             <h1>{dish.name}</h1>
-                            <h2>{dish.description} minutes</h2>
+                            <h2>{dish.description}</h2>
                             <h2>${dish.price}</h2>
                             <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${restaurant.name} logo`} />
                             <button>Add to cart</button> 

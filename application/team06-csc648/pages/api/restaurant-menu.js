@@ -12,8 +12,11 @@ const pool = createPool({
 export default async function handler(req, res){
     if(req.method === 'GET'){
         const {id} = req.query
-        let sql = 'SELECT * FROM Dish WHERE restaurant_id = ?'
+        let sql = 'SELECT * FROM Dish'
         let values = [id]
+        if(id != '*'){
+            sql += ' WHERE restaurant_id = ?'
+        }
 
         try{
             const [rows] = await pool.execute(sql, values)
