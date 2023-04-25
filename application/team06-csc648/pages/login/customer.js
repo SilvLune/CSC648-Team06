@@ -55,10 +55,10 @@ export default function CustomerLogin() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <div className={styles.form}>
                 <h1>Gateway Login</h1>
-                <div>
-                    <input 
+                <div >
+                    <input className={styles.floating}
                         id={styles.email}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
@@ -67,8 +67,8 @@ export default function CustomerLogin() {
                         required/>
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid SFSU email</div>
                 </div>
-                <div>
-                    <input 
+                <div >
+                    <input className={styles.floating}
                         id={styles.password}
                         type="password" placeholder='Password'
                         value={password} 
@@ -80,8 +80,8 @@ export default function CustomerLogin() {
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
-                    <button onClick={login}>Login</button>
-                    <Link href='../../signup/customer'><button>Sign up</button></Link>
+                    <button className={styles.button} onClick={login}>Login</button>
+                    <Link href='../../signup/customer'><button className={styles.button}>Sign up</button></Link>
                 </div>
             </div>
         </div>
