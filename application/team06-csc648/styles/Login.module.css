@@ -1,0 +1,15 @@
+#email{
+    border: black 1px solid;
+}
+
+#password{
+    border: black 1px solid;
+}
+
+#emailMessage{
+    display: none;
+}
+
+#passwordMessage{
+    display: none;
+}

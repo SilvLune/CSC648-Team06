@@ -13,13 +13,13 @@ const NavBar = () => {
             <SearchBar/>
           </div>
           <div className={styles.buttons}>
-            <button>Login</button>
+            <Link href='/login/customer'><button>Login</button></Link>
             <button>Shopping cart</button>
           </div>
           <div className={styles.links}>
             <Link href='/aboutHome'>About us</Link>
-            <Link href='/'>Driver</Link>
-            <Link href='/'>Restaurant</Link>
+            <Link href='/login/driver'>Driver</Link>
+            <Link href='/login/restaurant'>Restaurant</Link>
           </div>
         </div>
     );
