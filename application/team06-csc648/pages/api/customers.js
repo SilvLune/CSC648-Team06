@@ -22,8 +22,8 @@ export default async function handler(req, res) {
   // handles customer data POST requests (registration)
   if (req.method === 'POST') {
     const { name, email, password, phone } = req.body;
-    const sql = "INSERT INTO Customer (full_name, email, hashed_password, phone) VALUES (?, ?, ?, ?)";
-    const values = [name, email, password, phone];
+    const sql = "INSERT INTO Customer (full_name, email, phone, hash, salt) VALUES (?, ?, ?, ?, ?)";
+    const values = [name, email, phone, 'hash', 'salt']; // placeholder for password hashing
 
     try {
       const [result] = await pool.execute(sql, values);
