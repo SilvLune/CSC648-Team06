@@ -56,7 +56,7 @@ export default function CustomerLogin() {
         <div>
             <NavBar/>
             <div>
-                <h1>Gateway</h1>
+                <h1>Gateway Login</h1>
                 <div>
                     <input 
                         id={styles.email}

@@ -148,7 +148,7 @@ export default function Home() {
         <div>
             <NavBar/>
             <div>
-                <h1>Gateway</h1>
+                <h1>Gateway Signup</h1>
                 <div>
                     <input 
                         id={styles.name}
