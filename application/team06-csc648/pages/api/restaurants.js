@@ -1,3 +1,11 @@
+/*
+*  CSC648/848 Spring 2023 Team06
+*  
+*  File: restaurants.js
+*  %like search function
+*
+*  Author: Justin Shin, Jack Lee
+*/
 import {createPool} from 'mysql2/promise'
 
 const pool = createPool({
@@ -8,7 +16,7 @@ const pool = createPool({
     connectionLimit: 10
 })
 
-
+// %like search function
 export default async function handler(req, res){
     if(req.method === 'GET'){
         const {search, category} = req.query
