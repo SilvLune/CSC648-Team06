@@ -32,10 +32,7 @@ export default function RestaurantDetails() {
 
     Geocode.fromAddress(restaurant[0].address).then(
       (response) => {
-        console.log(restaurant[0].address);
-        console.log(response.results[0].geometry.location);
         setCoordinates(response.results[0].geometry.location);
-        console.log(coordinates);
       },
       (error) => {
         console.error(error);
