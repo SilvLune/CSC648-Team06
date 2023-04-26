@@ -1,5 +1,14 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customers.js
+ * Author: Xiao Deng
+ * 
+ * Description: API endpoint that handles customer data requests
+ */
+
 import {createPool} from 'mysql2/promise'
 
+// establish connection to database
 const pool = createPool({
   host: "gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com",
   user: 'admin',
@@ -9,6 +18,8 @@ const pool = createPool({
 })
 
 export default async function handler(req, res) {
+
+  // handles customer data POST requests (registration)
   if (req.method === 'POST') {
     const { name, email, password, phone } = req.body;
     const sql = "INSERT INTO Customer (full_name, email, hashed_password, phone) VALUES (?, ?, ?, ?)";
