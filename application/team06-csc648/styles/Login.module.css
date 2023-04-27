@@ -1,15 +1,23 @@
 #email{
     border: black 1px solid;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
 }
 
 #password{
     border: black 1px solid;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
 }
 
 #emailMessage{
     display: none;
+    color: red;
 }
 
 #passwordMessage{
     display: none;
+    color: red;
 }
