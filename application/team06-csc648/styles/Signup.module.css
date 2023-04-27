@@ -1,0 +1,117 @@
+#email{
+    border: black 1px solid;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+
+#password{
+    border: black 1px solid;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+
+#emailMessage{
+    display: none;
+    color: red;
+}
+
+#passwordMessage{
+    display: none;
+    color: red;
+}
+
+#name{display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    border: black 1px solid;
+}
+
+#nameMessage{
+    display: none;
+    color: red;
+}
+
+#phone{
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    border: black 1px solid;
+}
+
+#phoneMessage{
+    display: none;
+}
+
+#password2{
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    border: black 1px solid;
+}
+
+#password2Message{
+    display: none;
+    color: red;
+}
+
+#address{
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    border: black 1px solid;
+}
+
+#logoMessage{
+    display: none;
+}
+
+#addressMessage{
+    display: none;
+}
+
+#agreementMessage{
+    display: none;
+}
+
+#licenseMessage{
+    display: none;
+}
+
+#insuranceMessage{
+    display: none;
+}
+
+
+/*Failed attempt and centering the content on the page*/
+
+/*#u > u > h1 > u {*/
+/*    text-align: center;*/
+/*    padding: 50px;*/
+/*    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+/*    color: black;*/
+/*    background-color: white;*/
+/*}*/
+
+.form{
+    max-width: 330px;
+    display: block;
+    margin-top: 10%;
+    margin-left: 45%;
+
+    box-sizing: border-box;
+}
+
+.floating{
+    margin-top: .5rem;
+    padding: .7rem;
+}
+
+.button{
+    margin-top: .5rem;
+    gap: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+

@@ -1,0 +1,9 @@
+.order{
+    border: solid black 1px;
+    padding: 1rem;
+}
+
+.order:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
