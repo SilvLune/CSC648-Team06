@@ -124,14 +124,22 @@ export default function Home() {
     const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
+
           /* create POST request to customer API endpoint */
+
+            // Handle sign up
+
           e.preventDefault();
           try {
             const res = await axios.post('/api/customers', {
               name: name,
               email: email,
+
               phone: phone,
               password: password
+
+       
+
             });
             setSignupMessage("Your account has been successfully created");
           } catch (error) {
@@ -155,10 +163,10 @@ export default function Home() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <div className={styles.form} >
                 <h1>Gateway Signup</h1>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.name}
                         value={name} placeholder='Name'
                         onChange={e => setName(e.target.value)}
@@ -168,7 +176,7 @@ export default function Home() {
                     <div id={styles.nameMessage} ref={nameMessage}>Please enter a real name</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.email}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
@@ -178,7 +186,7 @@ export default function Home() {
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid SFSU email</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.phone}
                         value={phone} placeholder='Phone Number'
                         onChange={e => setPhone(e.target.value)}
@@ -188,7 +196,7 @@ export default function Home() {
                     <div id={styles.phoneMessage} ref={phoneMessage}>Please enter a valid phone number</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password}
                         type="password" placeholder='Password'
                         value={password} 
@@ -199,7 +207,7 @@ export default function Home() {
                     <div id={styles.passwordMessage} ref={passwordMessage}>Password must be 4-20 characters</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password2}
                         type="password" placeholder='Confirm password'
                         value={password2} 
@@ -218,7 +226,10 @@ export default function Home() {
                     <div id={styles.agreementMessage} ref={agreementMessage}>Please agree to the terms and services</div>
                 </div>
                 <div>
-                    <button onClick={signup}>Sign up</button>
+                    <button className={styles.button} onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
                 <div>
                   {signupMessage}
