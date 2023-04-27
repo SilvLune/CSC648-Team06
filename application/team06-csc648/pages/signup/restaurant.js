@@ -192,10 +192,10 @@ export default function Home() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <div className={styles.form}>
                 <h1>Gateway Restaurant Signup</h1>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.name}
                         value={name} placeholder='Name'
                         onChange={e => setName(e.target.value)}
@@ -205,7 +205,7 @@ export default function Home() {
                     <div id={styles.nameMessage} ref={nameMessage}>Please enter the restaurant's name</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.email}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
@@ -215,7 +215,7 @@ export default function Home() {
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid email</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.phone}
                         value={phone} placeholder='Phone Number'
                         onChange={e => setPhone(e.target.value)}
@@ -225,7 +225,7 @@ export default function Home() {
                     <div id={styles.phoneMessage} ref={phoneMessage}>Please enter a valid phone number</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.address}
                         value={address} placeholder='Address'
                         onChange={e => setAddress(e.target.value)}
@@ -235,7 +235,7 @@ export default function Home() {
                     <div id={styles.addressMessage} ref={addressMessage}>Please enter a valid address</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password}
                         type="password" placeholder='Password'
                         value={password} 
@@ -246,7 +246,7 @@ export default function Home() {
                     <div id={styles.passwordMessage} ref={passwordMessage}>Password must be 4-20 characters</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password2}
                         type="password" placeholder='Confirm password'
                         value={password2} 
@@ -257,7 +257,7 @@ export default function Home() {
                 </div>
                 <div>
                     <label for="logo">Upload your restaurant logo</label>
-                    <input
+                    <input className={styles.button}
                         type="file" 
                         name="logo" 
                         value={logo} 
@@ -267,13 +267,13 @@ export default function Home() {
                     <div id={styles.logoMessage} ref={logoMessage}>Please add a logo for your restaraunt</div>
                 </div>
                 <div>
-                    <button onClick={addDishInput}>Add a dish to your menu</button>
+                    <button className={styles.button} onClick={addDishInput}>Add a dish to your menu</button>
                     <div>
                         {dishInputs}
                     </div>
                 </div>
                 <div>
-                    <input type="checkbox" 
+                    <input className={styles.button} type="checkbox" 
                     name="agreement" 
                     value={agreement}
                     onClick={agree}
@@ -282,7 +282,7 @@ export default function Home() {
                     <div id={styles.agreementMessage} ref={agreementMessage}>Please agree to the terms and services</div>
                 </div>
                 <div>
-                    <button onClick={signup}>Sign up</button>
+                    <button className={styles.button} onClick={signup}>Sign up</button>
                 </div>
             </div>
         </div>

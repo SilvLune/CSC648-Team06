@@ -1,6 +1,7 @@
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import axios from 'axios';
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -9,6 +10,7 @@ export default function Home() {
     const [password2, setPassword2] = useState('');
     const [phone, setPhone] = useState('');
     const [agreement, setAgreement] = useState(false);
+    const [signupMessage, setSignupMessage] = useState('');
 
     const [validName, setValidName] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
@@ -111,10 +113,24 @@ export default function Home() {
         }
     }
 
-    const signup = () => {
+    const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
             // Handle sign up
+          e.preventDefault();
+          try {
+            const res = await axios.post('/api/customers', {
+              name: name,
+              email: email,
+              password: password,
+              phone: phone
+            });
+            setSignupMessage("Your account has been successfully created");
+          } catch (error) {
+            console.log(error.response.data);
+            setSignupMessage("An error occurred while creating your account");
+          }
+            
         } else{
             validateEmail();
             validatePassword();
@@ -131,10 +147,10 @@ export default function Home() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <div className={styles.form} >
                 <h1>Gateway Signup</h1>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.name}
                         value={name} placeholder='Name'
                         onChange={e => setName(e.target.value)}
@@ -144,7 +160,7 @@ export default function Home() {
                     <div id={styles.nameMessage} ref={nameMessage}>Please enter a real name</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.email}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
@@ -154,7 +170,7 @@ export default function Home() {
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid SFSU email</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.phone}
                         value={phone} placeholder='Phone Number'
                         onChange={e => setPhone(e.target.value)}
@@ -164,7 +180,7 @@ export default function Home() {
                     <div id={styles.phoneMessage} ref={phoneMessage}>Please enter a valid phone number</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password}
                         type="password" placeholder='Password'
                         value={password} 
@@ -175,7 +191,7 @@ export default function Home() {
                     <div id={styles.passwordMessage} ref={passwordMessage}>Password must be 4-20 characters</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password2}
                         type="password" placeholder='Confirm password'
                         value={password2} 
@@ -194,7 +210,10 @@ export default function Home() {
                     <div id={styles.agreementMessage} ref={agreementMessage}>Please agree to the terms and services</div>
                 </div>
                 <div>
-                    <button onClick={signup}>Sign up</button>
+                    <button className={styles.button} onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
             </div>
         </div>

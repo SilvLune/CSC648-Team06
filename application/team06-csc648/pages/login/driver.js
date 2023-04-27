@@ -55,10 +55,10 @@ export default function DriverLogin() {
     return (
         <div>
             <NavBar/>
-            <div>
+            <div className={styles.form}>
                 <h1>Gateway Driver Login</h1>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.email}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
@@ -68,7 +68,7 @@ export default function DriverLogin() {
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid email</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password}
                         type="password" placeholder='Password'
                         value={password} 
@@ -80,8 +80,8 @@ export default function DriverLogin() {
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
-                    <button onClick={login}>Login</button>
-                    <Link href='../../signup/driver'><button>Sign up</button></Link>
+                    <button className={styles.button} onClick={login}>Login</button>
+                    <Link href='../../signup/driver'><button className={styles.button}>Sign up</button></Link>
                 </div>
             </div>
         </div>
