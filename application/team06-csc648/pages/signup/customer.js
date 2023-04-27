@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customer.js
+ * Author: Konnor Nishimura, Xiao Deng
+ * 
+ * Description: customer registration page
+ */
+
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
@@ -116,14 +124,22 @@ export default function Home() {
     const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
+
+          /* create POST request to customer API endpoint */
+
             // Handle sign up
+
           e.preventDefault();
           try {
             const res = await axios.post('/api/customers', {
               name: name,
               email: email,
-              password: password,
-              phone: phone
+
+              phone: phone,
+              password: password
+
+       
+
             });
             setSignupMessage("Your account has been successfully created");
           } catch (error) {
@@ -211,6 +227,9 @@ export default function Home() {
                 </div>
                 <div>
                     <button className={styles.button} onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
                 <div>
                   {signupMessage}
