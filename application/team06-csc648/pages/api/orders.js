@@ -11,7 +11,7 @@ const pool = createPool({
 
 export default async function handler(req, res){
     if(req.method === 'GET'){
-        let sql = 'SELECT * FROM `Order`'
+        let sql = 'SELECT * FROM `Order` LEFT JOIN Restaurant ON Order.order_id = Restaurant.restaurant_id'
         let values = []
 
         try{

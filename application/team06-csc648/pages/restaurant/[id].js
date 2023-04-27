@@ -1,37 +1,55 @@
 import{useRouter} from 'next/router'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import axios from 'axios'
 import NavBar from '../components/navBar'
 import styles from '@/styles/Restaurant.module.css'
-import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, MarkerF, useJsApiLoader, G } from '@react-google-maps/api';
+import Geocode from "react-geocode";
 
 const api_key = 'AIzaSyDXZy1wPNmoinJbzlCWnOBLqehpwXXGkPw';
 const center = {lat:37.724286006635296,lng:-122.48000341090525};
 const containerStyle = {width:'100vh', height:'100vh'};
 
-function MyMap() {
-  return(
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={15}
-      >
-      <MarkerF position={center}></MarkerF>
-      </GoogleMap>
-  )
-}
+Geocode.setApiKey(api_key);
+Geocode.setLocationType("ROOFTOP");
 
 export default function RestaurantDetails() {
   const router = useRouter()
   const [restaurant, setRestaurant] = useState([])
   const [menu, setMenu] = useState([])
   const [showMap, setShowMap] = useState(false)
+  const [coordinates, setCoordinates] = useState("")
+  const [map, setMap] = useState(null)
   const{id} = router.query
 
   const {isLoaded} = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: api_key
   })
+  
+  const MyMap = () => {
+    setShowMap(true)
+
+    Geocode.fromAddress(restaurant[0].address).then(
+      (response) => {
+        setCoordinates(response.results[0].geometry.location);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+    setMap((
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={12}
+      >
+        <MarkerF position={center}></MarkerF>
+        <MarkerF position={coordinates}></MarkerF>
+      </GoogleMap>
+    ))
+  }
 
   useEffect(() => {
     async function getRestaurant(){
@@ -45,6 +63,23 @@ export default function RestaurantDetails() {
     getRestaurant()
     getMenu()
   }, [id, restaurant])
+
+  useEffect(() => {
+    setShowMap(false)
+  }, [id])
+
+  useEffect(() => {
+    setMap((
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={12}
+      >
+        <MarkerF position={center}></MarkerF>
+        <MarkerF position={coordinates}></MarkerF>
+      </GoogleMap>
+    ))
+  }, [coordinates])
 
   if(restaurant.length == 0){
     return(
@@ -63,7 +98,7 @@ export default function RestaurantDetails() {
         </div>
         <div>
           <button onClick={() => setShowMap(false)}>Menu</button>
-          <button onClick={() => setShowMap(true)}>Delivery</button>
+          <button onClick={MyMap}>Delivery</button>
         </div>
         {(showMap == false) && <div className={styles.menu}>
           <div>
@@ -80,7 +115,7 @@ export default function RestaurantDetails() {
         {(showMap == true) && <div>
           <p>Average Delivery Time: {restaurant[0].avg_delivery_time} minutes</p>
           <div>
-            {{isLoaded} && MyMap()}
+            {{isLoaded} && map}
           </div>
         </div>}
       </div>
