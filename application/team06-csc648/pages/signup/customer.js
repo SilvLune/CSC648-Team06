@@ -1,6 +1,8 @@
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import passwordUtils from '../utility/passwordUtils'
+import axios from "axios";
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -111,10 +113,33 @@ export default function Home() {
         }
     }
 
-    const signup = () => {
+    const signup = async (event) => {
+        event.preventDefault();
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
             // Handle sign up
+            const saltHash = passwordUtils.genPassword(password)
+            const salt = saltHash.salt
+            const hash = saltHash.hash
+            try{
+                console.log('*signup* full_name: ' + name)
+                console.log('*signup* email: ' + email)
+                console.log('*signup* phone: ' + phone)
+                console.log('*signup* hash: ' + hash)
+                console.log('*signup* salt: ' + salt)
+                await axios.post('/api/customers_insert',{},{params:{
+                    name,
+                    email,
+                    phone,
+                    hash,
+                    salt,
+                }})
+                .then(response =>{
+                    console.log(response.data)
+                })
+            }catch(error){
+                console.log(error)
+            }
         } else{
             validateEmail();
             validatePassword();
