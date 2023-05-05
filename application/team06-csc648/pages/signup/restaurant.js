@@ -218,7 +218,7 @@ export default function Home() {
     }
 
     const fileToBlob = async (e) => {
-        if(e == ''){
+        if(e.target.files[0] == undefined){
             return;
         }
         let file = e.target.files[0];
@@ -230,7 +230,7 @@ export default function Home() {
     }
 
     const dishPicToBlob = async (e, dishId) => {
-        if(e == ''){
+        if(e.target.files[0] == undefined){
             return;
         }
         let file = e.target.files[0];
