@@ -1,11 +1,13 @@
 import pool from './pool'
 
 export default async function getCustomers(req, res){
+    console.log("*getCustomers*")
     if(req.method === 'GET'){
         const {email} = req.query
-        let sql = 'SELECT * FROM Customer WHERE email = ?'
+        let sql = 'SELECT * FROM Customer WHERE email = ?;'
         try{
             const [rows] = await pool.execute(sql, [email])
+            console.log(rows)
             res.status(200).json(rows)
         }catch(error){
             console.log(error)

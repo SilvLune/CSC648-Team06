@@ -1,7 +1,7 @@
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
-import passwordUtils from '../utility/passwordUtils'
+import passwordUtils from '../utils/passwordUtils'
 import axios from "axios";
 
 export default function Home() {
@@ -136,6 +136,7 @@ export default function Home() {
                 }})
                 .then(response =>{
                     console.log(response.data)
+                    //Reroute user NOT DONE
                 })
             }catch(error){
                 console.log(error)

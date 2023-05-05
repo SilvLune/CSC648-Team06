@@ -2,6 +2,8 @@ import {useState, useRef} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
+import passwordUtil from '../utils/passwordUtils'
+import axios from "axios";
 
 export default function CustomerLogin() {
     const [email, setEmail] = useState('');
@@ -43,9 +45,28 @@ export default function CustomerLogin() {
         }
     }
 
-    const login = () => {
+    const login = async () => {
         if((validEmail == true) && (validPassword == true)){
             // Handle login
+            try{
+                const response = await axios.get(`/api/customers_get_email?email=${email}`)
+                const user = response.data[0]
+                const valid = passwordUtil.validPassword(password, user.hash, user.salt)
+                if(valid){
+                    try{
+                        const response = await axios.get(`/api/login?customer_id=${user.customer_id}?email=${user.email}`)
+                        console.log(response)
+                        //reroute the user NOT DONE
+                    }catch(error){
+                        console.log(error)
+                    }
+                }else{
+                    console.log('*login* not valid')
+                }
+            }catch(error){
+                console.log(error)
+            }
+
         } else{
             validateEmail();
             validatePassword();
