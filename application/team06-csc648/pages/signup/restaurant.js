@@ -1,6 +1,7 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import axios from 'axios';
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -11,6 +12,7 @@ export default function Home() {
     const [address, setAddress] = useState('');
     const [agreement, setAgreement] = useState(false);
     const [logo, setLogo] = useState('');
+    const [signupMessage, setSignupMessage] = useState('');
 
     const [dishInputs, setDishInputs] = useState([])
     const [dishInputCount, setDishInputCount] = useState(-1)
@@ -124,8 +126,6 @@ export default function Home() {
         setValidPassword2(false);
 
         if (password != password2){
-            password2Input.current.style.border ='red 2px solid';
-            password2Message.current.style.display = 'block';
         } else{
             setValidPassword2(true);
         }
@@ -152,7 +152,7 @@ export default function Home() {
         let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrices[dishId]} placeholder='Price of dish' 
             onChange={e => setDishPrices((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
         let dishPictureInput = (<div><label for="dishPic">Upload a picture of the dish</label> <input type="file" accept="image/*"
-            value={dishPictures[dishId]} name="dishPic" onChange={e => setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/></div>);
+            name="dishPic" onChange={e => dishPicToBlob(e, dishId)}/></div>);
         let dishDescriptionInput = (<input value={dishDescriptions[dishId]} placeholder='Description of dish' 
         onChange={e => setDishDescriptions((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
 
@@ -170,24 +170,79 @@ export default function Home() {
         }
     }
 
-    const signup = () => {
+    const signup = async () => {
+        console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validAddress, validLogo)
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validAddress == true) && (validLogo == true)){
-            // Handle sign up
+
+            try {
+                const res = await axios.post('/api/restaurant-application', {
+                name: name,
+                email: email,
+                phone: phone,
+                address: address,
+                logo: logo,
+                type: logo.type,
+                password: password,
+
+                dishNames: dishNames,
+                dishDescriptions: dishDescriptions,
+                dishPictures: dishPictures,
+                dishPrices: dishPrices
+                });
+
+                setSignupMessage("Your restaurant application has been sent");
+            } catch (error) {
+                console.log(error);
+                setSignupMessage("An error occurred while creating your account");
+            }
         } else{
             validateEmail();
             validatePassword();
-            validatePassword2();
             validateName();
             validatePhone();
             validateAddress();
             validateLogo();
+            validatePassword2();
+            if (password != password2){
+                password2Input.current.style.border ='red 2px solid';
+                password2Message.current.style.display = 'block';
+            } else{
+                setValidPassword2(true);
+            }
 
             if(agreement == false){
                 agreementMessage.current.style.display = 'block';
             }
         }
     }
+
+    const fileToBlob = async (e) => {
+        if(e == ''){
+            return;
+        }
+        let file = e.target.files[0];
+        const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+        const text = await blob.text()
+
+        setLogo(text)
+        //console.log(logo)
+    }
+
+    const dishPicToBlob = async (e, dishId) => {
+        if(e == ''){
+            return;
+        }
+        let file = e.target.files[0];
+        const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+        const text = await blob.text()
+
+        setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = text; return newArr})
+    }
+
+    useEffect(() => {
+        validateLogo()
+      }, [logo])
   
     return (
         <div>
@@ -251,6 +306,7 @@ export default function Home() {
                         type="password" placeholder='Confirm password'
                         value={password2} 
                         onChange={e => setPassword2(e.target.value)}
+                        onBlur={validatePassword2}
                         ref={password2Input}
                         required/>
                     <div id={styles.password2Message} ref={password2Message}>Confirm your password by entering it again</div>
@@ -260,8 +316,7 @@ export default function Home() {
                     <input className={styles.button}
                         type="file" 
                         name="logo" 
-                        value={logo} 
-                        onChange={e => setLogo(e.target.value)}
+                        onChange={e => fileToBlob(e)}
                         accept="image/*" 
                         required/>
                     <div id={styles.logoMessage} ref={logoMessage}>Please add a logo for your restaraunt</div>
@@ -283,6 +338,9 @@ export default function Home() {
                 </div>
                 <div>
                     <button className={styles.button} onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
             </div>
         </div>
