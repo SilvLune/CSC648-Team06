@@ -38,7 +38,7 @@ export default function Home() {
         <div className={styles.allDishes}>
             {menu.map((dish) => (
                         <div key={"menu"+dish.dish_id} className={styles.dish}>
-                          <Link href={"/restaurant/" + dish.restaurant_id}>
+                          <Link target="_blank" rel="noopener noreferrer" href={"/restaurant/" + dish.restaurant_id}>
                             <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={dish.name}/>
                             <p className={styles.dishText}>${dish.price} - {dish.name}</p>
                           </Link>
