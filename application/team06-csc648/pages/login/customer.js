@@ -80,8 +80,11 @@ export default function CustomerLogin() {
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
-                    <button className={styles.button} onClick={login}>Login</button>
-                    <Link href='../../signup/customer'><button className={styles.button}>Sign up</button></Link>
+                    <button className={styles.signInUpButton} onClick={login}>Login</button>
+                </div>
+                <div>
+                    <p>don't have an account?</p>
+                    <Link href='../../signup/customer'><button className={styles.signInUpButton}>Sign up</button></Link>
                 </div>
             </div>
         </div>

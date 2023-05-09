@@ -42,3 +42,11 @@
     padding-left: .5rem;
     padding-right: .5rem;
 }
+
+.signInUpButton{
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    gap: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
