@@ -1,6 +1,7 @@
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import axios from "axios";
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -11,6 +12,7 @@ export default function Home() {
     const [agreement, setAgreement] = useState(false);
     const [license, setLicense] = useState('');
     const [insurance, setInsurance] = useState('');
+    const [signupMessage, setSignupMessage] = useState('');
 
     const [validName, setValidName] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
@@ -139,10 +141,29 @@ export default function Home() {
         }
     }
 
-    const signup = () => {
+    const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
             // Handle sign up
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('password', password);
+                formData.append('license', license);
+                formData.append('insurance', insurance);
+
+                const res = await axios.post('/api/drivers', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                setSignupMessage("Your account has been successfully created");
+            } catch(error) {
+                console.log(error.response.data);
+                setSignupMessage("An error occurred while creating your account");
+            }
         } else{
             validateEmail();
             validatePassword();
@@ -247,6 +268,9 @@ export default function Home() {
                 </div>
                 <div>
                     <button className={styles.button} onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
             </div>
         </div>
