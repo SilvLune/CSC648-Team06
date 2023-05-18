@@ -19,6 +19,7 @@ export default function Home() {
     const [dishNames, setDishNames] = useState([])
     const [dishPrices, setDishPrices] = useState([])
     const [dishPictures, setDishPictures] = useState([])
+    const [dishPicSizes, setDishPicSizes] = useState([])
     const [dishDescriptions, setDishDescriptions] = useState([])
 
     const [validName, setValidName] = useState(false);
@@ -44,6 +45,7 @@ export default function Home() {
     const addressMessage = useRef();
     const agreementMessage = useRef();
     const logoMessage = useRef();
+    
 
     const validateName = () =>{
         nameMessage.current.style.display = 'none';
@@ -174,7 +176,6 @@ export default function Home() {
         console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validAddress, validLogo)
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validAddress == true) && (validLogo == true)){
-
             try {
                 const res = await axios.post('/api/restaurant-application', {
                 name: name,
@@ -182,11 +183,13 @@ export default function Home() {
                 phone: phone,
                 address: address,
                 logo: logo,
+                logoSize: logo.length,
                 password: password,
 
                 dishNames: dishNames,
                 dishDescriptions: dishDescriptions,
                 dishPictures: dishPictures,
+                dishPicSizes: dishPicSizes,
                 dishPrices: dishPrices
                 });
 
@@ -222,10 +225,9 @@ export default function Home() {
         }
         let file = e.target.files[0];
         const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
-        const text = await blob.text()
-
-        setLogo(text)
-        //console.log(logo)
+        
+        //console.log(blob)
+        setLogo(new Uint8Array(await blob.arrayBuffer()))
     }
 
     const dishPicToBlob = async (e, dishId) => {
@@ -234,9 +236,10 @@ export default function Home() {
         }
         let file = e.target.files[0];
         const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
-        const text = await blob.text()
+        let picArray = new Uint8Array(await blob.arrayBuffer())
 
-        setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = text; return newArr})
+        setDishPicSizes((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = picArray.length; return newArr})
+        setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = picArray; return newArr})
     }
 
     useEffect(() => {

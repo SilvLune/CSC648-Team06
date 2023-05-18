@@ -21,18 +21,23 @@ const pool = createPool({
 
 export default async function upload(req, res) {
   if (req.method === 'POST') {
-    const { name, email, phone, address, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices} = req.body;
+    const { name, email, phone, address, logo, logoSize, password, dishNames, dishDescriptions, dishPictures, dishPicSizes, dishPrices} = req.body;
     const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, salt, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     //console.log(name, email, phone, address, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices);
 
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, salt);
-
-    let blob = new Blob([logo]);
+    
     //console.log(logo)
+    let tempLogoArr = []
+    for(let i = 0; i < logoSize; i++){
+      tempLogoArr.push(logo[i])
+    }
 
-    const values = [name, email, phone, address, await logo.arrayBuffer(), hash, "salt", 1];
+    let logoArr = new Uint8Array(tempLogoArr)
+
+    const values = [name, email, phone, address, logoArr, hash, "salt", 1];
     //console.log(values);
 
     try {
@@ -48,8 +53,14 @@ export default async function upload(req, res) {
           if(dishPictures[i] == undefined){
             dishValues[3] = null;
           } else{
-            let blob2 = new Blob([dishPictures[i]]);
-            dishValues[3] = await blob2.arrayBuffer();
+            let tempDishArr = []
+            for(let j = 0; j < dishPicSizes[i]; j++){
+              tempDishArr.push(dishPictures[i][j])
+            }
+
+            let dishArr = new Uint8Array(tempDishArr)
+            
+            dishValues[3] = dishArr;
           }
           
           const dishSQL = "INSERT INTO Dish (name, price, description, picture, restaurant_id) VALUES (?, ?, ?, ?, ?)";
