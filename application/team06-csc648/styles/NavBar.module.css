@@ -4,21 +4,31 @@
     display: grid;
     background-color: white;
     color: black;
-    grid-template-columns: 30% 50% 10% 10%;
     padding: 1rem;
+    grid-template-rows: 20% 60% 20%;
 }
 
+.secondRow{
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
 .logo{
     text-align: start;
     margin-top: auto;
     margin-bottom: auto;
     background-color: #f0f0f0;
     text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 .center{
     grid-row: auto;
     justify-content: center;
+    display: grid;
+    grid-template-columns: 20% 80%;
 }
 
 .title{
@@ -39,7 +49,6 @@
 }
 
 .categories{
-    /*margin-top: auto;   Alex here, commenting this out fixed the alignment*/
     margin-bottom: auto;
     margin-left: auto;
 }
@@ -52,9 +61,10 @@
 
 .buttons{
     display: grid;
-    grid-template-rows: auto auto;
+    grid-template-columns: 25% 25% 25% 25%;
     justify-content: center;
-    align-content: space-evenly;
+    align-content: center;
+    
 }
 
 .links{
