@@ -80,7 +80,10 @@ export default function RestaurantLogin() {
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
-                    <button className={styles.button} onClick={login}>Login</button>
+                    <button className={styles.button} onClick={login}>Login</button>                    
+                </div>
+                <div>
+                    <p>don't have an account?</p>
                     <Link href='../../signup/restaurant'><button className={styles.button}>Sign up</button></Link>
                 </div>
             </div>
