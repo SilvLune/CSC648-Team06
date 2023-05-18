@@ -1,4 +1,4 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
 import axios from "axios";
@@ -103,8 +103,6 @@ export default function Home() {
         setValidPassword2(false);
 
         if (password != password2){
-            password2Input.current.style.border ='red 2px solid';
-            password2Message.current.style.display = 'block';
         } else{
             setValidPassword2(true);
         }
@@ -147,9 +145,9 @@ export default function Home() {
         }
         let file = e.target.files[0];
         const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
-        const text = await blob.text()
+        let licenseArray = new Uint8Array(await blob.arrayBuffer())
 
-        setLicense(text)
+        setLicense(licenseArray)
         //console.log(license)
     }
 
@@ -159,32 +157,27 @@ export default function Home() {
         }
         let file = e.target.files[0];
         const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
-        const text = await blob.text()
+        let insuranceArray = new Uint8Array(await blob.arrayBuffer())
 
-        setInsurance(text)
+        setInsurance(insuranceArray)
         //console.log(insurance)
     }
 
     const signup = async (e) => {
+        console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validLicense, validInsurance)
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
             // Handle sign up
             try {
-                const formData = new FormData();
-                formData.append('name', name);
-                formData.append('email', email);
-                formData.append('phone', phone);
-                formData.append('password', password);
-                formData.append('license', license);
-                formData.append('insurance', insurance);
-
                 const res = await axios.post('/api/drivers', {
                     name: name,
                     email: email,
                     phone: phone,
                     password: password,
                     license: license,
+                    licenseSize: license.length,
                     insurance: insurance,
+                    insuranceSize: insurance.length,
                     });
                 setSignupMessage("Your account has been successfully created");
             } catch(error) {
@@ -199,12 +192,26 @@ export default function Home() {
             validatePhone();
             validateLicense();
             validateInsurance();
+            if (password != password2){
+                password2Input.current.style.border ='red 2px solid';
+                password2Message.current.style.display = 'block';
+            } else{
+                setValidPassword2(true);
+            }
 
             if(agreement == false){
                 agreementMessage.current.style.display = 'block';
             }
         }
     }
+
+    useEffect(() => {
+        validateLicense()
+      }, [license])
+
+    useEffect(() => {
+        validateInsurance()
+      }, [insurance])
   
     return (
         <div>
@@ -258,6 +265,7 @@ export default function Home() {
                         type="password" placeholder='Confirm password'
                         value={password2} 
                         onChange={e => setPassword2(e.target.value)}
+                        onBlur={validatePassword2}
                         ref={password2Input}
                         required/>
                     <div id={styles.password2Message} ref={password2Message}>Confirm your password by entering it again</div>

@@ -23,16 +23,27 @@ const pool = createPool({
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { name, email, password, phone, license, insurance } = req.body;
+    const { name, email, password, phone, license, insurance, licenseSize, insuranceSize } = req.body;
     const sql = "INSERT INTO Driver (full_name, email, phone, hash, salt, driver_license, insurance) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, salt);
 
-    let blobLicense = new Blob([license]);
-    let blobInsurance = new Blob([insurance]);
+    let tempLicenseArr = []
+    for(let i = 0; i < licenseSize; i++){
+      tempLicenseArr.push(license[i])
+    }
+
+    let licenseArr = new Uint8Array(tempLicenseArr)
+
+    let tempInsuranceArr = []
+    for(let i = 0; i < insuranceSize; i++){
+      tempInsuranceArr.push(insurance[i])
+    }
+
+    let insuranceArr = new Uint8Array(tempInsuranceArr)
     
-    const values = [name, email, phone, hash, 'salt', await blobLicense.arrayBuffer(), await blobInsurance.arrayBuffer()];
+    const values = [name, email, phone, hash, 'salt', licenseArr, insuranceArr];
 
 
     try {
