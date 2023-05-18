@@ -29,6 +29,7 @@ export default async function upload(req, res) {
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, salt);
 
+    let blob = new Blob([logo]);
     //console.log(logo)
 
     const values = [name, email, phone, address, await logo.arrayBuffer(), hash, "salt", 1];
