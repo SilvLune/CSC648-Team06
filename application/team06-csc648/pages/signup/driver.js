@@ -164,7 +164,7 @@ export default function Home() {
     }
 
     const signup = async (e) => {
-        console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validLicense, validInsurance)
+        //console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validLicense, validInsurance)
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
             // Handle sign up
