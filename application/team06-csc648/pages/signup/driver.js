@@ -141,6 +141,30 @@ export default function Home() {
         }
     }
 
+    const getLicense = async (e) => {
+        if(e.target.files[0] == undefined){
+            return;
+        }
+        let file = e.target.files[0];
+        const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+        const text = await blob.text()
+
+        setLicense(text)
+        //console.log(license)
+    }
+
+    const getInsurance = async (e) => {
+        if(e.target.files[0] == undefined){
+            return;
+        }
+        let file = e.target.files[0];
+        const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+        const text = await blob.text()
+
+        setInsurance(text)
+        //console.log(insurance)
+    }
+
     const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
@@ -154,11 +178,14 @@ export default function Home() {
                 formData.append('license', license);
                 formData.append('insurance', insurance);
 
-                const res = await axios.post('/api/drivers', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                const res = await axios.post('/api/drivers', {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    license: license,
+                    insurance: insurance,
+                    });
                 setSignupMessage("Your account has been successfully created");
             } catch(error) {
                 console.log(error.response.data);
@@ -240,8 +267,7 @@ export default function Home() {
                     <input className={styles.button}
                         type="file" 
                         name="license" 
-                        value={license} 
-                        onChange={e => setLicense(e.target.value)}
+                        onChange={e => getLicense(e)}
                         accept="image/*" 
                         required/>
                     <div id={styles.licenseMessage} ref={licenseMessage}>Please add your driver's license</div>
@@ -251,8 +277,7 @@ export default function Home() {
                     <input className={styles.button}
                         type="file" 
                         name="insurance" 
-                        value={insurance} 
-                        onChange={e => setInsurance(e.target.value)}
+                        onChange={e => getInsurance(e)}
                         accept="image/*" 
                         required/>
                     <div id={styles.insuranceMessage} ref={insuranceMessage}>Please add your proof of insurance</div>

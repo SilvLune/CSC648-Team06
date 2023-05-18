@@ -7,6 +7,7 @@
  */
 
 import {createPool} from 'mysql2/promise'
+import bcrypt from 'bcrypt'
 
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
@@ -19,19 +20,19 @@ const pool = createPool({
   connectionLimit: 10
 })
 
-export default async function handler(req, res) {
+export default async function upload(req, res) {
   if (req.method === 'POST') {
-    const { name, email, phone, address, type, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices} = req.body;
-    const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, category_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const { name, email, phone, address, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices} = req.body;
+    const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, salt category_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     //console.log(name, email, phone, address, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices);
 
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, salt);
 
-    let blob = new Blob([logo], {type:type});
+    let blob = new Blob([logo]);
 
-    const values = [name, email, phone, address, await blob.arrayBuffer(), hash, 1];
+    const values = [name, email, phone, address, await blob.arrayBuffer(), hash, "salt", 1];
     //console.log(values);
 
     try {

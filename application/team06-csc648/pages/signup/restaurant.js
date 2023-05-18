@@ -182,7 +182,6 @@ export default function Home() {
                 phone: phone,
                 address: address,
                 logo: logo,
-                type: logo.type,
                 password: password,
 
                 dishNames: dishNames,
@@ -191,7 +190,7 @@ export default function Home() {
                 dishPrices: dishPrices
                 });
 
-                setSignupMessage("Your restaurant application has been sent");
+                setSignupMessage("Your restaurant application has been sent. Please wait up to 24 hours for it to be approved.");
             } catch (error) {
                 console.log(error);
                 setSignupMessage("An error occurred while creating your account");
