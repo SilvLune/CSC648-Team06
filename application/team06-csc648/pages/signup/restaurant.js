@@ -176,6 +176,17 @@ export default function Home() {
         //console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validAddress, validLogo)
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validAddress == true) && (validLogo == true)){
+            for (let i = 0; i < dishNames.length; i++) {
+                if(((dishNames[i] == undefined) || (dishPrices[i] == undefined)) && ((dishDescriptions[i] != undefined) || (dishPictures[i] != undefined) || (dishNames[i] != undefined) || (dishPrices[i] != undefined))){
+                    setSignupMessage("Dish items need a name and a price or else leave all fields empty");
+                    return
+                }
+                if(dishPicSizes[i] > 65535){
+                    setSignupMessage("Dish pictures cannot be larger than 64kB");
+                    return
+                }
+            }
+            let id
             try {
                 const res = await axios.post('/api/restaurant-application', {
                 name: name,
@@ -185,18 +196,30 @@ export default function Home() {
                 logo: logo,
                 logoSize: logo.length,
                 password: password,
-
-                dishNames: dishNames,
-                dishDescriptions: dishDescriptions,
-                dishPictures: dishPictures,
-                dishPicSizes: dishPicSizes,
-                dishPrices: dishPrices
                 });
+
+                id = res.data.id
 
                 setSignupMessage("Your restaurant application has been sent. Please wait up to 24 hours for it to be approved.");
             } catch (error) {
                 console.log(error);
                 setSignupMessage("An error occurred while creating your account");
+            }
+
+            try{
+                for (let i = 0; i < dishNames.length; i++) {
+                    const res2 = await axios.post('/api/add-dish', {
+                        name: dishNames[i],
+                        price: dishPrices[i],
+                        description: dishDescriptions[i],
+                        picture: dishPictures[i],
+                        pictureSize: dishPicSizes[i],
+                        restaurant_id: id,
+                        });
+                }
+            } catch (error){
+                console.log(error);
+                setSignupMessage("Your restaurant application has been sent but an error occurred while creating the menu");
             }
         } else{
             validateEmail();

@@ -169,7 +169,15 @@ export default function Home() {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
             // Handle sign up
-            
+            if(license.length > 65535){
+                setSignupMessage("License picture cannot be larger than 64kB");
+                return
+            }
+            if(insurance.length > 65535){
+                setSignupMessage("Insurance picture cannot be larger than 64kB");
+                return
+            }
+
             try {
                 const res = await axios.post('/api/drivers', {
                     name: name,
