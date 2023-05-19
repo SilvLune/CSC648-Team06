@@ -9,6 +9,7 @@
 // establish connection to database
 
 import {createPool} from 'mysql2/promise'
+import passwordUtils from '../utils/passwordUtils'
 
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
@@ -26,8 +27,9 @@ export default async function handler(req, res) {
     const { name, email, password, phone, license, insurance, licenseSize, insuranceSize } = req.body;
     const sql = "INSERT INTO Driver (full_name, email, phone, hash, salt, driver_license, insurance) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    const hash = await bcrypt.hash(password, salt);
+    const saltHash = passwordUtils.genPassword(password)
+    const salt = saltHash.salt
+    const hash = saltHash.hash
 
     let tempLicenseArr = []
     for(let i = 0; i < licenseSize; i++){
@@ -43,7 +45,7 @@ export default async function handler(req, res) {
 
     let insuranceArr = new Uint8Array(tempInsuranceArr)
     
-    const values = [name, email, phone, hash, 'salt', licenseArr, insuranceArr];
+    const values = [name, email, phone, hash, salt, licenseArr, insuranceArr];
 
 
     try {

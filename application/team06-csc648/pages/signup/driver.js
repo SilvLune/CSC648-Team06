@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
 import axios from "axios";
+import passwordUtil from '../utils/passwordUtils'
 
 export default function Home() {
     const [name, setName] = useState('');

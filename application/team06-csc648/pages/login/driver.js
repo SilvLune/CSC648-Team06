@@ -2,6 +2,8 @@ import {useState, useRef} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
+import passwordUtils from '../utils/passwordUtils'
+import axios from "axios";
 
 export default function DriverLogin() {
     const [email, setEmail] = useState('');
@@ -43,9 +45,21 @@ export default function DriverLogin() {
         }
     }
 
-    const login = () => {
+    const login = async () => {
         if((validEmail == true) && (validPassword == true)){
             // Handle login
+            try{
+                const response = await axios.get(`/api/drivers_get_email?email=${email}`)
+                const user = response.data[0]
+                const valid = passwordUtils.validPassword(password, user.hash, user.salt)
+                if(valid){
+                    const response2 = await axios.get(`/api/drivers_login?driver_id=${user.driver_id}?email=${email}`)
+                    console.log(response2)
+                    //reroute the user NOT DONE
+                }
+            }catch(err){
+                console.log(err)
+            }
         } else{
             validateEmail();
             validatePassword();
