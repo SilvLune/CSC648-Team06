@@ -1,6 +1,6 @@
 import pool from './pool'
 
-export default async function getRestaurant(req, res){
+export default async function getDriver(req, res){
     console.log("*getDriver*")
     if(req.method === 'GET'){
         const {email} = req.query
