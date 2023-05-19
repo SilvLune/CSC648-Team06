@@ -181,6 +181,10 @@ export default function Home() {
                     setSignupMessage("Dish items need a name and a price or else leave all fields empty");
                     return
                 }
+                if(dishPicSizes[i] > 65535){
+                    setSignupMessage("Dish pictures cannot be larger than 64kB");
+                    return
+                }
             }
             let id
             try {
@@ -204,7 +208,6 @@ export default function Home() {
 
             try{
                 for (let i = 0; i < dishNames.length; i++) {
-                    console.log(id)
                     const res2 = await axios.post('/api/add-dish', {
                         name: dishNames[i],
                         price: dishPrices[i],

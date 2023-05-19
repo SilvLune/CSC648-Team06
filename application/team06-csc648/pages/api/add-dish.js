@@ -3,7 +3,7 @@ import {createPool} from 'mysql2/promise'
 export const config = {
     api: {
         bodyParser: {
-            sizeLimit: '10mb'
+            sizeLimit: '2mb'
         }
     }
 }
@@ -29,9 +29,6 @@ export default async function handler(req, res){
         let picArr = new Uint8Array(tempPicArr)
 
         const values = [name, price, description, picArr, restaurant_id];
-
-        console.log(picArr)
-        console.log(pictureSize)
 
         try{
             const [result] = await pool.execute(sql, values)

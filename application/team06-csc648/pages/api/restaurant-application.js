@@ -14,7 +14,7 @@ const SALT_ROUNDS = 10;
 export const config = {
   api: {
       bodyParser: {
-          sizeLimit: '10mb'
+          sizeLimit: '2mb'
       }
   }
 }
@@ -27,7 +27,7 @@ const pool = createPool({
   connectionLimit: 10
 })
 
-export default async function upload(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { name, email, phone, address, logo, logoSize, password, dishNames, dishDescriptions, dishPictures, dishPicSizes, dishPrices} = req.body;
     const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, salt, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
