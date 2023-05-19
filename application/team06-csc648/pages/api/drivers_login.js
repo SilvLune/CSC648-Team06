@@ -4,7 +4,7 @@ export default withIronSession(
     async function loginRoute(req, res){
         console.log("*session storing*")
         const{driver_id, email} = req.query
-        req.session.set('user', {driver_id: driver_id, email: email})
+        req.session.set('driver', {driver_id: driver_id, email: email})
         try{
             await req.session.save()
             res.status(200).json({isLoggedIn: true})

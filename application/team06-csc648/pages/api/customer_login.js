@@ -4,9 +4,10 @@ export default withIronSession(
     async function loginRoute(req, res){
         console.log("*session storing*")
         const{customer_id, email} = req.query
-        req.session.set('user', {customer_id: customer_id, email: email})
+        req.session.set('customer', {customer_id: customer_id, email: email})
         try{
             await req.session.save()
+            console.log("req session: " + JSON.stringify(req.session))
             res.status(200).json({isLoggedIn: true})
         }catch(error){
             res.status(500).json({message: 'Error saving session'})
