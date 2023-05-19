@@ -20,20 +20,20 @@ const pool = createPool({
 export default async function handler(req, res){
     if(req.method === 'GET'){
         const {search, category} = req.query
-        let sql = 'SELECT * FROM Restaurant'
+        let sql = 'SELECT * FROM Restaurant WHERE registration_status = 1'
         let values = []
         if(search !== 'none'){
-            sql += ' WHERE name Like ?'
+            sql += ' AND name Like ?'
             values.push(`%${search}%`)
+
         }
         if(category && category != 0){
             if(values.length > 0){
                 sql += ' AND category_id = ?'
-            }else{
-                sql += ' WHERE category_id = ?'
             }
             values.push(category)
         }
+
         try{
             const [rows] = await pool.execute(sql, values)
             res.status(200).json(rows)
