@@ -148,27 +148,34 @@ export default function RestaurantDetails() {
 
     let date = new Date()
     
-    const res = await axios.post('/api/send-order', {
-      restaurant_id: restaurant[0].restaurant_id,
-      customer_id: 1, // PLACEHOLDER - CHANGE LATER 
-      driver_id: 3000, // MAY NEED TO ADD ENTRY TO DATABASE 
-      status: 0,
-      total: total,
-      delivery_fee: 10.00,
-      order_date_time: date.toLocaleString(),
-    });
+    try{
+      const res = await axios.post('/api/send-order', {
+        restaurant_id: restaurant[0].restaurant_id,
+        customer_id: 1, // PLACEHOLDER - CHANGE LATER 
+        driver_id: 3000, // MAY NEED TO ADD ENTRY TO DATABASE 
+        status: 0,
+        total: total,
+        delivery_fee: 10.00,
+        order_date_time: date.toLocaleString(),
+      });
 
-    let order_id = res.data.id
+      let order_id = res.data.id
 
-    for(let i = 0; i < menu.length; i++){
-      if((cartInfo[i].inCart == true) && (cartInfo[i].quantity > 0)){
-        const res2 = await axios.post('/api/send-order-dish', {
-          order_id: order_id,
-          dish_id: cartInfo[i].id,
-          quantity: cartInfo[i].quantity,
-          });
+      for(let i = 0; i < menu.length; i++){
+        if((cartInfo[i].inCart == true) && (cartInfo[i].quantity > 0)){
+          const res2 = await axios.post('/api/send-order-dish', {
+            order_id: order_id,
+            dish_id: cartInfo[i].id,
+            quantity: cartInfo[i].quantity,
+            });
+        }
       }
+    }catch(error) {
+      console.log(error.response.data);
+      setMessage("An error occurred sending your order");
     }
+
+    window.location.href = "/";
   }
 
   return (
