@@ -43,9 +43,21 @@ export default function RestaurantLogin() {
         }
     }
 
-    const login = () => {
+    const login = async () => {
         if((validEmail == true) && (validPassword == true)){
             // Handle login
+            try{
+                const response = await axios.get(`/api/restaurant_get_email?email=${email}`)
+                const user = response.data[0]
+                const valid = passwordUtils.validPassword(password, user.hash, user.salt)
+                if(valid){
+                    const response2 = await axios.get(`/api/restaurant_login?restaurant_id=${user.restaurant_id}`)
+                    console.log(response2)
+                    //rerout the user NOT DONE
+                }
+            }catch(err){
+                console.log(err)
+            }
         } else{
             validateEmail();
             validatePassword();

@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
 import axios from "axios";
+import passwordUtil from '../utils/passwordUtils'
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -168,6 +169,7 @@ export default function Home() {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
             // Handle sign up
+            
             try {
                 const res = await axios.post('/api/drivers', {
                     name: name,

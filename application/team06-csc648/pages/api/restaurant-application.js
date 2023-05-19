@@ -7,9 +7,7 @@
  */
 
 import {createPool} from 'mysql2/promise'
-
-const bcrypt = require('bcrypt');
-const SALT_ROUNDS = 10;
+import passwordUtil from '../utils/passwordUtils'
 
 const pool = createPool({
   host: "gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com",
@@ -26,8 +24,10 @@ export default async function upload(req, res) {
 
     //console.log(name, email, phone, address, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices);
 
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    const hash = await bcrypt.hash(password, salt);
+    const saltHash = passwordUtil.genPassword(password)
+    const salt = saltHash.salt
+    const hash = saltHash.hash
+
     
     //console.log(logo)
     let tempLogoArr = []
@@ -37,7 +37,7 @@ export default async function upload(req, res) {
 
     let logoArr = new Uint8Array(tempLogoArr)
 
-    const values = [name, email, phone, address, logoArr, hash, "salt", 1];
+    const values = [name, email, phone, address, logoArr, hash, salt, 1];
     //console.log(values);
 
     try {

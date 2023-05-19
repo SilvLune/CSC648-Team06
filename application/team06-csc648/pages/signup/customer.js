@@ -9,6 +9,7 @@
 import {useState, useRef} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import passwordUtils from '../utils/passwordUtils'
 import axios from 'axios';
 
 export default function Home() {
@@ -124,28 +125,34 @@ export default function Home() {
     const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
-
-          /* create POST request to customer API endpoint */
-
             // Handle sign up
+            const saltHash = passwordUtils.genPassword(password)
+            const salt = saltHash.salt
+            const hash = saltHash.hash
 
-          e.preventDefault();
-          try {
-            const res = await axios.post('/api/customers', {
-              name: name,
-              email: email,
-
-              phone: phone,
-              password: password
-
-       
-
-            });
-            setSignupMessage("Your account has been successfully created");
-          } catch (error) {
-            console.log(error.response.data);
-            setSignupMessage("An error occurred while creating your account");
-          }
+            e.preventDefault();
+            try {
+                console.log('*signup* full_name: ' + name)
+                console.log('*signup* email: ' + email)
+                console.log('*signup* phone: ' + phone)
+                console.log('*signup* hash: ' + hash)
+                console.log('*signup* salt: ' + salt)
+                await axios.post('/api/customers_insert',{},{params:{
+                    name,
+                    email,
+                    phone,
+                    hash,
+                    salt,
+                }})
+                .then(response =>{
+                    console.log(response.data)
+                    setSignupMessage("Your account has been successfully created");
+                    //Reroute user NOT DONE
+                })
+            } catch (error) {
+                console.log(error.response.data);
+                setSignupMessage("An error occurred while creating your account");
+            }
             
         } else{
             validateEmail();
