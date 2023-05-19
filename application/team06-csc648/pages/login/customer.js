@@ -3,6 +3,7 @@ import Link from 'next/link';
 import NavBar from '../components/navBar';
 import passwordUtil from '../utils/passwordUtils'
 import styles from '@/styles/Login.module.css'
+import axios from "axios";
 
 export default function CustomerLogin() {
     const [email, setEmail] = useState('');
@@ -43,6 +44,14 @@ export default function CustomerLogin() {
             setValidPassword(true);
         }
     }
+    const testSession = async() =>{
+        try{
+            const response = await axios.get(`/api/test_sessions`)
+            console.log("test session response: " + JSON.stringify(response))
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     const login = async () => {
         if((validEmail == true) && (validPassword == true)){
@@ -50,11 +59,12 @@ export default function CustomerLogin() {
             try{
                 const response = await axios.get(`/api/customers_get_email?email=${email}`)
                 const user = response.data[0]
+                console.log("user: " + JSON.stringify(user))
                 const valid = passwordUtil.validPassword(password, user.hash, user.salt)
                 if(valid){
                     try{
-                        const response = await axios.get(`/api/customer_login?customer_id=${user.customer_id}?email=${user.email}`)
-                        console.log(response)
+                        const response = await axios.get(`/api/customer_login?customer_id=${user.customer_id}&email=${user.email}`)
+                        console.log("login response: "+JSON.stringify(response))
                         //reroute the user NOT DONE
                     }catch(error){
                         console.log(error)
@@ -100,6 +110,9 @@ export default function CustomerLogin() {
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
                     <button className={styles.signInUpButton} onClick={login}>Login</button>
+                </div>
+                <div>
+                    <button onClick={testSession}>Test Session</button>
                 </div>
                 <div>
                     <p>don't have an account?</p>

@@ -229,7 +229,7 @@ export default function Home() {
                     value={agreement}
                     onClick={agree}
                     required/>
-                    <label for="agreement">I agree to the terms and services</label>
+                    <label>I agree to the terms and services</label>
                     <div id={styles.agreementMessage} ref={agreementMessage}>Please agree to the terms and services</div>
                 </div>
                 <div>

@@ -53,7 +53,7 @@ export default function DriverLogin() {
                 const user = response.data[0]
                 const valid = passwordUtils.validPassword(password, user.hash, user.salt)
                 if(valid){
-                    const response2 = await axios.get(`/api/drivers_login?driver_id=${user.driver_id}?email=${email}`)
+                    const response2 = await axios.get(`/api/drivers_login?driver_id=${user.driver_id}&email=${email}`)
                     console.log(response2)
                     //reroute the user NOT DONE
                 }
