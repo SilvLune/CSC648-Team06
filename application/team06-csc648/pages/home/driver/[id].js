@@ -23,6 +23,32 @@ export default function Restaurant() {
   
   const{id} = router.query
 
+  useEffect(() => {
+    async function getSession(){
+      try{
+        let tempSession = await axios.get(`/api/get-user`)
+        if(tempSession.data.user == undefined){
+          window.location.href = `/`;
+          return
+        }
+        //console.log(JSON.stringify(tempSession))
+  
+        if(tempSession.data.user.customer_id != undefined){
+            window.location.href = `/`;
+            return
+        }
+        if(tempSession.data.user.restaurant_id != undefined){
+          window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+          return
+        }
+      }catch(err){
+          console.log(err)
+      }
+    }
+    
+    getSession()
+}, [])
+
   const {isLoaded} = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: api_key

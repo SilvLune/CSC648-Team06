@@ -6,10 +6,12 @@ import Styles from '../styles/Home.module.css'
 import Alexander from "@/pages/about/alexander";
 import Jack from './about/jack';
 import Ryan from './about/ryan';
+import NavBar from './components/navBar';
 
 export default function About(){
     return (
         <div className={Styles.main}>
+            <NavBar/>
             <Link className={Styles.title} href='/'>Home</Link>
             <p classname={Styles.description}>Software Engineering class SFSU</p>
             <p classname={Styles.description}>Spring, 2023</p>

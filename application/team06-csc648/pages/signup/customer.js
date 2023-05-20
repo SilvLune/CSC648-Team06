@@ -6,7 +6,7 @@
  * Description: customer registration page
  */
 
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
 import passwordUtils from '../utils/passwordUtils'
@@ -39,6 +39,35 @@ export default function Home() {
     const nameMessage = useRef();
     const phoneMessage = useRef();
     const agreementMessage = useRef();
+
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateName = () =>{
         nameMessage.current.style.display = 'none';

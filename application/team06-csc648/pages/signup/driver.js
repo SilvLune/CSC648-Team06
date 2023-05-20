@@ -38,6 +38,35 @@ export default function Home() {
     const licenseMessage = useRef();
     const insuranceMessage = useRef();
 
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
+
     const validateName = () =>{
         nameMessage.current.style.display = 'none';
         nameInput.current.style.border ='black 1px solid';

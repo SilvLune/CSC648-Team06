@@ -1,18 +1,38 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import searchStyles from '@/styles/Search.module.css'
 import Link from 'next/link';
 import NavBar from './components/navBar';
 import React from 'react'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import RestaurantList from '../pages/components/RestaurantList'
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState([])
+
+  useEffect(() => {
+    async function getSession(){
+      try{
+        let tempSession = await axios.get(`/api/get-user`)
+        if(tempSession.data.user == undefined){
+          return
+        }
+        //console.log(JSON.stringify(tempSession))
+  
+        if(tempSession.data.user.restaurant_id != undefined){
+          window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+          return
+        }
+        if(tempSession.data.user.driver_id != undefined){
+          window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+          return
+        }
+      }catch(err){
+          console.log(err)
+      }
+    }
+    
+    getSession()
+}, [])
 
   useEffect(() => {
     async function getRestaurants(){

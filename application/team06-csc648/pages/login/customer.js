@@ -1,9 +1,10 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
 import passwordUtil from '../utils/passwordUtils'
 import styles from '@/styles/Login.module.css'
 import axios from "axios";
+import {useRouter} from 'next/router'
 
 export default function CustomerLogin() {
     const [email, setEmail] = useState('');
@@ -14,6 +15,36 @@ export default function CustomerLogin() {
     const emailMessage = useRef();
     const passwordInput = useRef();
     const passwordMessage = useRef();
+    const router = useRouter()
+
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateEmail = () =>{
         emailMessage.current.style.display = 'none';
@@ -65,7 +96,7 @@ export default function CustomerLogin() {
                     try{
                         const response = await axios.get(`/api/customer_login?customer_id=${user.customer_id}&email=${user.email}`)
                         console.log("login response: "+JSON.stringify(response))
-                        //reroute the user NOT DONE
+                        router.push(`/`)
                     }catch(error){
                         console.log(error)
                     }
@@ -115,7 +146,7 @@ export default function CustomerLogin() {
                     <button onClick={testSession}>Test Session</button>
                 </div>
                 <div>
-                    <p>don't have an account?</p>
+                    <p>Don't have an account?</p>
                     <Link href='../../signup/customer'><button className={styles.signInUpButton}>Sign up</button></Link>
                 </div>
             </div>

@@ -8,6 +8,32 @@ export default function RestaurantSearchList(){
     const[rest, setRestaurants] = useState([])
     const router = useRouter()
     const{query, category} = router.query
+
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+            
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
+
     useEffect(()=>{
         async function fetchRestaurants(){
             const response = await axios.get(`/api/restaurants?search=${query}&category=${category}`)

@@ -6,6 +6,8 @@ import axios from 'axios';
 
 const NavBar = () => {
   const [isCustomer, setIsCustomer] = useState(false);
+  const [isRestaurant, setIsRestaurant] = useState(false);
+  const [isDriver, setIsDriver] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [orderNum, setOrderNum] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -87,6 +89,12 @@ const NavBar = () => {
           setIsCustomer(true)
           //console.log("customer?" + isCustomer)
         }
+        if(tempSession.data.user.driver_id != undefined){
+          setIsDriver(true)
+        }
+        if(tempSession.data.user.restaurant_id != undefined){
+          setIsRestaurant(true)
+        }
         if(tempSession.data.user != undefined){
           setIsLoggedIn(true)
           //console.log("logged in?" + isLoggedIn)
@@ -101,10 +109,14 @@ const NavBar = () => {
   
   return(
       <div className={styles.navBar}key="key1">
-        <Link className={styles.logo} href='/'><h1>Gateway</h1></Link>
+        <div>
+          {(!isLoggedIn || isCustomer) && <Link className={styles.logo} href='/'><h1>Gateway</h1></Link>}
+          {(isDriver) && <Link className={styles.logo} href={`/home/driver/${session.data.user.driver_id}`}><h1>Gateway</h1></Link>}
+          {(isRestaurant) && <Link className={styles.logo} href={`/home/restaurant/${session.data.user.restaurant_id}`}><h1>Gateway</h1></Link>}
+        </div>
         <div className={styles.center}>
           <p className={styles.title}>CSC648/848 Spring 2023 Team06</p>
-          <SearchBar/>
+          {(!isLoggedIn || isCustomer) && <SearchBar/>}
         </div>
         {isLoggedIn ? <div>
             {isCustomer && <div>

@@ -1,9 +1,10 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
 import passwordUtils from '../utils/passwordUtils'
 import axios from "axios";
+import {useRouter} from 'next/router'
 
 export default function DriverLogin() {
     const [email, setEmail] = useState('');
@@ -14,6 +15,36 @@ export default function DriverLogin() {
     const emailMessage = useRef();
     const passwordInput = useRef();
     const passwordMessage = useRef();
+    const router = useRouter()
+    
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateEmail = () =>{
         emailMessage.current.style.display = 'none';
@@ -55,7 +86,7 @@ export default function DriverLogin() {
                 if(valid){
                     const response2 = await axios.get(`/api/drivers_login?driver_id=${user.driver_id}&email=${email}`)
                     console.log(response2)
-                    //reroute the user NOT DONE
+                    router.push(`/home/driver/${user.driver_id}`)
                 }
             }catch(err){
                 console.log(err)
