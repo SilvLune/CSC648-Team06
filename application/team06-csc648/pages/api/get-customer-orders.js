@@ -10,9 +10,10 @@ const pool = createPool({
 
 
 export default async function handler(req, res){
-    if(req.method === 'GET'){
-        let sql = 'SELECT * FROM `Order` LEFT JOIN Restaurant ON Order.order_id = Restaurant.restaurant_id'
-        let values = []
+    if(req.method === 'POST'){
+        const {customer_id} = req.query
+        let sql = 'SELECT * FROM `Order` LEFT JOIN Restaurant ON `Order`.restaurant_id = Restaurant.restaurant_id WHERE customer_id = ?;'
+        let values = [customer_id]
 
         try{
             const [rows] = await pool.execute(sql, values)

@@ -1,5 +1,5 @@
 import{useRouter} from 'next/router'
-import {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect} from 'react'
 import axios from 'axios'
 import NavBar from '../components/navBar'
 import styles from '@/styles/Restaurant.module.css'
@@ -23,6 +23,7 @@ export default function RestaurantDetails() {
   const{id} = router.query
   const [cartInfo, setCartInfo] = useState([])
   const [message, setMessage] = useState('');
+  const [session, setSession] = useState(undefined);
 
   const {isLoaded} = useJsApiLoader({
     id: 'google-map-script',
@@ -54,6 +55,32 @@ export default function RestaurantDetails() {
   }
 
   useEffect(() => {
+    async function getSession(){
+      try{
+        let tempSession = await axios.get(`/api/get-user`)
+        if(tempSession.data.user == undefined){
+          return
+        }
+        //console.log(JSON.stringify(tempSession))
+        setSession(tempSession)
+  
+        if(tempSession.data.user.restaurant_id != undefined){
+          window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+          return
+        }
+        if(tempSession.data.user.driver_id != undefined){
+          window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+          return
+        }
+      }catch(err){
+          console.log(err)
+      }
+    }
+    
+    getSession()
+  }, [])
+
+  useEffect(() => {
     setShowMap(false)
     async function getRestaurant(){
       const response = await axios.get(`/api/restaurant-info?id=${id}`)
@@ -61,7 +88,7 @@ export default function RestaurantDetails() {
         setRestaurant(response.data)
       }
     }
-    console.log("hi")
+    
     getRestaurant()
   }, [id, restaurant])
 
@@ -70,6 +97,7 @@ export default function RestaurantDetails() {
       const response = await axios.get(`/api/restaurant-menu?id=${id}`)
       setMenu(response.data)
     }
+
     getMenu()
   }, [restaurant])
 
@@ -129,6 +157,11 @@ export default function RestaurantDetails() {
   }
 
   const sendOrder = async () => {
+    if(session == undefined){
+      window.location.href = "/signup/customer";
+      return
+    }
+
     let orderExists = false
     for(let i = 0; i < menu.length; i++){
       if((cartInfo[i].inCart == true) && (cartInfo[i].quantity > 0)){
@@ -145,17 +178,18 @@ export default function RestaurantDetails() {
     for(let i = 0; i < menu.length; i++){
       total += (menu[i].price * cartInfo[i].quantity)
     }
+    let fee = (Math.round(total * 10) / 100.00)
 
     let date = new Date()
     
     try{
       const res = await axios.post('/api/send-order', {
         restaurant_id: restaurant[0].restaurant_id,
-        customer_id: 1, // PLACEHOLDER - CHANGE LATER 
-        driver_id: 3000, // MAY NEED TO ADD ENTRY TO DATABASE 
+        customer_id: session.data.user.customer_id,
+        driver_id: 3000, 
         status: 0,
         total: total,
-        delivery_fee: 10.00,
+        delivery_fee: fee,
         order_date_time: date.toLocaleString(),
       });
 

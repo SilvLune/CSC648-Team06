@@ -61,7 +61,7 @@ export default function Restaurant() {
 
   useEffect(() => {
     async function getOrders(){
-      const response = await axios.get(`/api/orders`)
+      const response = await axios.get(`/api/get-driver-orders`)
       setOrders(response.data)
     }
     getOrders()

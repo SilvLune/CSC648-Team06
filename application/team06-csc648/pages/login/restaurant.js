@@ -2,6 +2,8 @@ import {useState, useRef} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
+import axios from 'axios'
+import passwordUtils from '../utils/passwordUtils'
 
 export default function RestaurantLogin() {
     const [email, setEmail] = useState('');
@@ -51,9 +53,13 @@ export default function RestaurantLogin() {
                 const user = response.data[0]
                 const valid = passwordUtils.validPassword(password, user.hash, user.salt)
                 if(valid){
-                    const response2 = await axios.get(`/api/restaurant_login?restaurant_id=${user.restaurant_id}`)
-                    console.log(response2)
-                    //rerout the user NOT DONE
+                    try{
+                        const response2 = await axios.get(`/api/restaurant_login?restaurant_id=${user.restaurant_id}`)
+                        console.log(response2)
+                        //rerout the user NOT DONE
+                    }catch(error){
+                        console.log(error)
+                    }
                 }
             }catch(err){
                 console.log(err)

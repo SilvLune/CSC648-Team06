@@ -97,7 +97,7 @@ export default function DriverLogin() {
                     <button className={styles.signInUpButton} onClick={login}>Login</button>
                 </div>
                 <div>
-                    <p>don't have an account?</p>
+                    <p>Don't have an account?</p>
                     <Link href='../../signup/driver'><button className={styles.signInUpButton}>Sign up</button></Link>
                 </div>
             </div>

@@ -50,18 +50,7 @@
     margin-right: auto;
 }
 
-.buttons{
-    display: grid;
-    grid-template-rows: auto auto;
-    justify-content: center;
-    align-content: space-evenly;
-}
-
 .links{
-    display: grid;
-    grid-template-rows: auto auto auto;
-    justify-content: center;
-    align-content: space-evenly;
     color: #0000FF;
     text-decoration: underline;
 }
@@ -106,6 +95,37 @@
 
 .dropdown li:hover {
     background-color: #f0f0f0;
+}
+
+.logout{
+    text-decoration: none;
+}
+
+.allOrders{
+    background-color: white;
+    width: 30%;
+    left: 70%;
+    position: absolute;
+}
+
+.customer_order{
+    border: solid black 1px;
+}
+
+.customer_order_restaurant{
+    text-decoration: underline;
+}
+
+.customer_orderDish_name{
+    margin-left: 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customer_orderDishes{
+    display: grid;
+    grid-template-columns: 50% 30% 20%;
 }
 
 

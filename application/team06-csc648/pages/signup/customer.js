@@ -106,8 +106,6 @@ export default function Home() {
         setValidPassword2(false);
 
         if (password != password2){
-            password2Input.current.style.border ='red 2px solid';
-            password2Message.current.style.display = 'block';
         } else{
             setValidPassword2(true);
         }
@@ -160,6 +158,12 @@ export default function Home() {
             validatePassword2();
             validateName();
             validatePhone();
+            if (password != password2){
+                password2Input.current.style.border ='red 2px solid';
+                password2Message.current.style.display = 'block';
+            } else{
+                setValidPassword2(true);
+            }
 
             if(agreement == false){
                 agreementMessage.current.style.display = 'block';
@@ -219,6 +223,7 @@ export default function Home() {
                         type="password" placeholder='Confirm password'
                         value={password2} 
                         onChange={e => setPassword2(e.target.value)}
+                        onBlur={validatePassword2}
                         ref={password2Input}
                         required/>
                     <div id={styles.password2Message} ref={password2Message}>Confirm your password by entering it again</div>
@@ -234,9 +239,6 @@ export default function Home() {
                 </div>
                 <div>
                     <button className={styles.button} onClick={signup}>Sign up</button>
-                </div>
-                <div>
-                  {signupMessage}
                 </div>
                 <div>
                   {signupMessage}
