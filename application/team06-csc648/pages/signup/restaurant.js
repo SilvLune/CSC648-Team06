@@ -313,6 +313,8 @@ export default function Home() {
 
     const dishPicToBlob = async (e, dishId) => {
         if(e.target.files[0] == undefined){
+            setDishPicSizes((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = 0; return newArr})
+            setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = undefined; return newArr})
             return;
         }
         let file = e.target.files[0];

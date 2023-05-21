@@ -8,12 +8,11 @@ const pool = createPool({
     connectionLimit: 10
 })
 
-
 export default async function handler(req, res){
-    if(req.method === 'GET'){
-        const {driver_id} = req.query
-        let sql = 'SELECT *, Restaurant.address AS restaurant_address, `Order`.address AS order_address FROM `Order` LEFT JOIN Restaurant ON Order.restaurant_id = Restaurant.restaurant_id WHERE driver_id = ?'
-        let values = [driver_id]
+    if(req.method === 'POST'){
+        const {driver_id, order_id} = req.query
+        let sql = 'UPDATE `Order` SET driver_id = ? WHERE order_id = ?;'
+        let values = [driver_id, order_id]
 
         try{
             const [rows] = await pool.execute(sql, values)

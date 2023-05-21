@@ -8,18 +8,23 @@ import Geocode from "react-geocode";
 
 const api_key = 'AIzaSyDXZy1wPNmoinJbzlCWnOBLqehpwXXGkPw';
 const center = {lat:37.724286006635296,lng:-122.48000341090525};
-const containerStyle = {width:'100vh', height:'100vh'};
+const containerStyle = {width:'50vh', height:'50vh'};
 
 Geocode.setApiKey(api_key);
 Geocode.setLocationType("ROOFTOP");
 
 export default function Restaurant() {
   const router = useRouter()
-  const [orders, setOrders] = useState([])
+  const [takenOrders, setTakenOrders] = useState([])
+  const [availableOrders, setAvailableOrders] = useState([])
   const [orderShown, setOrderShown] = useState(null)
   const [map, setMap] = useState(null)
   const [coordinates, setCoordinates] = useState("")
-  const [address, setAddress] = useState("")
+  const [restaurantAddress, setRestaurantAddress] = useState("")
+  const [availableOrderNum, setAvailableOrderNum] = useState([]);
+  const [availableOrderDishes, setAvailableOrderDishes] = useState([]);
+  const [takenOrderNum, setTakenOrderNum] = useState([]);
+  const [takenOrderDishes, setTakenOrderDishes] = useState([]);
   
   const{id} = router.query
 
@@ -47,22 +52,44 @@ export default function Restaurant() {
     }
     
     getSession()
-}, [])
+  }, [])
 
   const {isLoaded} = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: api_key
   })
 
-  const ShowOrder = (order_id, order_address) => {
+  const ShowOrder = (order_id, restaurant_address) => {
     console.log(order_id)
-    console.log(order_address)
+    console.log(restaurant_address)
     setOrderShown(order_id)
-    setAddress(order_address)
+    setRestaurantAddress(restaurant_address)
+  }
+
+  const acceptOrder = async(order_id) => {
+    try{
+      const response = await axios.post(`/api/order-accept?order_id=${order_id}&driver_id=${id}`)
+      window.location.href = `/home/driver/${id}`;
+    } catch(error){
+      console.log(error)
+    }
+  }
+
+  const completeOrder = async(order_id) => {
+    try{
+      const response = await axios.post(`/api/orderDish-complete?order_id=${order_id}`)
+      const response2 = await axios.post(`/api/order-complete?order_id=${order_id}`)
+      window.location.href = `/home/driver/${id}`;
+    } catch(error){
+      console.log(error)
+    }
   }
 
   useEffect(() => {
-    Geocode.fromAddress(address).then(
+    if(orderShown == null){
+      return
+    }
+    Geocode.fromAddress(restaurantAddress).then(
       (response) => {
         setCoordinates(response.results[0].geometry.location);
       },
@@ -86,14 +113,62 @@ export default function Restaurant() {
   }, [coordinates])
 
   useEffect(() => {
-    async function getOrders(){
-      const response = await axios.get(`/api/get-driver-orders`)
-      setOrders(response.data)
+    async function getTakenOrders(){
+      const response = await axios.get(`/api/get-driver-orders?driver_id=${id}`)
+      if(takenOrders.length == 0){
+        setTakenOrders(response.data)
+      }
     }
-    getOrders()
-  }, [orders])
 
-  if(orders.length == 0){
+    getTakenOrders()
+  }, [takenOrders])
+
+  useEffect(() => {
+    async function getOrderDishes(i, id){
+      const response = await axios.post(`/api/get-customer-orderDish?order_id=${id}`)
+      setTakenOrderDishes((prevArray) => {const newArr = [...prevArray]; newArr[i] = response.data; return newArr})
+    }
+
+    for(let i = 0; i < takenOrders.length; i++){
+      getOrderDishes(i, takenOrders[i].order_id)
+    }
+  }, [takenOrders])
+
+  useEffect(() => {
+    for(let i = 0; i < takenOrders.length; i++){
+      setTakenOrderNum((prevArray) => {const newArr = [...prevArray]; newArr[i] = i; return newArr})
+    }
+  }, [takenOrderDishes])
+
+  useEffect(() => {
+    async function getAvailableOrders(){
+      const response = await axios.get(`/api/get-driver-orders?driver_id=3000`)
+      if(availableOrders.length == 0){
+        setAvailableOrders(response.data)
+      }
+    }
+
+    getAvailableOrders()
+  }, [availableOrders])
+  
+  useEffect(() => {
+    async function getOrderDishes(i, id){
+      const response = await axios.post(`/api/get-customer-orderDish?order_id=${id}`)
+      setAvailableOrderDishes((prevArray) => {const newArr = [...prevArray]; newArr[i] = response.data; return newArr})
+    }
+
+    for(let i = 0; i < availableOrders.length; i++){
+      getOrderDishes(i, availableOrders[i].order_id)
+    }
+  }, [availableOrders])
+
+  useEffect(() => {
+    for(let i = 0; i < availableOrders.length; i++){
+      setAvailableOrderNum((prevArray) => {const newArr = [...prevArray]; newArr[i] = i; return newArr})
+    }
+  }, [availableOrderDishes])
+
+  if((takenOrders.length == 0) && (availableOrders.length == 0)){
     return(
         <div>
           <NavBar/>
@@ -105,14 +180,50 @@ export default function Restaurant() {
       <div key="key1">
         <NavBar/>
         <div>
-            {orders.map((order) => (
-                      <div key={"order" + order.order_id} className={styles.order} onClick={() => ShowOrder(order.order_id, order.address)}>
-                          <h1>{"Order " + order.order_id}</h1>
-                          <h1>{order.name}</h1>
-                          {(orderShown == order.order_id) && <div>
-                            {{isLoaded} && map}
-                          </div>}
-                      </div>))}
+          <h1 className={styles.header}>Taken orders</h1>
+            {takenOrders.map((order) => (
+              <div key={"order" + order.order_id} className={styles.order} onClick={() => ShowOrder(order.order_id, order.restaurant_address)}>
+              <h1>{"Order " + order.order_id}</h1>
+              <h1>{order.name}</h1>
+              {(orderShown == order.order_id) && <div>
+                {{isLoaded} && map}
+                {takenOrderNum.map((index) => (
+                  <div key={"taken" + index}>
+                    {(takenOrderDishes[index] != undefined) && takenOrderDishes[index].map((dish) => (
+                      <div key={"order" + index + "dish" + dish.dish_id}>
+                        {(dish.order_id == order.order_id) && <p>{dish.name} - Quantity: {dish.quantity}</p>}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              <br></br>
+              <p>Restaurant Address: {order.restaurant_address}</p>
+              <p>Campus Delivery Address: {order.order_address}</p>
+              <button onClick={e => {completeOrder(order.order_id)}}>Complete order</button>
+                </div>}
+              </div>))}
+          <h1 className={styles.header}>Available orders</h1>
+            {availableOrders.map((order) => (
+              <div key={"order" + order.order_id} className={styles.order} onClick={() => ShowOrder(order.order_id, order.restaurant_address)}>
+                  <h1>{"Order " + order.order_id}</h1>
+                  <h1>{order.name}</h1>
+                  {(orderShown == order.order_id) && <div>
+                    {{isLoaded} && map}
+                    {availableOrderNum.map((index) => (
+                      <div key={"available" + index}>
+                        {(availableOrderDishes[index] != undefined) && availableOrderDishes[index].map((dish) => (
+                          <div key={"order" + index + "dish" + dish.dish_id}>
+                            {(dish.order_id == order.order_id) && <p>{dish.name} - Quantity: {dish.quantity}</p>}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                    <br></br>
+                    <p>Restaurant Address: {order.restaurant_address}</p>
+                    <p>Campus Delivery Address: {order.order_address}</p>
+                    <button onClick={e => {acceptOrder(order.order_id)}}>Accept order</button>
+                  </div>}
+              </div>))}
         </div>
       </div>
     )

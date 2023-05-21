@@ -47,11 +47,6 @@ const NavBar = () => {
         }
 
         getOrders()
-
-        for(let i = 0; i < orders.length; i++){
-          //setOrderNum((prevArray) => {const newArr = [...prevArray]; newArr[i] = i; return newArr})
-          
-        }
       }catch(err){
         console.log(err)
       }

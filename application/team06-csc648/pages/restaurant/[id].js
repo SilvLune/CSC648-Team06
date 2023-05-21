@@ -24,6 +24,7 @@ export default function RestaurantDetails() {
   const [cartInfo, setCartInfo] = useState([])
   const [message, setMessage] = useState('');
   const [session, setSession] = useState(undefined);
+  const [address, setAddress] = useState('');
 
   const {isLoaded} = useJsApiLoader({
     id: 'google-map-script',
@@ -162,6 +163,11 @@ export default function RestaurantDetails() {
       return
     }
 
+    if(address == ''){
+      setMessage("Enter a location to be delivered to")
+      return
+    }
+
     let orderExists = false
     for(let i = 0; i < menu.length; i++){
       if((cartInfo[i].inCart == true) && (cartInfo[i].quantity > 0)){
@@ -190,7 +196,8 @@ export default function RestaurantDetails() {
         status: 0,
         total: total,
         delivery_fee: fee,
-        order_date_time: date.toLocaleString(),
+        order_date_time: date,
+        address: address
       });
 
       let order_id = res.data.id
@@ -227,31 +234,37 @@ export default function RestaurantDetails() {
         {(showMap == false) && <div>
           <div className={styles.menu}>
             {menu.map((dish) => (
-                        <div key={"dish"+dish.dish_id}>
-                            <h1>{dish.name}</h1>
-                            <h2>{dish.description}</h2>
-                            <h2>${dish.price}</h2>
-                            <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${restaurant.name} logo`} />
-                            <div>
-                              <label for={"dish" + dish.dish_id}>Add to cart</label>
-                              <input type="checkbox" 
-                                name={"dish" + dish.dish_id}
-                                onClick={e => addToCart(dish.dish_id)}
-                                required/>
-                          </div>
-                          <div>
-                            <label for={"quantity" + dish.dish_id}>Quantity</label>
-                            <input type='number' 
-                              name={"quantity" + dish.dish_id}
-                              placeholder='Quantity' 
-                              onBlur={e => setQuantity(dish.dish_id, e)} 
-                              min="0" 
-                              step="1"/>
-                          </div>
-                        </div>))}
+              <div key={"dish"+dish.dish_id}>
+                <h1>{dish.name}</h1>
+                <h2>{dish.description}</h2>
+                <h2>${dish.price}</h2>
+                <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} />
+                <div>
+                  <label for={"dish" + dish.dish_id}>Add to cart</label>
+                  <input type="checkbox" 
+                    name={"dish" + dish.dish_id}
+                    onClick={e => addToCart(dish.dish_id)}
+                    required/>
+                </div>
+                <div>
+                  <label for={"quantity" + dish.dish_id}>Quantity</label>
+                  <input type='number' 
+                    name={"quantity" + dish.dish_id}
+                    placeholder='Quantity' 
+                    onChange={e => setQuantity(dish.dish_id, e)} 
+                    min="0" 
+                    step="1"/>
+                </div>
+              </div>))}
           </div>
-          <button onClick={sendOrder}>Check out order</button>
+          <label for="address">Campus location to be delivered to</label>
+          <input type="text" 
+            name="address" 
+            placeholder="Address" 
+            onChange={e => setAddress(e.target.value)}/>
+          <br></br>
           {message}
+          <button onClick={sendOrder} name="address">Check out order</button>
         </div>}
         {(showMap == true) && <div>
           <p>Average Delivery Time: {restaurant[0].avg_delivery_time} minutes</p>
