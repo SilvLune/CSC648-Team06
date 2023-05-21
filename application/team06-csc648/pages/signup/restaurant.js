@@ -194,6 +194,7 @@ export default function Home() {
         inputs.push((<div>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
         
         setDishInputs(inputs);
+        setDishPicSizes((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = 0; return newArr})
     }
 
     const agree = () => {
@@ -210,10 +211,13 @@ export default function Home() {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validAddress == true) && (validLogo == true)){
             for (let i = 0; i < dishNames.length; i++) {
-                if(((dishNames[i] == undefined) || (dishPrices[i] == undefined)) && ((dishDescriptions[i] != undefined) || (dishPictures[i] != undefined) || (dishNames[i] != undefined) || (dishPrices[i] != undefined))){
+                if((((dishNames[i] == undefined) || (dishNames[i] == '')) || ((dishPrices[i] == undefined) || 
+                (dishPrices[i] == ''))) && (((dishDescriptions[i] != undefined) && (dishDescriptions[i] != '')) || (dishPictures[i] != undefined)
+                 || ((dishNames[i] != undefined) && (dishNames[i] != '')) || ((dishPrices[i] != undefined) && (dishPrices[i] != '')))){
                     setSignupMessage("Dish items need a name and a price or else leave all fields empty");
                     return
                 }
+                
                 if(dishPicSizes[i] > 65535){
                     setSignupMessage("Dish pictures cannot be larger than 64kB");
                     return
@@ -242,14 +246,34 @@ export default function Home() {
 
             try{
                 for (let i = 0; i < dishNames.length; i++) {
-                    const res2 = await axios.post('/api/add-dish', {
-                        name: dishNames[i],
-                        price: dishPrices[i],
-                        description: dishDescriptions[i],
-                        picture: dishPictures[i],
-                        pictureSize: dishPicSizes[i],
-                        restaurant_id: id,
+                    let description = ''
+                    if(dishDescriptions[i] != undefined){
+                        description = dishDescriptions[i]
+                    }
+                    if((((dishDescriptions[i] == undefined) || (dishDescriptions[i] == '')) && (dishPictures[i] == undefined) 
+                    && ((dishNames[i] == undefined) || (dishNames[i] == '')) && ((dishPrices[i] == undefined) || (dishPrices[i] == '')))){
+                        continue
+                    }
+
+                    if(dishPicSizes[i] > 0){
+                        const res2 = await axios.post('/api/add-dish', {
+                            name: dishNames[i],
+                            price: dishPrices[i],
+                            description: description,
+                            picture: dishPictures[i],
+                            pictureSize: dishPicSizes[i],
+                            restaurant_id: id,
                         });
+                      } else {
+                        const res2 = await axios.post('/api/add-dish', {
+                            name: dishNames[i],
+                            price: dishPrices[i],
+                            description: description,
+                            picture: new Uint8Array(),
+                            pictureSize: dishPicSizes[i],
+                            restaurant_id: id,
+                        });
+                      }
                 }
             } catch (error){
                 console.log(error);

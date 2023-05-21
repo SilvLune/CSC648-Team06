@@ -8,15 +8,18 @@ export default function Restaurant() {
   const router = useRouter()
   const [restaurant, setRestaurant] = useState([])
   const [menu, setMenu] = useState([])
+  const [message, setMessage] = useState('');
 
-  const [dishInputs, setDishInputs] = useState([])
-  const [dishInputCount, setDishInputCount] = useState(-1)
-  const [dishNames, setDishNames] = useState([])
-  const [dishPrices, setDishPrices] = useState([])
-  const [dishPictures, setDishPictures] = useState([])
-  const [dishDescriptions, setDishDescriptions] = useState([])
+  const [dishInputExists, setDishInputExists] = useState(false)
+  const [dishInputs, setDishInputs] = useState(undefined)
+  const [dishName, setDishName] = useState(undefined)
+  const [dishPrice, setDishPrice] = useState(undefined)
+  const [dishPicture, setDishPicture] = useState(undefined)
+  const [dishPicSize, setDishPicSize] = useState(0)
+  const [dishDescription, setDishDescription] = useState(undefined)
 
   const submitDish = useRef();
+  const dishPicInput = useRef();
 
   const{id} = router.query
 
@@ -60,25 +63,101 @@ export default function Restaurant() {
   }, [id, restaurant])
 
   const addDishInput = () => {
-    let dishId = dishInputCount + 1;
-    setDishInputCount(dishId)
-    let inputs = dishInputs;
-
-    let dishNameInput = (<input value={dishNames[dishId]} placeholder='Name of dish'
-        onChange={e => setDishNames((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
-    let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrices[dishId]} placeholder='Price of dish' 
-        onChange={e => setDishPrices((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
+    if(dishInputExists){
+      return
+    }
+    let dishNameInput = (<input value={dishName} placeholder='Name of dish' onChange={e => setDishName(e.target.value)}/>);
+    let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrice} placeholder='Price of dish' 
+      onChange={e => setDishPrice(e.target.value)}/>);
     let dishPictureInput = (<div><label for="dishPic">Upload a picture of the dish</label> <input type="file" accept="image/*"
-        value={dishPictures[dishId]} name="dishPic" onChange={e => setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/></div>);
-    let dishDescriptionInput = (<input value={dishDescriptions[dishId]} placeholder='Description of dish' 
-    onChange={e => setDishDescriptions((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
-
-    inputs.push((<div>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
+        name="dishPic" onChange={e => dishPicToBlob(e)} ref={dishPicInput}/></div>);
+    let dishDescriptionInput = (<input value={dishDescription} placeholder='Description of dish' 
+    onChange={e => setDishDescription(e.target.value)}/>);
     
-    setDishInputs(inputs);
+    setDishInputs((<div>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
 
     submitDish.current.style.display = 'block';
-}
+    setDishInputExists(true)
+  }
+
+  const dishPicToBlob = async (e) => {
+    if(e.target.files[0] == undefined){
+      setDishPicSize(0)
+      setDishPicture(undefined)
+      return;
+    }
+    let file = e.target.files[0];
+    const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+    let picArray = new Uint8Array(await blob.arrayBuffer())
+
+    setDishPicSize(picArray.length)
+    setDishPicture(picArray)
+  }
+
+  const sendDish = async (e) => {
+    console.log(dishName, dishPrice, dishDescription, dishPicture, dishPicSize)
+    if(((dishName == undefined) || (dishPrice == undefined)) && ((dishDescription != undefined) || (dishPicture != undefined) || (dishName != undefined) || (dishPrice != undefined))){
+      setMessage("Dish needs a name and a price")
+      return
+    }
+    if(((dishDescription == undefined) && (dishPicture == undefined) && (dishName == undefined) && (dishPrice == undefined))){
+      setMessage("Dish needs a name and a price")
+      return
+    }
+    if(dishPicSize > 65535){
+        setMessage("Dish picture cannot be larger than 64kB")
+        return
+    }
+
+    let description = ''
+    if(dishDescription != undefined){
+      description = dishDescription
+    }
+    
+    try{
+      if(dishPicSize > 0){
+        const res = await axios.post('/api/add-dish', {
+          name: dishName,
+          price: dishPrice,
+          description: description,
+          picture: dishPicture,
+          pictureSize: dishPicSize,
+          restaurant_id: id,
+        });
+        location.reload()
+      } else {
+        const res = await axios.post('/api/add-dish', {
+          name: dishName,
+          price: dishPrice,
+          description: description,
+          picture: new Uint8Array(),
+          pictureSize: dishPicSize,
+          restaurant_id: id,
+        });
+        location.reload()
+      }
+    } catch (error){
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if(dishName == ''){
+      setDishName(undefined)
+    }
+  }, [dishName])
+
+  useEffect(() => {
+    if(dishPrice == ''){
+      setDishPrice(undefined)
+    }
+  }, [dishPrice])
+
+  useEffect(() => {
+    if(dishDescription == ''){
+      setDishDescription(undefined)
+    }
+  }, [dishDescription])
 
   if(restaurant.length == 0){
     return(
@@ -100,15 +179,16 @@ export default function Restaurant() {
         <div>
             {dishInputs}
         </div>
-        <button className={styles.submitDish} ref={submitDish}>Submit dish(s)</button>
+        <button className={styles.submitDish} onClick={sendDish} ref={submitDish}>Submit dish</button>
+        {dishInputExists && <p>{message}</p>}
         
         <div className={styles.menu}>
           {menu.map((dish) => (
-                      <div key={"restaraunt"+restaurant.restaurant_id}>
+                      <div key={"restaraunt"+dish.dish_id}>
                           <h1>{dish.name}</h1>
                           <h2>{dish.description}</h2>
                           <h2>${dish.price}</h2>
-                          <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${restaurant.name} logo`} /> 
+                          <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} /> 
                       </div>))}
         </div>
       </div>
