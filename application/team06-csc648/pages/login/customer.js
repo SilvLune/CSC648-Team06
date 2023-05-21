@@ -143,9 +143,6 @@ export default function CustomerLogin() {
                     <button className={styles.signInUpButton} onClick={login}>Login</button>
                 </div>
                 <div>
-                    <button onClick={testSession}>Test Session</button>
-                </div>
-                <div>
                     <p>Don't have an account?</p>
                     <Link href='../../signup/customer'><button className={styles.signInUpButton}>Sign up</button></Link>
                 </div>

@@ -16,7 +16,12 @@ export default function Restaurant() {
   const [dishPrice, setDishPrice] = useState(undefined)
   const [dishPicture, setDishPicture] = useState(undefined)
   const [dishPicSize, setDishPicSize] = useState(0)
+
   const [dishDescription, setDishDescription] = useState(undefined)
+  const [showOrders, setShowOrders] = useState(false)
+  const [orderNum, setOrderNum] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [orderDishes, setOrderDishes] = useState([]);
 
   const submitDish = useRef();
   const dishPicInput = useRef();
@@ -159,6 +164,37 @@ export default function Restaurant() {
     }
   }, [dishDescription])
 
+  useEffect(() => {
+    try{
+      async function getOrders(){
+        const response = await axios.post(`/api/get-restaurant-orders?restaurant_id=${id}`)
+        if(orders.length == 0){
+          setOrders(response.data)
+        }
+      }
+      getOrders()
+    }catch(err){
+      console.log(err)
+    }
+  }, [orders])
+
+  useEffect(() => {
+    async function getOrderDishes(i, order_id){
+      const response = await axios.post(`/api/get-customer-orderDish?order_id=${order_id}`)
+      setOrderDishes((prevArray) => {const newArr = [...prevArray]; newArr[i] = response.data; return newArr})
+    }
+
+    for(let i = 0; i < orders.length; i++){
+      getOrderDishes(i, orders[i].order_id)
+    }
+  }, [orders])
+
+  useEffect(() => {
+    for(let i = 0; i < orders.length; i++){
+      setOrderNum((prevArray) => {const newArr = [...prevArray]; newArr[i] = i; return newArr})
+    }
+  }, [orderDishes])
+
   if(restaurant.length == 0){
     return(
       <div>
@@ -175,22 +211,42 @@ export default function Restaurant() {
           <h1>{restaurant[0].name}</h1>
         </div>
         
-        <button onClick={addDishInput}>Add a dish to your menu</button>
-        <div>
-            {dishInputs}
-        </div>
-        <button className={styles.submitDish} onClick={sendDish} ref={submitDish}>Submit dish</button>
-        {dishInputExists && <p>{message}</p>}
-        
-        <div className={styles.menu}>
-          {menu.map((dish) => (
-                      <div key={"restaraunt"+dish.dish_id}>
-                          <h1>{dish.name}</h1>
-                          <h2>{dish.description}</h2>
-                          <h2>${dish.price}</h2>
-                          <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} /> 
-                      </div>))}
-        </div>
+        <button onClick={e => setShowOrders(false)}>Show Dishes</button>
+        <button onClick={e => setShowOrders(true)}>Show Orders</button>
+        <br></br>
+        <br></br>
+
+        {(showOrders) && <div>
+          {orderNum.map((index) => (
+            <div key={"order" + index} className={styles.order}>
+              <h1>Order {index}</h1>
+              {(orderDishes[index] != undefined) && orderDishes[index].map((dish) => (
+                <div key={"order" + index + "dish" + dish.dish_id}>
+                  <p>{dish.name} - Quantity: {dish.quantity}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>}
+
+        {!(showOrders) && <div>
+          <button onClick={addDishInput}>Add a dish to your menu</button>
+          <div>
+              {dishInputs}
+          </div>
+          <button className={styles.submitDish} onClick={sendDish} ref={submitDish}>Submit dish</button>
+          {dishInputExists && <p>{message}</p>}
+          
+          <div className={styles.menu}>
+            {menu.map((dish) => (
+              <div key={"restaraunt"+dish.dish_id}>
+                  <h1>{dish.name}</h1>
+                  <h2>{dish.description}</h2>
+                  <h2>${dish.price}</h2>
+                  <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} /> 
+              </div>))}
+          </div>
+        </div>}
       </div>
     )
   }
