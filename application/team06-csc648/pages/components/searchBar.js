@@ -65,6 +65,11 @@ const SearchBar = () => {
                     <option value="3">Mexican</option>
                     <option value="4">Korean</option>
                     <option value="5">Thai</option>
+                    <option value="6">French</option>
+                    <option value="7">Japanese</option>
+                    <option value="8">Italian</option>
+                    <option value="9">Indian</option>
+                    <option value="10">Other</option>
             </select>
             {/* <button className={styles.categories} onClick = {handleCategoryButtonClick}>{selectedCategory}</button>
             {showCategories && (

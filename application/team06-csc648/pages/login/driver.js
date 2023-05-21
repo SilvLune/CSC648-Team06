@@ -4,7 +4,6 @@ import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
 import passwordUtils from '../utils/passwordUtils'
 import axios from "axios";
-import {useRouter} from 'next/router'
 
 export default function DriverLogin() {
     const [email, setEmail] = useState('');
@@ -15,7 +14,6 @@ export default function DriverLogin() {
     const emailMessage = useRef();
     const passwordInput = useRef();
     const passwordMessage = useRef();
-    const router = useRouter()
     
     useEffect(() => {
         async function getSession(){
@@ -86,7 +84,7 @@ export default function DriverLogin() {
                 if(valid){
                     const response2 = await axios.get(`/api/drivers_login?driver_id=${user.driver_id}&email=${email}`)
                     console.log(response2)
-                    router.push(`/home/driver/${user.driver_id}`)
+                    window.location.href = `/home/driver/${user.driver_id}`
                 }
             }catch(err){
                 console.log(err)

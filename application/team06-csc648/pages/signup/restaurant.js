@@ -13,6 +13,7 @@ export default function Home() {
     const [agreement, setAgreement] = useState(false);
     const [logo, setLogo] = useState('');
     const [signupMessage, setSignupMessage] = useState('');
+    const [categoryNumber, setCategoryNumber] = useState(10);
 
     const [dishInputs, setDishInputs] = useState([])
     const [dishInputCount, setDishInputCount] = useState(-1)
@@ -172,6 +173,10 @@ export default function Home() {
         }
     }
 
+    const handleCategoryChange = (event) =>{
+        setCategoryNumber(event.target.value)
+    }
+
     const addDishInput = () => {
         let dishId = dishInputCount + 1;
         setDishInputCount(dishId)
@@ -217,13 +222,14 @@ export default function Home() {
             let id
             try {
                 const res = await axios.post('/api/restaurant-application', {
-                name: name,
-                email: email,
-                phone: phone,
-                address: address,
-                logo: logo,
-                logoSize: logo.length,
-                password: password,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    category: categoryNumber,
+                    logo: logo,
+                    logoSize: logo.length,
+                    password: password,
                 });
 
                 id = res.data.id
@@ -363,6 +369,21 @@ export default function Home() {
                         ref={password2Input}
                         required/>
                     <div id={styles.password2Message} ref={password2Message}>Confirm your password by entering it again</div>
+                </div>
+                <div>
+                    <label for="category">Category: </label>
+                    <select value={categoryNumber} onChange={handleCategoryChange} name="category">
+                        <option value="1">Fast Food</option>
+                        <option value="2">Chinese</option>
+                        <option value="3">Mexican</option>
+                        <option value="4">Korean</option>
+                        <option value="5">Thai</option>
+                        <option value="6">French</option>
+                        <option value="7">Japanese</option>
+                        <option value="8">Italian</option>
+                        <option value="9">Indian</option>
+                        <option value="10" selected="selected">Other</option>
+                    </select>
                 </div>
                 <div>
                     <label for="logo">Upload your restaurant logo</label>

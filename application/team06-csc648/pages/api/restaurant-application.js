@@ -27,15 +27,14 @@ const pool = createPool({
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { name, email, phone, address, logo, logoSize, password, dishNames, dishDescriptions, dishPictures, dishPicSizes, dishPrices} = req.body;
+    const { name, email, phone, address, category, logo, logoSize, password} = req.body;
     const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, salt, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    //console.log(name, email, phone, address, logo, password, dishNames, dishDescriptions, dishPictures, dishPrices);
 
     const saltHash = passwordUtil.genPassword(password)
     const salt = saltHash.salt
     const hash = saltHash.hash
 
+    console.log(category)
     
     //console.log(logo)
     let tempLogoArr = []
@@ -45,7 +44,7 @@ export default async function handler(req, res) {
 
     let logoArr = new Uint8Array(tempLogoArr)
 
-    const values = [name, email, phone, address, logoArr, hash, salt, 1];
+    const values = [name, email, phone, address, logoArr, hash, salt, category];
     //console.log(values);
 
     try {

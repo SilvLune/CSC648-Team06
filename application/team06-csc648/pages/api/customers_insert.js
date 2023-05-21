@@ -13,7 +13,11 @@ export default async function insertCustomers(req,res){
         const values = [name, email, phone, hash, salt]
         try{
             await pool.execute(sql, values)
-            res.status(200).json({message: 'Post Customer Success'})
+
+            const [result] = await pool.execute("SELECT LAST_INSERT_ID() AS customer_id");
+            const id = result[0].customer_id;
+
+            res.status(200).json({message: 'Post Customer Success', id: id })
         }catch(error){
             res.status(500).json({message: 'Internal Server Error'})
         }

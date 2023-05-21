@@ -4,7 +4,6 @@ import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
 import axios from 'axios'
 import passwordUtils from '../utils/passwordUtils'
-import {useRouter} from 'next/router'
 
 export default function RestaurantLogin() {
     const [email, setEmail] = useState('');
@@ -15,7 +14,6 @@ export default function RestaurantLogin() {
     const emailMessage = useRef();
     const passwordInput = useRef();
     const passwordMessage = useRef();
-    const router = useRouter()
 
     useEffect(() => {
         async function getSession(){
@@ -87,7 +85,7 @@ export default function RestaurantLogin() {
                     try{
                         const response2 = await axios.get(`/api/restaurant_login?restaurant_id=${user.restaurant_id}`)
                         console.log(response2)
-                        router.push(`/home/restaurant/${user.restaurant_id}`)
+                        window.location.href = `/home/restaurant/${user.restaurant_id}`
                     }catch(error){
                         console.log(error)
                     }

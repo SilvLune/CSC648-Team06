@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import NavBar from '../components/navBar'
 import styles from '@/styles/Restaurant.module.css'
-import { GoogleMap, MarkerF, useJsApiLoader, G } from '@react-google-maps/api';
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import Geocode from "react-geocode";
 
 const api_key = 'AIzaSyDXZy1wPNmoinJbzlCWnOBLqehpwXXGkPw';

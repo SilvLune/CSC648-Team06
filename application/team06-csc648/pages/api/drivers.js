@@ -49,8 +49,12 @@ export default async function handler(req, res) {
 
 
     try {
-        const [result] = await pool.execute(sql, values);
-        res.status(201).json({ message: "User created successfully" });
+        await pool.execute(sql, values);
+
+        const [result] = await pool.execute("SELECT LAST_INSERT_ID() AS driver_id");
+        const id = result[0].driver_id;
+
+        res.status(201).json({ message: "User created successfully", id: id });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });

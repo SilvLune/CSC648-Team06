@@ -164,18 +164,23 @@ export default function Home() {
                 console.log('*signup* phone: ' + phone)
                 console.log('*signup* hash: ' + hash)
                 console.log('*signup* salt: ' + salt)
-                await axios.post('/api/customers_insert',{},{params:{
+                const response = await axios.post('/api/customers_insert',{},{params:{
                     name,
                     email,
                     phone,
                     hash,
                     salt,
                 }})
-                .then(response =>{
-                    console.log(response.data)
-                    setSignupMessage("Your account has been successfully created");
-                    //Reroute user NOT DONE
-                })
+
+                console.log(response.data)
+                setSignupMessage("Your account has been successfully created");
+
+                try{
+                    const response2 = await axios.get(`/api/customer_login?customer_id=${response.data.id}&email=${email}`)
+                    window.location.href = `/`;
+                } catch(error) {
+                    console.log(error);
+                }
             } catch (error) {
                 console.log(error.response.data);
                 setSignupMessage("An error occurred while creating your account");

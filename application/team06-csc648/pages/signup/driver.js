@@ -208,7 +208,7 @@ export default function Home() {
             }
 
             try {
-                const res = await axios.post('/api/drivers', {
+                const response = await axios.post('/api/drivers', {
                     name: name,
                     email: email,
                     phone: phone,
@@ -219,6 +219,13 @@ export default function Home() {
                     insuranceSize: insurance.length,
                     });
                 setSignupMessage("Your account has been successfully created");
+
+                try{
+                    const response2 = await axios.get(`/api/drivers_login?driver_id=${response.data.id}&email=${email}`)
+                    window.location.href = `/home/driver/${response.data.id}`;
+                } catch(error) {
+                    console.log(error);
+                }
             } catch(error) {
                 console.log(error.response.data);
                 setSignupMessage("An error occurred while creating your account");
