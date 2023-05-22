@@ -199,6 +199,7 @@ export default function Restaurant() {
               <br></br>
               <p>Restaurant Address: {order.restaurant_address}</p>
               <p>Campus Delivery Address: {order.order_address}</p>
+              <p>Payment: ${parseFloat(order.total) + parseFloat(order.delivery_fee)}</p>
               <button onClick={e => {completeOrder(order.order_id)}}>Complete order</button>
                 </div>}
               </div>))}
@@ -221,6 +222,7 @@ export default function Restaurant() {
                     <br></br>
                     <p>Restaurant Address: {order.restaurant_address}</p>
                     <p>Campus Delivery Address: {order.order_address}</p>
+                    <p>Payment: ${parseFloat(order.total) + parseFloat(order.delivery_fee)}</p>
                     <button onClick={e => {acceptOrder(order.order_id)}}>Accept order</button>
                   </div>}
               </div>))}

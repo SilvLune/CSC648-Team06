@@ -223,7 +223,7 @@ export default function Home() {
                     return
                 }
             }
-            let id
+            let id = undefined
             try {
                 const res = await axios.post('/api/restaurant-application', {
                     name: name,
@@ -242,6 +242,9 @@ export default function Home() {
             } catch (error) {
                 console.log(error);
                 setSignupMessage("An error occurred while creating your account");
+            }
+            if(id == undefined){
+                return
             }
 
             try{

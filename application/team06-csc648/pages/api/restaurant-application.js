@@ -6,7 +6,7 @@
  * Description: API endpoint that handles restaurant applications
  */
 
-import {createPool} from 'mysql2/promise'
+import pool from './pool'
 import passwordUtil from '../utils/passwordUtils'
 
 export const config = {
@@ -17,18 +17,10 @@ export const config = {
   }
 }
 
-const pool = createPool({
-  host: "gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com",
-  user: 'admin',
-  password: 'Keymaster06!',
-  database: 'gateway-db',
-  connectionLimit: 10
-})
-
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { name, email, phone, address, category, logo, logoSize, password} = req.body;
-    const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, salt, category_id, avg_delivery_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    const sql = "INSERT INTO Restaurant (name, email, phone, address, logo, hash, salt, category_id, avg_delivery_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     const saltHash = passwordUtil.genPassword(password)
     const salt = saltHash.salt

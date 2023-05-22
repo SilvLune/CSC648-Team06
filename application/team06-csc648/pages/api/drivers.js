@@ -8,19 +8,8 @@
 
 // establish connection to database
 
-import {createPool} from 'mysql2/promise'
+import pool from './pool'
 import passwordUtils from '../utils/passwordUtils'
-
-const bcrypt = require('bcrypt');
-const SALT_ROUNDS = 10;
-
-const pool = createPool({
-  host: "gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com",
-  user: 'admin',
-  password: 'Keymaster06!',
-  database: 'gateway-db',
-  connectionLimit: 10
-})
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
