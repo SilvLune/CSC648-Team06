@@ -87,7 +87,7 @@ export default function Home() {
                         <div key={"menu"+restaurant.restaurant_id} className={styles.dish}>
                           <Link target="_blank" rel="noopener noreferrer" href={"/restaurant/" + restaurant.restaurant_id}>
                             <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} className={styles.picture} alt={restaurant.name}/>
-                            <p className={styles.dishText}>Average Delivery Time: {restaurant.avg_delivery_time} minutes</p>
+                            <p className={styles.dishText}>{restaurant.name}</p>
                           </Link>
                         </div>))}
         </div>

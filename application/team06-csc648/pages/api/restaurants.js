@@ -28,9 +28,7 @@ export default async function handler(req, res){
 
         }
         if(category && category != 0){
-            if(values.length > 0){
-                sql += ' AND category_id = ?'
-            }
+            sql += ' AND category_id = ?'
             values.push(category)
         }
 

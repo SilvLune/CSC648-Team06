@@ -24,6 +24,9 @@ const SearchBar = () => {
     }, [dropdownRef])
     const handleSearchInputChange = (event) =>{
         const inputValue = event.target.value
+        if(inputValue.length > 40){
+            return
+        }
         setSearch(inputValue)
     }  
     const handleInputClick = () => {

@@ -6,6 +6,7 @@ import NavBar from '../components/navBar'
 
 export default function RestaurantSearchList(){
     const[rest, setRestaurants] = useState([])
+    const[categoryNames, setCategoryNames] = useState([])
     const router = useRouter()
     const{query, category} = router.query
 
@@ -42,6 +43,16 @@ export default function RestaurantSearchList(){
         fetchRestaurants()
     }, [query, category])
 
+    useEffect(()=>{
+        async function fetchCategories(){
+            const response = await axios.get(`/api/get-categories`)
+            setCategoryNames(response.data)
+        }
+        if(categoryNames.length == 0){
+            fetchCategories()
+        }
+    }, [categoryNames])
+
     if(rest === undefined){
         return(
             <div>
@@ -52,17 +63,25 @@ export default function RestaurantSearchList(){
         return (
             <div>
                 <NavBar/>
-                <p>Input is {query}</p>
-                <p>Category is {category}</p>
-                <p>{rest.length} results</p>
+                <div className={searchStyles.resultInfo}>
+                    <p>Input is {query}</p>
+                    {categoryNames.map((categoryName) => (
+                        <div>
+                            {(categoryName.category_id == category) && <p>Category is {categoryName.name}</p>}
+                        </div>
+                    ))}
+                    <p>{rest.length} results</p>
+                </div>
 
                 {rest.map((restaurant) => (
-                    <div className={searchStyles.searchResult} key={restaurant.restaurant_id}>
-                        <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} className={searchStyles.logo} alt={`${restaurant.name} logo`} />
+                    <a className={searchStyles.searchResult} key={restaurant.restaurant_id} href={"/restaurant/" + restaurant.restaurant_id}>
+                        <div className={searchStyles.logoContainer}>
+                            <img src={`data:image/png;base64,${Buffer.from(restaurant.logo).toString('base64')}`} className={searchStyles.logo} alt={`${restaurant.name} logo`} />
+                        </div>
                         <h1 className={searchStyles.name}>{restaurant.name}</h1>
                         <h2 className={searchStyles.time}>Expected delivery time: {restaurant.avg_delivery_time} minutes</h2>
                         <h2 className={searchStyles.address}>{restaurant.address}</h2>
-                    </div>))}
+                    </a>))}
             </div>
         )
     }
