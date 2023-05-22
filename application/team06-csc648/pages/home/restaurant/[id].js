@@ -206,47 +206,46 @@ export default function Restaurant() {
     return (
       <div key="key1">
         <NavBar/>
-        <div className={styles.header}>
-          <img src={`data:image/png;base64,${Buffer.from(restaurant[0].logo).toString('base64')}`} className={styles.logo} alt={`${restaurant.name} logo`} />
+        <img src={`data:image/png;base64,${Buffer.from(restaurant[0].logo).toString('base64')}`} className={styles.logo} alt={`${restaurant.name} logo`} />
+        <div className={styles.restaurantContainer}>
           <h1>{restaurant[0].name}</h1>
-        </div>
-        
-        <button onClick={e => setShowOrders(false)}>Show Dishes</button>
-        <button onClick={e => setShowOrders(true)}>Show Orders</button>
-        <br></br>
-        <br></br>
+          <button onClick={e => setShowOrders(false)}>Show Dishes</button>
+          <button onClick={e => setShowOrders(true)}>Show Orders</button>
+          <br></br>
+          <br></br>
 
-        {(showOrders) && <div>
-          {orderNum.map((index) => (
-            <div key={"order" + index} className={styles.order}>
-              <h1>Order {index}</h1>
-              {(orderDishes[index] != undefined) && orderDishes[index].map((dish) => (
-                <div key={"order" + index + "dish" + dish.dish_id}>
-                  <p>{dish.name} - Quantity: {dish.quantity}</p>
-                </div>
-              ))}
+          {(showOrders) && <div>
+            {orderNum.map((index) => (
+              <div key={"order" + index} className={styles.order}>
+                <h1>Order {index}</h1>
+                {(orderDishes[index] != undefined) && orderDishes[index].map((dish) => (
+                  <div key={"order" + index + "dish" + dish.dish_id}>
+                    <p>{dish.name} - Quantity: {dish.quantity}</p>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>}
+
+          {!(showOrders) && <div>
+            <button onClick={addDishInput}>Add a dish to your menu</button>
+            <div className={styles.dishInput}>
+                {dishInputs}
             </div>
-          ))}
-        </div>}
-
-        {!(showOrders) && <div>
-          <button onClick={addDishInput}>Add a dish to your menu</button>
-          <div>
-              {dishInputs}
-          </div>
-          <button className={styles.submitDish} onClick={sendDish} ref={submitDish}>Submit dish</button>
-          {dishInputExists && <p>{message}</p>}
-          
-          <div className={styles.menu}>
-            {menu.map((dish) => (
-              <div key={"restaraunt"+dish.dish_id}>
-                  <h1>{dish.name}</h1>
-                  <h2>{dish.description}</h2>
-                  <h2>${dish.price}</h2>
-                  <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} /> 
-              </div>))}
-          </div>
-        </div>}
+            <button className={styles.submitDish} onClick={sendDish} ref={submitDish}>Submit dish</button>
+            {dishInputExists && <p>{message}</p>}
+            
+            <div className={styles.menu}>
+              {menu.map((dish) => (
+                <div key={"restaraunt"+dish.dish_id}>
+                    <h1>{dish.name}</h1>
+                    <h2>{dish.description}</h2>
+                    <h2>${dish.price}</h2>
+                    <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} /> 
+                </div>))}
+            </div>
+          </div>}
+        </div>
       </div>
     )
   }

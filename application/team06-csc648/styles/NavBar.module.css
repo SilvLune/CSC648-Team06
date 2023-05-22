@@ -6,6 +6,7 @@
     color: black;
     grid-template-columns: 30% 50% 10% 10%;
     padding: 1rem;
+    overflow-y: hidden;
 }
 
 .logo{
@@ -19,6 +20,7 @@
 .center{
     grid-row: auto;
     justify-content: center;
+    width: 100%;
 }
 
 .title{
@@ -29,19 +31,28 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 20% 80%;
+}
+
+.searchForm{
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .searchBar{
-    margin-top: auto;
-    margin-left: 0;
-    margin-bottom: auto;
+    margin: 0;
+    padding: 0;
+    width: 80%;
+    height: 1rem;
 }
 
 .categories{
     /*margin-top: auto;   Alex here, commenting this out fixed the alignment*/
+    margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
+    height: 1rem;
 }
 
 .searchButton{
@@ -64,8 +75,10 @@
     top: 0;
     left: 30%;
     width: 70%;
-    height: 36%;
+    height: 1rem;
     overflow-y: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }

@@ -109,10 +109,12 @@ const NavBar = () => {
           {(isDriver) && <Link className={styles.logo} href={`/home/driver/${session.data.user.driver_id}`}><h1>Gateway</h1></Link>}
           {(isRestaurant) && <Link className={styles.logo} href={`/home/restaurant/${session.data.user.restaurant_id}`}><h1>Gateway</h1></Link>}
         </div>
+
         <div className={styles.center}>
           <p className={styles.title}>CSC648/848 Spring 2023 Team06</p>
           {(!isLoggedIn || isCustomer) && <SearchBar/>}
         </div>
+
         {isLoggedIn ? <div>
             {isCustomer && <div>
               <button onClick={showOrders}>Orders</button>

@@ -78,7 +78,7 @@ const SearchBar = () => {
             {showCategories && (
                 
             )} */}
-            <form onSubmit={handleFormSubmit} key="key2">
+            <form onSubmit={handleFormSubmit} key="key2" className={styles.searchForm}>
                 <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
                 <button className={styles.searchButton} type='submit'>Search</button>
             </form>

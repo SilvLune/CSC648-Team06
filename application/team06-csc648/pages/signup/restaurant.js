@@ -191,7 +191,7 @@ export default function Home() {
         let dishDescriptionInput = (<input value={dishDescriptions[dishId]} placeholder='Description of dish' 
         onChange={e => setDishDescriptions((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
 
-        inputs.push((<div>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
+        inputs.push((<div><br></br>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
         
         setDishInputs(inputs);
         setDishPicSizes((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = 0; return newArr})

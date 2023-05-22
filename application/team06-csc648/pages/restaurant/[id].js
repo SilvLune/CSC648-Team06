@@ -223,56 +223,59 @@ export default function RestaurantDetails() {
     (restaurant.length > 0) ?
       <div key="key1">
         <NavBar/>
-        <div className={styles.header}>
-          <img src={`data:image/png;base64,${Buffer.from(restaurant[0].logo).toString('base64')}`} className={styles.logo} alt={`${restaurant.name} logo`} />
-          <h1>{restaurant[0].name}</h1>
-        </div>
-        <div>
-          <button onClick={() => setShowMap(false)}>Menu</button>
-          <button onClick={MyMap}>Delivery</button>
-        </div>
-        {(showMap == false) && <div>
-          <div className={styles.menu}>
-            {menu.map((dish) => (
-              <div key={"dish"+dish.dish_id}>
-                <h1>{dish.name}</h1>
-                <h2>{dish.description}</h2>
-                <h2>${dish.price}</h2>
-                <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} />
-                <div>
-                  <label for={"dish" + dish.dish_id}>Add to cart</label>
-                  <input type="checkbox" 
-                    name={"dish" + dish.dish_id}
-                    onClick={e => addToCart(dish.dish_id)}
-                    required/>
-                </div>
-                <div>
-                  <label for={"quantity" + dish.dish_id}>Quantity</label>
-                  <input type='number' 
-                    name={"quantity" + dish.dish_id}
-                    placeholder='Quantity' 
-                    onChange={e => setQuantity(dish.dish_id, e)} 
-                    min="0" 
-                    step="1"/>
-                </div>
-              </div>))}
-          </div>
-          <label for="address">Campus location to be delivered to</label>
-          <input type="text" 
-            name="address" 
-            placeholder="Address" 
-            onChange={e => setAddress(e.target.value)}/>
-          <br></br>
-          {message}
-          <button onClick={sendOrder} name="address">Check out order</button>
-        </div>}
-        {(showMap == true) && <div>
-          <p>Average Delivery Time: {restaurant[0].avg_delivery_time} minutes</p>
+        <img src={`data:image/png;base64,${Buffer.from(restaurant[0].logo).toString('base64')}`} className={styles.logo} alt={`${restaurant.name} logo`} />
+        <div className={styles.restaurantContainer}>
+          <h1 className={styles.name}>{restaurant[0].name}</h1>
           <div>
-            {{isLoaded} && map}
+            <button onClick={() => setShowMap(false)}>Menu</button>
+            <button onClick={MyMap}>Delivery</button>
           </div>
-        </div>}
-      </div> 
+          <br></br>
+          {(showMap == false) && <div>
+            <div className={styles.menu}>
+              {menu.map((dish) => (
+                <div key={"dish"+dish.dish_id}>
+                  <h1>{dish.name}</h1>
+                  <h2>{dish.description}</h2>
+                  <img src={`data:image/png;base64,${Buffer.from(dish.picture).toString('base64')}`} className={styles.picture} alt={`${dish.name}`} />
+                  <h2>${dish.price}</h2>
+                  <div>
+                    <label for={"dish" + dish.dish_id}>Add to cart </label>
+                    <input type="checkbox" 
+                      name={"dish" + dish.dish_id}
+                      onClick={e => addToCart(dish.dish_id)}
+                      required/>
+                  </div>
+                  <div>
+                    <label for={"quantity" + dish.dish_id}>Quantity: </label>
+                    <input type='number' 
+                      name={"quantity" + dish.dish_id}
+                      placeholder='Quantity' 
+                      onChange={e => setQuantity(dish.dish_id, e)} 
+                      min="0" 
+                      step="1"/>
+                  </div>
+                </div>))}
+            </div>
+            <div className={styles.checkout}>
+              <label for="address">Campus location to be delivered to: </label>
+              <input type="text" 
+                name="address" 
+                placeholder="Address" 
+                onChange={e => setAddress(e.target.value)}/>
+              <br></br>
+              {message}
+              <button onClick={sendOrder} name="address">Check out order</button>
+            </div>
+          </div>}
+          {(showMap == true) && <div>
+            <p>Average Delivery Time: {restaurant[0].avg_delivery_time} minutes</p>
+            <div>
+              {{isLoaded} && map}
+            </div>
+          </div>}
+        </div> 
+      </div>
 
       :
 
