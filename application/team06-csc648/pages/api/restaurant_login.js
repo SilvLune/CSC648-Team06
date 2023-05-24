@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: restaurant_login.js
+ * Author: Justin Shin, Konnor Nishimura
+ * 
+ * Description: Handles session for restaurant user
+ */
+
 import {withIronSession} from 'next-iron-session'
 
 export default withIronSession(

@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: driver.js
+ * Author: Justin Shin, Konnor Nishimura, Xiao Deng, Jack Lee, Ryan Scott, Alexander Griffin
+ * 
+ * Description: Generates HTML for about page. 
+ */
+
 import Link from 'next/link';
 import Justin from './about/justin'
 import Konnor from './about/konnor'

@@ -1,11 +1,11 @@
-/*
-*  CSC648/848 Spring 2023 Team06
-*  
-*  File: restaurants.js
-*  %like search function
-*
-*  Author: Justin Shin, Jack Lee
-*/
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: restaurants.js
+ * Author: Justin Shin, Jack Lee
+ * 
+ * Description: %like search function for restaurant search
+ */
+
 import pool from './pool'
 
 // %like search function

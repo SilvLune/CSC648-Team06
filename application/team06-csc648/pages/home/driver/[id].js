@@ -1,3 +1,13 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: [id].js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Generates HTML for driver page, pulling info by ID and orders to populate
+ *  Handles driver functions such as accepting orders
+ */
+
+
 import{useRouter} from 'next/router'
 import {useState, useEffect} from 'react'
 import axios from 'axios'

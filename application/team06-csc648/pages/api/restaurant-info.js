@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: restaurant-info.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Gets row from restaurant table with query ID
+ */
+
 import pool from './pool'
 
 export default async function handler(req, res){

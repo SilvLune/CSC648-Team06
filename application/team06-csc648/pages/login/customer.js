@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customer.js
+ * Author: Konnor Nishimura, Jack Lee, Justin Shin
+ * 
+ * Description: Generates HTML for customer login page. Validates login
+ */
+
 import {useState, useRef, useEffect} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';

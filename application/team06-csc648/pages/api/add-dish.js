@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: add-dish.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Handler for inserting dish to DB
+ */
 import pool from './pool'
 
 export const config = {

@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: passwordUtils.js
+ * Author: Justin Shin
+ * 
+ * Description: Utility functions for generating and validating salt/hash/password
+ */
+
 const crypto = require('crypto')
 
 function genPassword(password){

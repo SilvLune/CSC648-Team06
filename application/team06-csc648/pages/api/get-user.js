@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: get-user.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Gets type of user session
+ */
+
 import {withIronSession} from "next-iron-session"
 
 function testHandler(req, res, session){

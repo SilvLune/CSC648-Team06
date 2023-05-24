@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: RestaurantList.js
+ * Author: Justin Shin
+ * 
+ * Description: Generates HTML for search bar, and handles search submit and results
+ */
+
 import React,{useState, useEffect, useRef} from 'react'
 import styles from '@/styles/NavBar.module.css'
 import axios from 'axios'

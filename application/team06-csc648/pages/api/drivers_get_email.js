@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: drivers_get_email.js
+ * Author: Justin Shin, Xiao Deng
+ * 
+ * Description: Gets the driver with query email address
+ */
 import pool from './pool'
 
 export default async function getDriver(req, res){

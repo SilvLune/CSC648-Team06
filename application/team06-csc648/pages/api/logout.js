@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: logout.js
+ * Author: Justin Shin
+ * 
+ * Description: Route for logging out
+ */
+
 import {withIronSession} from 'next-iron-session'
 
 export default withIronSession(

@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customer_login.js
+ * Author: Justin Shin
+ * 
+ * Description: Session storage for customers
+ */
 import {withIronSession} from 'next-iron-session'
 
 export default withIronSession(

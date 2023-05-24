@@ -1,3 +1,12 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: [id].js
+ * Author: Justin Shin, Konnor Nishimura
+ * 
+ * Description: Generates HTML for resuaturant page by ID. Pulls data from database
+ *  Also handles order form and submit
+ */
+
 import{useRouter} from 'next/router'
 import {useState, useEffect} from 'react'
 import axios from 'axios'

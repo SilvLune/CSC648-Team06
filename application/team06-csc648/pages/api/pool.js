@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: pool.js
+ * Author: Justin Shin
+ * 
+ * Description: Parameters for database pool of connections
+ */
+
 import {createPool} from 'mysql2/promise'
 
 const pool = createPool({

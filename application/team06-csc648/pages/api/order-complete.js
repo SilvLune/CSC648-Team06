@@ -1,3 +1,12 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: order-complete.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Deletes query order from DB
+ */
+
+
 import pool from './pool'
 
 export default async function handler(req, res){

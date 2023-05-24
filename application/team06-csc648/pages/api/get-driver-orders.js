@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: get-driver-orders.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Gets orders from a query driver ID
+ */
+
 import pool from './pool'
 
 export default async function handler(req, res){

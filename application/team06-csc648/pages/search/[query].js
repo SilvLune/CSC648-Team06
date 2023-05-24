@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: [query].js
+ * Author: Justin Shin, Konnor Nishimura, Ryan Scott
+ * 
+ * Description: Generates HTML for search. Pulls search results to populate
+ */
+
 import axios from 'axios';
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'

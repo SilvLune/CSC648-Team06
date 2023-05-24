@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: driver.js
+ * Author: Justin Shin, Konnor Nishimura, Jack Lee, Ryan Scott
+ * 
+ * Description: Generates HTML for index page. Pulls restaurants data to populate
+ */
+
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link';
