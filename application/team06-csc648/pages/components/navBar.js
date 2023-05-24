@@ -119,7 +119,7 @@ const NavBar = () => {
         </div>
 
         <div className={styles.center}>
-          <p className={styles.title}>CSC648/848 Spring 2023 Team06</p>
+          <p className={styles.title}>SFSU Software Engineering Project CSC 648-848, Spring 2023. For Demonstration Only</p>
           {(!isLoggedIn || isCustomer) && <SearchBar/>}
         </div>
 
