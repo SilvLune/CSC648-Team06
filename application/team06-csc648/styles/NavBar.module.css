@@ -6,7 +6,6 @@
     color: black;
     grid-template-columns: 30% 50% 10% 10%;
     padding: 1rem;
-    overflow-y: hidden;
 }
 
 .logo{
@@ -91,7 +90,6 @@
     overflow-y: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
 }
 
 .dropdown ul {
@@ -119,6 +117,7 @@
     width: 30%;
     left: 70%;
     position: absolute;
+    z-index: inherit;
 }
 
 .customer_order{
