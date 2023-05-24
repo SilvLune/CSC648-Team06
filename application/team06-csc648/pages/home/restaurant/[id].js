@@ -80,12 +80,12 @@ export default function Restaurant() {
     if(dishInputExists){
       return
     }
-    let dishNameInput = (<input value={dishName} placeholder='Name of dish' onChange={e => setDishName(e.target.value)}/>);
+    let dishNameInput = (<input value={dishName} maxLength={50} placeholder='Name of dish' onChange={e => setDishName(e.target.value)}/>);
     let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrice} placeholder='Price of dish' 
       onChange={e => setDishPrice(e.target.value)}/>);
     let dishPictureInput = (<div><label for="dishPic">Upload a picture of the dish</label> <input type="file" accept="image/*"
         name="dishPic" onChange={e => dishPicToBlob(e)} ref={dishPicInput}/></div>);
-    let dishDescriptionInput = (<input value={dishDescription} placeholder='Description of dish' 
+    let dishDescriptionInput = (<input value={dishDescription} placeholder='Description of dish' maxLength={300}
     onChange={e => setDishDescription(e.target.value)}/>);
     
     setDishInputs((<div>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));

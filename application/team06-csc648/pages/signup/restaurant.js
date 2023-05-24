@@ -191,13 +191,13 @@ export default function Home() {
         setDishInputCount(dishId)
         let inputs = dishInputs;
 
-        let dishNameInput = (<input value={dishNames[dishId]} placeholder='Name of dish'
+        let dishNameInput = (<input value={dishNames[dishId]} placeholder='Name of dish' maxLength={50}
             onChange={e => setDishNames((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
-        let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrices[dishId]} placeholder='Price of dish' 
+        let dishPriceInput = (<input type="number" min="0.00" step="0.01" value={dishPrices[dishId]} placeholder='Price of dish'
             onChange={e => setDishPrices((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
         let dishPictureInput = (<div><label for="dishPic">Upload a picture of the dish</label> <input type="file" accept="image/*"
             name="dishPic" onChange={e => dishPicToBlob(e, dishId)}/></div>);
-        let dishDescriptionInput = (<input value={dishDescriptions[dishId]} placeholder='Description of dish' 
+        let dishDescriptionInput = (<input value={dishDescriptions[dishId]} placeholder='Description of dish' maxLength={300}
         onChange={e => setDishDescriptions((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = e.target.value; return newArr})}/>);
 
         inputs.push((<div><br></br>{dishNameInput}{dishPriceInput}{dishPictureInput}{dishDescriptionInput}</div>));
