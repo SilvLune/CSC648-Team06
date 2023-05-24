@@ -190,6 +190,7 @@ export default function Restaurant() {
       <div key="key1">
         <NavBar/>
         <div>
+          <img src="/SFSU.svg" alt="Campus Map"/>
           <h1 className={styles.header}>Taken orders</h1>
             {takenOrders.map((order) => (
               <div key={"order" + order.order_id} className={styles.order} onClick={() => ShowOrder(order.order_id, order.restaurant_address)}>
