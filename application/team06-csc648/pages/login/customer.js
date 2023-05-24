@@ -1,7 +1,18 @@
-import {useState, useRef} from "react";
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customer.js
+ * Author: Konnor Nishimura, Jack Lee, Justin Shin
+ * 
+ * Description: Generates HTML for customer login page. Validates login
+ */
+
+import {useState, useRef, useEffect} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
+import passwordUtil from '../utils/passwordUtils'
 import styles from '@/styles/Login.module.css'
+import axios from "axios";
+import {useRouter} from 'next/router'
 
 export default function CustomerLogin() {
     const [email, setEmail] = useState('');
@@ -12,6 +23,36 @@ export default function CustomerLogin() {
     const emailMessage = useRef();
     const passwordInput = useRef();
     const passwordMessage = useRef();
+    const router = useRouter()
+
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateEmail = () =>{
         emailMessage.current.style.display = 'none';
@@ -42,10 +83,37 @@ export default function CustomerLogin() {
             setValidPassword(true);
         }
     }
+    const testSession = async() =>{
+        try{
+            const response = await axios.get(`/api/test_sessions`)
+            console.log("test session response: " + JSON.stringify(response))
+        }catch(err){
+            console.log(err)
+        }
+    }
 
-    const login = () => {
+    const login = async () => {
         if((validEmail == true) && (validPassword == true)){
             // Handle login
+            try{
+                const response = await axios.get(`/api/customers_get_email?email=${email}`)
+                const user = response.data[0]
+                console.log("user: " + JSON.stringify(user))
+                const valid = passwordUtil.validPassword(password, user.hash, user.salt)
+                if(valid){
+                    try{
+                        const response = await axios.get(`/api/customer_login?customer_id=${user.customer_id}&email=${user.email}`)
+                        console.log("login response: "+JSON.stringify(response))
+                        router.push(`/`)
+                    }catch(error){
+                        console.log(error)
+                    }
+                }else{
+                    console.log('*login* not valid')
+                }
+            }catch(error){
+                console.log(error)
+            }
         } else{
             validateEmail();
             validatePassword();
@@ -60,6 +128,7 @@ export default function CustomerLogin() {
                 <div >
                     <input className={styles.floating}
                         id={styles.email}
+                        maxLength={50}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
                         onBlur={validateEmail}
@@ -70,6 +139,7 @@ export default function CustomerLogin() {
                 <div >
                     <input className={styles.floating}
                         id={styles.password}
+                        maxLength={20}
                         type="password" placeholder='Password'
                         value={password} 
                         onChange={e => setPassword(e.target.value)}
@@ -80,8 +150,11 @@ export default function CustomerLogin() {
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
-                    <button className={styles.button} onClick={login}>Login</button>
-                    <Link href='../../signup/customer'><button className={styles.button}>Sign up</button></Link>
+                    <button className={styles.signInUpButton} onClick={login}>Login</button>
+                </div>
+                <div>
+                    <p>Don't have an account?</p>
+                    <Link href='../../signup/customer'><button className={styles.signInUpButton}>Sign up</button></Link>
                 </div>
             </div>
         </div>

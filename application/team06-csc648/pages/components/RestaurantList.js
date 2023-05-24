@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: RestaurantList.js
+ * Author: Justin Shin
+ * 
+ * Description: Generates HTML for displaying all restaurants and their info
+ */
+
 import axios from 'axios';
 import {useState, useEffect} from 'react'
 import searchStyles from '@/styles/Search.module.css'

@@ -1,13 +1,12 @@
-import {createPool} from 'mysql2/promise'
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: restaurant-info.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Gets row from restaurant table with query ID
+ */
 
-const pool = createPool({
-    host: "gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com",
-    user: 'admin',
-    password: 'Keymaster06!',
-    database: 'gateway-db',
-    connectionLimit: 10
-})
-
+import pool from './pool'
 
 export default async function handler(req, res){
     if(req.method === 'GET'){

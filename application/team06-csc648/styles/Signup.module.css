@@ -42,6 +42,8 @@
 
 #phoneMessage{
     display: none;
+    color: red;
+
 }
 
 #password2{
@@ -61,26 +63,37 @@
     flex-wrap: nowrap;
     text-align: center;
     border: black 1px solid;
+    
 }
 
 #logoMessage{
     display: none;
+    color: red;
+
 }
 
 #addressMessage{
     display: none;
+    color: red;
+
 }
 
 #agreementMessage{
     display: none;
+    color: red;
+
 }
 
 #licenseMessage{
     display: none;
+    color: red;
+
 }
 
 #insuranceMessage{
     display: none;
+    color: red;
+
 }
 
 

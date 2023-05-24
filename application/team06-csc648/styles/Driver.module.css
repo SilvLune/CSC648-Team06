@@ -7,3 +7,7 @@
     background-color: lightgray;
     cursor: pointer;
 }
+
+.header{
+    text-decoration: underline;
+}

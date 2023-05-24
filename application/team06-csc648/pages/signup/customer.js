@@ -6,9 +6,10 @@
  * Description: customer registration page
  */
 
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import passwordUtils from '../utils/passwordUtils'
 import axios from 'axios';
 
 export default function Home() {
@@ -38,6 +39,35 @@ export default function Home() {
     const nameMessage = useRef();
     const phoneMessage = useRef();
     const agreementMessage = useRef();
+
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateName = () =>{
         nameMessage.current.style.display = 'none';
@@ -105,8 +135,6 @@ export default function Home() {
         setValidPassword2(false);
 
         if (password != password2){
-            password2Input.current.style.border ='red 2px solid';
-            password2Message.current.style.display = 'block';
         } else{
             setValidPassword2(true);
         }
@@ -124,28 +152,39 @@ export default function Home() {
     const signup = async (e) => {
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true)){
-
-          /* create POST request to customer API endpoint */
-
             // Handle sign up
+            const saltHash = passwordUtils.genPassword(password)
+            const salt = saltHash.salt
+            const hash = saltHash.hash
 
-          e.preventDefault();
-          try {
-            const res = await axios.post('/api/customers', {
-              name: name,
-              email: email,
+            e.preventDefault();
+            try {
+                console.log('*signup* full_name: ' + name)
+                console.log('*signup* email: ' + email)
+                console.log('*signup* phone: ' + phone)
+                console.log('*signup* hash: ' + hash)
+                console.log('*signup* salt: ' + salt)
+                const response = await axios.post('/api/customers_insert',{},{params:{
+                    name,
+                    email,
+                    phone,
+                    hash,
+                    salt,
+                }})
 
-              phone: phone,
-              password: password
+                console.log(response.data)
+                setSignupMessage("Your account has been successfully created");
 
-       
-
-            });
-            setSignupMessage("Your account has been successfully created");
-          } catch (error) {
-            console.log(error.response.data);
-            setSignupMessage("An error occurred while creating your account");
-          }
+                try{
+                    const response2 = await axios.get(`/api/customer_login?customer_id=${response.data.id}&email=${email}`)
+                    window.location.href = `/`;
+                } catch(error) {
+                    console.log(error);
+                }
+            } catch (error) {
+                console.log(error.response.data);
+                setSignupMessage("An error occurred while creating your account");
+            }
             
         } else{
             validateEmail();
@@ -153,6 +192,12 @@ export default function Home() {
             validatePassword2();
             validateName();
             validatePhone();
+            if (password != password2){
+                password2Input.current.style.border ='red 2px solid';
+                password2Message.current.style.display = 'block';
+            } else{
+                setValidPassword2(true);
+            }
 
             if(agreement == false){
                 agreementMessage.current.style.display = 'block';
@@ -168,6 +213,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.name}
+                        maxLength={50}
                         value={name} placeholder='Name'
                         onChange={e => setName(e.target.value)}
                         onBlur={validateName}
@@ -178,6 +224,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.email}
+                        maxLength={50}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
                         onBlur={validateEmail}
@@ -188,6 +235,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.phone}
+                        maxLength={20}
                         value={phone} placeholder='Phone Number'
                         onChange={e => setPhone(e.target.value)}
                         onBlur={validatePhone}
@@ -198,6 +246,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.password}
+                        maxLength={20}
                         type="password" placeholder='Password'
                         value={password} 
                         onChange={e => setPassword(e.target.value)}
@@ -209,9 +258,11 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.password2}
+                        maxLength={20}
                         type="password" placeholder='Confirm password'
                         value={password2} 
                         onChange={e => setPassword2(e.target.value)}
+                        onBlur={validatePassword2}
                         ref={password2Input}
                         required/>
                     <div id={styles.password2Message} ref={password2Message}>Confirm your password by entering it again</div>
@@ -222,14 +273,11 @@ export default function Home() {
                     value={agreement}
                     onClick={agree}
                     required/>
-                    <label for="agreement">I agree to the terms and services</label>
+                    <label>I agree to the terms and services</label>
                     <div id={styles.agreementMessage} ref={agreementMessage}>Please agree to the terms and services</div>
                 </div>
                 <div>
                     <button className={styles.button} onClick={signup}>Sign up</button>
-                </div>
-                <div>
-                  {signupMessage}
                 </div>
                 <div>
                   {signupMessage}

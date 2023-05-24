@@ -8,19 +8,29 @@
 # Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
 
 1. Server URL or IP
-http://ec2-35-164-61-115.us-west-2.compute.amazonaws.com:3000/
+    http://ec2-35-164-61-115.us-west-2.compute.amazonaws.com:3000/
 
-Github: https://github.com/CSC-648-SFSU/csc648-03-sp23-team06
+    Github: https://github.com/CSC-648-SFSU/csc648-03-sp23-team06
+
 4. Database URL or IP and port used.
-gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com
+
+    gateway-db.c4uyinpxegwd.us-west-2.rds.amazonaws.com
+
 5. Database username
-gateway-db
+
+    gateway-db
+
 6. Database password
-Keymaster06!
+
+    Keymaster06!
+
 7. Database name (basically the name that contains all your tables)
-gateway
+
+    gateway
+
 8. Instructions on how to use the above information.
-The url will take you to a static hosting of our website through our github repository.  To access the database, use the url, the username and password in an SQL terminal.  
+
+    The url will take you to a static hosting of our website through our github repository.  To access the database, use the url, the username and password in an SQL terminal.  
 
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>
