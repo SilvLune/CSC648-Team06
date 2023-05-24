@@ -250,6 +250,14 @@ export default function Home() {
             }
         }
     }
+
+    useEffect(() => {
+        validateLicense()
+      }, [license])
+
+    useEffect(() => {
+        validateInsurance()
+      }, [insurance])
   
     return (
         <div>

@@ -327,6 +327,10 @@ export default function Home() {
         setDishPicSizes((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = picArray.length; return newArr})
         setDishPictures((prevArray) => {const newArr = [...prevArray]; newArr[dishId] = picArray; return newArr})
     }
+
+    useEffect(() => {
+        validateLogo()
+      }, [logo])
   
     return (
         <div>
