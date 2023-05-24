@@ -6,6 +6,7 @@
  * Description: API endpoint that handles restaurant applications
  */
 
+
 import pool from './pool'
 import passwordUtil from '../utils/passwordUtils'
 

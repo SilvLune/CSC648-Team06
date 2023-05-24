@@ -1,3 +1,12 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: [id].js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Generates HTML for restaurant home page, pulling info from DB
+ *  Handles restaurant functions such as submitting dish info
+ */
+
 import{useRouter} from 'next/router'
 import {useState, useEffect, useRef} from 'react'
 import axios from 'axios'

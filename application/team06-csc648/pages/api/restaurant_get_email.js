@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: restaurant_get_email.js
+ * Author: Justin Shin
+ * 
+ * Description: Gets restaurant owned by query email
+ */
 import pool from './pool'
 
 export default async function getRestaurant(req, res){

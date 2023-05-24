@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customer_insert.js
+ * Author: Justin Shin, Konnor Nishimura
+ * 
+ * Description: Inserts customer data to database
+ */
 import pool from './pool'
 
 export default async function insertCustomers(req,res){

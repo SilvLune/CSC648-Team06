@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: customer_get_email.js
+ * Author: Justin Shin
+ * 
+ * Description: Returns customer with query email
+ */
 import pool from './pool'
 
 export default async function getCustomers(req, res){

@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: get-customer-orders.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Gets orders by query customer ID
+ */
+
 import pool from './pool'
 
 export default async function handler(req, res){

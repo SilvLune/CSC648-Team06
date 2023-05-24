@@ -1,3 +1,10 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: get-restaurant-orders.js
+ * Author: Konnor Nishimura
+ * 
+ * Description: Gets orders for a query restaurant ID
+ */
 import pool from './pool'
 
 export default async function handler(req, res){

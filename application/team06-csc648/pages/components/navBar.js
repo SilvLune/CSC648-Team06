@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: navBar.js
+ * Author: Konnor Nishimura, Justin Shin
+ * 
+ * Description: Navbar functionality for HTML and click events
+ */
+
 import SearchBar from './searchBar.js';
 import Link from 'next/link';
 import styles from '@/styles/NavBar.module.css';

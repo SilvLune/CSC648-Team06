@@ -1,3 +1,12 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: restaurant.js
+ * Author: Konnor Nishimura, Jack Lee
+ * 
+ * Description: Generates HTML for restaurant signup page.
+ *  Validates fields
+ */
+
 import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
