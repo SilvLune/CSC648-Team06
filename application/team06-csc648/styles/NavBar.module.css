@@ -19,6 +19,7 @@
 .center{
     grid-row: auto;
     justify-content: center;
+    width: 100%;
 }
 
 .title{
@@ -29,19 +30,28 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 20% 80%;
+}
+
+.searchForm{
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .searchBar{
-    margin-top: auto;
-    margin-left: 0;
-    margin-bottom: auto;
+    margin: 0;
+    padding: 0;
+    width: 80%;
+    height: 1rem;
 }
 
 .categories{
     /*margin-top: auto;   Alex here, commenting this out fixed the alignment*/
+    margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
+    height: 1rem;
 }
 
 .searchButton{
@@ -50,18 +60,7 @@
     margin-right: auto;
 }
 
-.buttons{
-    display: grid;
-    grid-template-rows: auto auto;
-    justify-content: center;
-    align-content: space-evenly;
-}
-
 .links{
-    display: grid;
-    grid-template-rows: auto auto auto;
-    justify-content: center;
-    align-content: space-evenly;
     color: #0000FF;
     text-decoration: underline;
 }
@@ -73,10 +72,12 @@
 .dropdown_category{
     position: relative;
     top: 0;
-    left: 0;
-    width: 80%;
-    height: 42%;
+    left: 30%;
+    width: 70%;
+    height: 1rem;
     overflow-y: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -89,7 +90,6 @@
     overflow-y: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
 }
 
 .dropdown ul {
@@ -106,6 +106,38 @@
 
 .dropdown li:hover {
     background-color: #f0f0f0;
+}
+
+.logout{
+    text-decoration: none;
+}
+
+.allOrders{
+    background-color: white;
+    width: 30%;
+    left: 70%;
+    position: absolute;
+    z-index: inherit;
+}
+
+.customer_order{
+    border: solid black 1px;
+}
+
+.customer_order_restaurant{
+    text-decoration: underline;
+}
+
+.customer_orderDish_name{
+    margin-left: 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customer_orderDishes{
+    display: grid;
+    grid-template-columns: 50% 30% 20%;
 }
 
 

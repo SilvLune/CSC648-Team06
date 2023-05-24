@@ -1,6 +1,17 @@
-import {useState, useRef} from "react";
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: driver.js
+ * Author: Konnor Nishimura, Jack Lee, Xiao Deng, Justin Shin
+ * 
+ * Description: Generates HTML for driver signup page.
+ *  Validates fields
+ */
+
+import {useState, useRef, useEffect} from "react";
 import NavBar from '../components/navBar';
 import styles from '@/styles/Signup.module.css'
+import axios from "axios";
+import passwordUtil from '../utils/passwordUtils'
 
 export default function Home() {
     const [name, setName] = useState('');
@@ -11,6 +22,7 @@ export default function Home() {
     const [agreement, setAgreement] = useState(false);
     const [license, setLicense] = useState('');
     const [insurance, setInsurance] = useState('');
+    const [signupMessage, setSignupMessage] = useState('');
 
     const [validName, setValidName] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
@@ -34,6 +46,35 @@ export default function Home() {
     const agreementMessage = useRef();
     const licenseMessage = useRef();
     const insuranceMessage = useRef();
+
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateName = () =>{
         nameMessage.current.style.display = 'none';
@@ -101,8 +142,6 @@ export default function Home() {
         setValidPassword2(false);
 
         if (password != password2){
-            password2Input.current.style.border ='red 2px solid';
-            password2Message.current.style.display = 'block';
         } else{
             setValidPassword2(true);
         }
@@ -139,10 +178,67 @@ export default function Home() {
         }
     }
 
-    const signup = () => {
+    const getLicense = async (e) => {
+        if(e.target.files[0] == undefined){
+            return;
+        }
+        let file = e.target.files[0];
+        const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+        let licenseArray = new Uint8Array(await blob.arrayBuffer())
+
+        setLicense(licenseArray)
+        //console.log(license)
+    }
+
+    const getInsurance = async (e) => {
+        if(e.target.files[0] == undefined){
+            return;
+        }
+        let file = e.target.files[0];
+        const blob = await fetch(URL.createObjectURL(file)).then(r => r.blob());
+        let insuranceArray = new Uint8Array(await blob.arrayBuffer())
+
+        setInsurance(insuranceArray)
+        //console.log(insurance)
+    }
+
+    const signup = async (e) => {
+        //console.log(validEmail, validPassword, validName, validPhone, agreement, validPassword2, validLicense, validInsurance)
         if((validEmail == true) && (validPassword == true) && (validName == true) && (validPhone == true)
             && (agreement == true) && (validPassword2 == true) && (validLicense == true) && (validInsurance == true)){
             // Handle sign up
+            if(license.length > 65535){
+                setSignupMessage("License picture cannot be larger than 64kB");
+                return
+            }
+            if(insurance.length > 65535){
+                setSignupMessage("Insurance picture cannot be larger than 64kB");
+                return
+            }
+
+            try {
+                const response = await axios.post('/api/drivers', {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    license: license,
+                    licenseSize: license.length,
+                    insurance: insurance,
+                    insuranceSize: insurance.length,
+                    });
+                setSignupMessage("Your account has been successfully created");
+
+                try{
+                    const response2 = await axios.get(`/api/drivers_login?driver_id=${response.data.id}&email=${email}`)
+                    window.location.href = `/home/driver/${response.data.id}`;
+                } catch(error) {
+                    console.log(error);
+                }
+            } catch(error) {
+                console.log(error.response.data);
+                setSignupMessage("An error occurred while creating your account");
+            }
         } else{
             validateEmail();
             validatePassword();
@@ -151,21 +247,36 @@ export default function Home() {
             validatePhone();
             validateLicense();
             validateInsurance();
+            if (password != password2){
+                password2Input.current.style.border ='red 2px solid';
+                password2Message.current.style.display = 'block';
+            } else{
+                setValidPassword2(true);
+            }
 
             if(agreement == false){
                 agreementMessage.current.style.display = 'block';
             }
         }
     }
+
+    useEffect(() => {
+        validateLicense()
+      }, [license])
+
+    useEffect(() => {
+        validateInsurance()
+      }, [insurance])
   
     return (
         <div>
             <NavBar/>
-            <div>
-                <h1>Gateway</h1>
+            <div className={styles.form}>
+                <h1>Gateway Driver Signup</h1>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.name}
+                        maxLength={50}
                         value={name} placeholder='Name'
                         onChange={e => setName(e.target.value)}
                         onBlur={validateName}
@@ -174,8 +285,9 @@ export default function Home() {
                     <div id={styles.nameMessage} ref={nameMessage}>Please enter a real name</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.email}
+                        maxLength={50}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
                         onBlur={validateEmail}
@@ -184,8 +296,9 @@ export default function Home() {
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid email</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.phone}
+                        maxLength={20}
                         value={phone} placeholder='Phone Number'
                         onChange={e => setPhone(e.target.value)}
                         onBlur={validatePhone}
@@ -194,8 +307,9 @@ export default function Home() {
                     <div id={styles.phoneMessage} ref={phoneMessage}>Please enter a valid phone number</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password}
+                        maxLength={20}
                         type="password" placeholder='Password'
                         value={password} 
                         onChange={e => setPassword(e.target.value)}
@@ -205,39 +319,39 @@ export default function Home() {
                     <div id={styles.passwordMessage} ref={passwordMessage}>Password must be 4-20 characters</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password2}
+                        maxLength={20}
                         type="password" placeholder='Confirm password'
                         value={password2} 
                         onChange={e => setPassword2(e.target.value)}
+                        onBlur={validatePassword2}
                         ref={password2Input}
                         required/>
                     <div id={styles.password2Message} ref={password2Message}>Confirm your password by entering it again</div>
                 </div>
                 <div>
                     <label for="license">Upload your driver's license</label>
-                    <input
+                    <input className={styles.button}
                         type="file" 
                         name="license" 
-                        value={license} 
-                        onChange={e => setLicense(e.target.value)}
+                        onChange={e => getLicense(e)}
                         accept="image/*" 
                         required/>
                     <div id={styles.licenseMessage} ref={licenseMessage}>Please add your driver's license</div>
                 </div>
                 <div>
                     <label for="insurance">Upload your proof of insurance</label>
-                    <input
+                    <input className={styles.button}
                         type="file" 
                         name="insurance" 
-                        value={insurance} 
-                        onChange={e => setInsurance(e.target.value)}
+                        onChange={e => getInsurance(e)}
                         accept="image/*" 
                         required/>
                     <div id={styles.insuranceMessage} ref={insuranceMessage}>Please add your proof of insurance</div>
                 </div>
                 <div>
-                    <input type="checkbox" 
+                    <input className={styles.button} type="checkbox" 
                     name="agreement" 
                     value={agreement}
                     onClick={agree}
@@ -246,7 +360,10 @@ export default function Home() {
                     <div id={styles.agreementMessage} ref={agreementMessage}>Please agree to the terms and services</div>
                 </div>
                 <div>
-                    <button onClick={signup}>Sign up</button>
+                    <button className={styles.button} onClick={signup}>Sign up</button>
+                </div>
+                <div>
+                  {signupMessage}
                 </div>
             </div>
         </div>

@@ -1,0 +1,59 @@
+.logo{
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    left: 10%;
+    object-fit: cover;
+}
+
+.restaurantContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    object-fit: cover;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(187,186,189,0.6) 100%);
+    color: white;
+    overflow-y: auto;
+}
+
+.name{
+    margin-top: 1%;
+}
+
+.menu{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 1rem;
+}
+
+.picture{
+    width: 80%;
+    height: 20rem;
+    object-fit: cover;
+    border: solid white 1px;
+}
+
+.submitDish{
+    display: none;
+}
+
+.order{
+    border: solid black 1px;
+}
+
+.checkout{
+    text-align: center;
+}
+
+.dishInput{
+    background-color: white;
+    color: black;
+}
+
+.order{
+    background-color: white;
+    color: black;
+}

@@ -1,3 +1,11 @@
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: RestaurantList.js
+ * Author: Justin Shin
+ * 
+ * Description: Generates HTML for search bar, and handles search submit and results
+ */
+
 import React,{useState, useEffect, useRef} from 'react'
 import styles from '@/styles/NavBar.module.css'
 import axios from 'axios'
@@ -24,6 +32,9 @@ const SearchBar = () => {
     }, [dropdownRef])
     const handleSearchInputChange = (event) =>{
         const inputValue = event.target.value
+        if(inputValue.length > 40){
+            return
+        }
         setSearch(inputValue)
     }  
     const handleInputClick = () => {
@@ -65,12 +76,17 @@ const SearchBar = () => {
                     <option value="3">Mexican</option>
                     <option value="4">Korean</option>
                     <option value="5">Thai</option>
+                    <option value="6">French</option>
+                    <option value="7">Japanese</option>
+                    <option value="8">Italian</option>
+                    <option value="9">Indian</option>
+                    <option value="10">Other</option>
             </select>
             {/* <button className={styles.categories} onClick = {handleCategoryButtonClick}>{selectedCategory}</button>
             {showCategories && (
                 
             )} */}
-            <form onSubmit={handleFormSubmit} key="key2">
+            <form onSubmit={handleFormSubmit} key="key2" className={styles.searchForm}>
                 <input type='text' value={search} className={styles.searchBar} onChange={handleSearchInputChange} onClick = {handleInputClick}/>
                 <button className={styles.searchButton} type='submit'>Search</button>
             </form>

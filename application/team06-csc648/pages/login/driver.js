@@ -1,7 +1,17 @@
-import {useState, useRef} from "react";
+/**
+ * CSC 648 Spring 2023 - Team 6
+ * File: driver.js
+ * Author: Konnor Nishimura, Jack Lee, Justin Shin
+ * 
+ * Description: Generates HTML for driver login page. Validates login
+ */
+
+import {useState, useRef, useEffect} from "react";
 import Link from 'next/link';
 import NavBar from '../components/navBar';
 import styles from '@/styles/Login.module.css'
+import passwordUtils from '../utils/passwordUtils'
+import axios from "axios";
 
 export default function DriverLogin() {
     const [email, setEmail] = useState('');
@@ -12,6 +22,35 @@ export default function DriverLogin() {
     const emailMessage = useRef();
     const passwordInput = useRef();
     const passwordMessage = useRef();
+    
+    useEffect(() => {
+        async function getSession(){
+          try{
+            let tempSession = await axios.get(`/api/get-user`)
+            if(tempSession.data.user == undefined){
+              return
+            }
+            //console.log(JSON.stringify(tempSession))
+      
+            if(tempSession.data.user.customer_id != undefined){
+                window.location.href = `/`;
+                return
+            }
+            if(tempSession.data.user.restaurant_id != undefined){
+              window.location.href = `/home/restaurant/${tempSession.data.user.restaurant_id}`;
+              return
+            }
+            if(tempSession.data.user.driver_id != undefined){
+              window.location.href = `/home/driver/${tempSession.data.user.driver_id}`;
+              return
+            }
+          }catch(err){
+              console.log(err)
+          }
+        }
+        
+        getSession()
+    }, [])
 
     const validateEmail = () =>{
         emailMessage.current.style.display = 'none';
@@ -43,9 +82,21 @@ export default function DriverLogin() {
         }
     }
 
-    const login = () => {
+    const login = async () => {
         if((validEmail == true) && (validPassword == true)){
             // Handle login
+            try{
+                const response = await axios.get(`/api/drivers_get_email?email=${email}`)
+                const user = response.data[0]
+                const valid = passwordUtils.validPassword(password, user.hash, user.salt)
+                if(valid){
+                    const response2 = await axios.get(`/api/drivers_login?driver_id=${user.driver_id}&email=${email}`)
+                    console.log(response2)
+                    window.location.href = `/home/driver/${user.driver_id}`
+                }
+            }catch(err){
+                console.log(err)
+            }
         } else{
             validateEmail();
             validatePassword();
@@ -55,11 +106,12 @@ export default function DriverLogin() {
     return (
         <div>
             <NavBar/>
-            <div>
-                <h1>Gateway</h1>
+            <div className={styles.form}>
+                <h1>Gateway Driver Login</h1>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.email}
+                        maxLength={50}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
                         onBlur={validateEmail}
@@ -68,8 +120,9 @@ export default function DriverLogin() {
                     <div id={styles.emailMessage} ref={emailMessage}>Please enter a valid email</div>
                 </div>
                 <div>
-                    <input 
+                    <input className={styles.floating}
                         id={styles.password}
+                        maxLength={20}
                         type="password" placeholder='Password'
                         value={password} 
                         onChange={e => setPassword(e.target.value)}
@@ -80,8 +133,11 @@ export default function DriverLogin() {
                 </div>
                 <Link href=''><p>Forgot Password?</p></Link>
                 <div>
-                    <button onClick={login}>Login</button>
-                    <Link href='../../signup/driver'><button>Sign up</button></Link>
+                    <button className={styles.signInUpButton} onClick={login}>Login</button>
+                </div>
+                <div>
+                    <p>Don't have an account?</p>
+                    <Link href='../../signup/driver'><button className={styles.signInUpButton}>Sign up</button></Link>
                 </div>
             </div>
         </div>
