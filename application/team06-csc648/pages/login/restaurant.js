@@ -107,6 +107,7 @@ export default function RestaurantLogin() {
                 <div>
                     <input className={styles.floating}
                         id={styles.email}
+                        maxLength={50}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
                         onBlur={validateEmail}
@@ -117,6 +118,7 @@ export default function RestaurantLogin() {
                 <div>
                     <input className={styles.floating}
                         id={styles.password}
+                        maxLength={20}
                         type="password" placeholder='Password'
                         value={password} 
                         onChange={e => setPassword(e.target.value)}

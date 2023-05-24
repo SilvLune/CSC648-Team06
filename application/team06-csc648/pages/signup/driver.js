@@ -267,6 +267,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.name}
+                        maxLength={50}
                         value={name} placeholder='Name'
                         onChange={e => setName(e.target.value)}
                         onBlur={validateName}
@@ -277,6 +278,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.email}
+                        maxLength={50}
                         value={email} placeholder='Email'
                         onChange={e => setEmail(e.target.value)}
                         onBlur={validateEmail}
@@ -287,6 +289,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.phone}
+                        maxLength={20}
                         value={phone} placeholder='Phone Number'
                         onChange={e => setPhone(e.target.value)}
                         onBlur={validatePhone}
@@ -297,6 +300,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.password}
+                        maxLength={20}
                         type="password" placeholder='Password'
                         value={password} 
                         onChange={e => setPassword(e.target.value)}
@@ -308,6 +312,7 @@ export default function Home() {
                 <div>
                     <input className={styles.floating}
                         id={styles.password2}
+                        maxLength={20}
                         type="password" placeholder='Confirm password'
                         value={password2} 
                         onChange={e => setPassword2(e.target.value)}
